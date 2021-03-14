@@ -14,13 +14,13 @@ class User(models.Model):
 class Site(models.Model):
     site_id = models.CharField('站点id', max_length=20, unique=True)
     user_id = models.ForeignKey('User', on_delete=models.CASCADE)
-    site_name = models.CharField('站点名称')
+    site_name = models.CharField('站点名称', max_length=20)
     site_address = models.CharField('站点地址', max_length=100)
     billing_level = models.IntegerField('计费等级')
     demand_num = models.IntegerField('需求数量')
-    demand_1 = models.CharField('需求1')
-    demand_2 = models.CharField('需求2')
-    demand_3 = models.CharField('需求3')
+    demand_1 = models.CharField('需求1', max_length=20)
+    demand_2 = models.CharField('需求2', max_length=20)
+    demand_3 = models.CharField('需求3', max_length=20)
     status = models.IntegerField('订单、部署状态')
 
 
