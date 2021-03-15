@@ -4,3 +4,6 @@ django-filter==2.4.0
 djangorestframework==3.12.2
 pymysql==1.0.2
 ConfigParser==5.0.2
+
+#pip install --user -e git+https://codehub.devcloud.cn-north-4.huaweicloud.com/campus00001/CloudCampusPythonSDK.git@master#egg=clou
+#dcampusPythonSdk
