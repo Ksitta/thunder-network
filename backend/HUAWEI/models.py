@@ -1,11 +1,9 @@
 # models.py
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class User(models.Model):
-    user_id = models.CharField('用户id', max_length=20, unique=True)
-    user_name = models.CharField('用户名', max_length=20)
-    hash_password = models.CharField('哈希密码', max_length=128, null=True, blank=True)
+class User(AbstractUser):
     contact_details = models.CharField('联系方式', max_length=12)
     contact_email = models.CharField('邮箱', max_length=20)
     contact_address = models.CharField('客户地址', max_length=100)
@@ -13,7 +11,7 @@ class User(models.Model):
 
 class Site(models.Model):
     site_id = models.CharField('站点id', max_length=20, unique=True)
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
     site_name = models.CharField('站点名称', max_length=20)
     site_address = models.CharField('站点地址', max_length=100)
     billing_level = models.IntegerField('计费等级')
@@ -26,7 +24,7 @@ class Site(models.Model):
 
 class Equipment(models.Model):
     eq_id = models.CharField('设备id', max_length=20, unique=True)
-    site_id = models.ForeignKey('Site', on_delete=models.CASCADE)
+    site = models.ForeignKey('Site', on_delete=models.CASCADE)
     eq_name = models.CharField('设备名称', max_length=20)
     eq_status = models.IntegerField('设备状态')
 
