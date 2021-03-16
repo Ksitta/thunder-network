@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import index from '@/views/index.vue'
+import login from '@/views/login.vue'
+import register from '@/views/register.vue'
 
 Vue.use(VueRouter)
 
@@ -23,7 +25,24 @@ const routes = [
     path: '/index',
     name: 'index',
     component: index
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: login,
+    meta: {
+      isLogin: false
+    }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: register,
+    meta: {
+      isLogin: false
+    }
   }
+  
 ]
 
 const router = new VueRouter({
