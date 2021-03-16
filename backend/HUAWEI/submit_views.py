@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Site
 from .serializers import SiteSerializer
-from rest_framework.permissions import IsAuthenticated
-from .siteFunctions import createSite
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from .nce import createSite
 from copy import deepcopy
 
 class SubmitOrderView(APIView):
@@ -20,17 +20,18 @@ class SubmitOrderView(APIView):
         之后应注意修改为，网络工程师同意后才成功
         """
         # 与华为交互
-        ## 获取site_id
-        newsites = createSite(data['site_name'])
-        newsiteid = newsites["id"]
+        # 获取site_id
+        newsiteid = createSite(str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        # 创建站点ssid
 
-        # 更新设备信息表
+        # 创建设备并更新设备信息表
+
+        # 完成
         item = {'status': 1,
-                'user': self.request.user,
+                'user': self.request.user.pk,
                 'site_id': newsiteid}
         data.update(item)
         serializer = SiteSerializer(data=data)
-        #serializer = SiteSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
