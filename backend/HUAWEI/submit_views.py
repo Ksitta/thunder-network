@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from .models import Site
 from .serializers import SiteSerializer
 from rest_framework.permissions import IsAuthenticated
-from .siteFunctions import createSite
+# from .siteFunctions import createSite
 from copy import deepcopy
 
 class SubmitOrderView(APIView):
@@ -21,18 +21,18 @@ class SubmitOrderView(APIView):
         """
         # 与华为交互
         ## 获取site_id
-        newsites = createSite(data['site_name'])
-        newsiteid = newsites["id"]
+        # newsites = createSite(data['site_name'])
+        # newsiteid = newsites["id"]
 
         # 更新设备信息表
-        item = {'status': 1,
-                'user': self.request.user,
-                'site_id': newsiteid}
-        data.update(item)
-        serializer = SiteSerializer(data=data)
-        #serializer = SiteSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # item = {'status': 1,
+        #         'user': self.request.user,
+        #         'site_id': newsiteid}
+        # data.update(item)
+        # serializer = SiteSerializer(data=data)
+        # #serializer = SiteSerializer(data=request.data)
+        # if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
