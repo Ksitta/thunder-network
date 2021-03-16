@@ -25,8 +25,7 @@ class SubmitOrderView(APIView):
         newsiteid = newsites["id"]
 
         # 更新设备信息表
-
-        item = {'statue': 1,
+        item = {'status': 1,
                 'user': self.request.user,
                 'site_id': newsiteid}
         data.update(item)
