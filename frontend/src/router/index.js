@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import login from '@/views/login.vue'
+import register from '@/views/register.vue'
 
 Vue.use(VueRouter)
 
@@ -26,7 +27,16 @@ const routes = [
     meta: {
       isLogin: false
     }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: register,
+    meta: {
+      isLogin: false
+    }
   }
+  
 ]
 
 const router = new VueRouter({
