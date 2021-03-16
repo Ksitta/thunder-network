@@ -7,19 +7,19 @@
                     <el-form class="form" rules="rules" ref="form" :model="form" label-width="70px">
                         <h3>注册</h3>
                         <el-form-item label="用户名" >
-                            <el-input class="item" placeholder="请输入用户名" v-model="name"></el-input>
+                            <el-input class="item" placeholder="请输入用户名" v-model="name" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="联系方式" >
-                            <el-input class="item" placeholder="请输入电话或邮件" v-model="contact"></el-input>
+                            <el-input class="item" placeholder="请输入电话或邮件" v-model="contact" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="地址" >
-                            <el-input class="item" placeholder="请输入地址" v-model="address"></el-input>
+                            <el-input class="item" placeholder="请输入地址" v-model="address" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="password">
-                            <el-input class="item" placeholder="请输入密码" v-model="password"></el-input>
+                            <el-input class="item" placeholder="请输入密码" v-model="password" type="password" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="确认密码" prop="repassword">
-                            <el-input class="item" placeholder="请确认密码" v-model="repassword"></el-input>
+                            <el-input class="item" placeholder="请确认密码" v-model="repassword" type="password" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="Submit">提交</el-button>                
