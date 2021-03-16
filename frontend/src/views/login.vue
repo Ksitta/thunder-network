@@ -5,14 +5,16 @@
             <el-main>
                 <div class="login_form">
                     <el-form class="form" ref="form" :model="form" label-width="60px">
+                        <h3>登录</h3>
+                        <br>
                         <el-form-item label="用户名" >
-                            <el-input class="item" placeholder="请输入用户名" v-model="name" auto-complete="on"></el-input>
+                            <el-input class="item" placeholder="请输入用户名" v-model="user.name" clearable auto-complete="on"></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
-                            <el-input class="item" placeholder="请输入密码" v-model="password" type="password" auto-complete="off"></el-input>
+                            <el-input class="item" placeholder="请输入密码" v-model="user.password" type="password" clearable auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="身份">
-                            <el-radio-group v-model="identity">
+                            <el-radio-group v-model="user.identity">
                                 <el-radio label="用户"></el-radio>
                                 <el-radio label="运营工程师"></el-radio>
                             </el-radio-group>
@@ -29,24 +31,54 @@
 </template>
 
 <script>
-    export default{
-        name: "login",
-        data(){
-            return{
+
+import axios from 'axios'
+
+export default{
+    name: "login",
+    data(){
+        return{
+            user:{
                 name: '',
                 password: '',
                 identity:''
             }
-        },
-        methods:{
-            Login(){
-                console.log('Login successful')
-            },
-            Register(){
-                console.log('skip to registration page')
+        }
+    },
+    methods:{
+        Login:function(){
+            console.log('Login successful')
+            if(!this.user.name){
+                this.$message.error("请输入用户名！")
+                return
+            }else if(!this.user.password){
+                this.$message.error("请输入密码！")
+                return
+            }else if(!this.user.identity){
+                this.$message.error("请选择身份！")
+                return
+            }else{
+                axios.post("/login/",{
+                    name: this.user.name,
+                    password:this.user.password, //明文传输密码
+                    identity:this.user.identity
+                })
+                .then(response => {   
+                    console.log("response.data.status:", response.data.status)
+                    if(response.data.status === 200){
+                        this.$router.push({path: "/index"})
+                    }else{
+                        alert("您输入的用户名或密码错误！")
+                    }
+                })
             }
+        },
+        Register:function(){
+            console.log('skip to registration page')
+            this.$router.push({path: '/register'})
         }
     }
+}
 </script>
 
 <style scoped>
