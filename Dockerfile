@@ -1,5 +1,5 @@
 FROM python:3.8.5
-FROM nodejs10
+FROM node:12.18.3
 
 RUN apt-get update
 
