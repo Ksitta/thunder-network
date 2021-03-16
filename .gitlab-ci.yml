@@ -16,17 +16,17 @@ build:
   #only:
   #  - master
 
-  .test:
-    image: python:3.8.5
-    stage: test
+.test:
+  image: python:3.8.5
+  stage: test
 
-    before_script:
-      #- cd frontend
-      #- npm config set registry https://registry.npm.taobao.org
-      #- npm install
-      - cd ../backend
-      - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
-      - cd ..
+  before_script:
+    - cd frontend
+    - npm config set registry https://registry.npm.taobao.org
+    - npm install
+    - cd ../backend
+    - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+    - cd ..
 
 unit-test:
   extends: .test
