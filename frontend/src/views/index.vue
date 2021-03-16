@@ -58,7 +58,8 @@
         </el-aside>
 
         <el-main>
-          Main
+          <!-- Main -->
+          <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
         </el-main>
       </el-container>
     </el-container>
@@ -66,25 +67,37 @@
 </template>
 
 <script>
+import userhome from '@/components/userhome'
+
 export default {
   name: 'index',
 
+  components: {
+    userhome,
+  },
+
   data: function() {
     return {
-      circle: false,
+      showpage: {
+        home: true,
+
+      }
     }
   },
 
   methods: {
     menunav: function(idx) {
       console.log(idx);
+      this.showpage.home = false
+
+      if (idx === "1") {
+        this.showpage.home = true
+        this.$refs.userhome.refresh()
+      }
       // menu-item 的点击事件
     },
   },
 
-  components: {
-
-  }
 }
 </script>
 
