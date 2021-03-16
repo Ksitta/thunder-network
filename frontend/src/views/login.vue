@@ -6,10 +6,10 @@
                 <div class="login_form">
                     <el-form class="form" ref="form" :model="form" label-width="60px">
                         <el-form-item label="用户名" >
-                            <el-input class="item" placeholder="请输入用户名" v-model="name"></el-input>
+                            <el-input class="item" placeholder="请输入用户名" v-model="name" auto-complete="on"></el-input>
                         </el-form-item>
                         <el-form-item label="密码">
-                            <el-input class="item" placeholder="请输入密码" v-model="password"></el-input>
+                            <el-input class="item" placeholder="请输入密码" v-model="password" type="password" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="身份">
                             <el-radio-group v-model="identity">
