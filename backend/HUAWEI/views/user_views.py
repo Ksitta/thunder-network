@@ -1,11 +1,11 @@
 from django.shortcuts import render
 
 # Create your views here.
-from .models import User
+from HUAWEI.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
-from .serializers import UserRegisterSerializers, TokenObtainSerializer, UserProfileSerializers
+from HUAWEI.serializers import UserRegisterSerializers, TokenObtainSerializer, UserProfileSerializers
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.views import TokenViewBase
 
