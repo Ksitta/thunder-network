@@ -1,7 +1,7 @@
 <template>
     <div class="register">
         <el-container style="height:100%">
-            <el-header height="80px">Header</el-header>
+            <!-- <el-header height="80px">Header</el-header> -->
             <el-main>
                 <div class="register_form">
                     <el-form class="form" rules="rules" ref="form" :model="form" label-width="70px">
@@ -31,7 +31,7 @@
         </el-container>
     </div>
 </template>
-密码可尝试强弱进度条，确认密码
+// 密码可尝试强弱进度条，确认密码
 
 <script>
 
@@ -74,15 +74,15 @@ export default{
             if(!this.user.name){
                 this.$message.error("请输入用户名！")
                 return
-            }else if(!this.user.contact){
-                this.$message.error("请输入联系方式")
-                return
-            }else if(this.user.contact != null){ //是否要输入电话或邮箱两种联系方式？
-                var reg= "^(([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})) | ((13[0-9]|15[0-9]|153|15[6-9]|180|18[23]|18[5-9])\\d{8})$"
-                if(!this.user.contact.matches(reg)){
-                    this.$message.error("请输入有效的联系方式!")
-                    return
-                }
+            // }else if(!this.user.contact){
+            //     this.$message.error("请输入联系方式")
+            //     return
+            // }else if(this.user.contact != null){ //是否要输入电话或邮箱两种联系方式？
+            //     var reg= "^(([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})) | ((13[0-9]|15[0-9]|153|15[6-9]|180|18[23]|18[5-9])\\d{8})$"
+            //     if(!this.user.contact.matches(reg)){
+            //         this.$message.error("请输入有效的联系方式!")
+            //         return
+            //     }
             }else if(!this.user.address){
                 this.$message.error("请输入联系地址！")
                 return
@@ -90,19 +90,22 @@ export default{
                 this.$message.error("请输入密码！")
                 return
             }else{
-                axios.post("/register/", {
-                    name: this.user.name,
-                    contact: this.user.contact,
-                    address: this.user.address,
-                    password: this.user.password //明文传输密码
+                axios.post("/api/user/", {
+                    username: this.user.name,
+                    password: this.user.password, //明文传输密码
+                    contact_details: this.user.contact,
+                    contact_email: 'thunder@thunder.com', // TODO：缺少输入框
+                    contact_address: this.user.address,
                 })
                 .then(response => {
-                    console.log("response.data:",response.data)
-                    if(response.data.status === 200){
+                    console.log("response:",response)
+                    if(response.status === 201){
                         this.$router.push({path: "/login"})
                     }else{
                         alert("您输入的用户名已存在！")
                     }
+                }).catch (error => {
+                    console.log(error)
                 })
             }
         },
@@ -121,6 +124,9 @@ export default{
     color: #333;
     text-align: center;
     line-height: 60px;
+}
+.el-main{
+    padding: 0;
 }
 .register_form{
     background-color: #B3C0D1;

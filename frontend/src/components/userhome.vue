@@ -4,13 +4,13 @@
       <el-row :gutter="20" id="row_up">
         <el-col :span="8">
           <div class="useravatar">
-            <el-avatar :size="150" src="https://bkimg.cdn.bcebos.com/pic/5ab5c9ea15ce36d3d53991f823ba2d87e950342a1be8"></el-avatar>
+            <el-avatar :size="150" src="http://60.cs.tsinghua.edu.cn/images/cs.jpg"></el-avatar>
           </div>
         </el-col>
         <el-col :span="16">
           <div class="userinfo">
             <p>
-              姓名：{{info.name}}
+              姓名：{{info.username}}
             </p>
             <p>
               联系电话：{{info.contact_details}}
@@ -39,7 +39,7 @@ export default {
   data() {
       return {
         info: {
-          username: "User",
+          username: "",
           contact_details: "",
           contact_email: "",
           contact_address: "",
@@ -48,9 +48,15 @@ export default {
   },
   methods: {
     refresh: function() {
-      axios.get('/api/user/profile')
+      console.log('refresh!')
+      axios.get('/api/profile/')
       .then((response) => {
-        console.log(response.data)
+        console.log(response)
+        console.log(response.data.user)
+        this.info.username = response.data.user.username
+        this.info.contact_details = response.data.user.contact_details
+        this.info.contact_email = response.data.user.contact_email
+        this.info.contact_address = response.data.user.contact_address
       })
       .catch((error) => {
         console.log(error)

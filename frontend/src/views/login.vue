@@ -1,7 +1,7 @@
 <template>
     <div class="login">
         <el-container style="height:100%">
-            <el-header height="80px">Header</el-header>
+            <!-- <el-header height="80px">Header</el-header> -->
             <el-main>
                 <div class="login_form">
                     <el-form class="form" ref="form" :model="form" label-width="60px">
@@ -58,18 +58,20 @@ export default{
                 this.$message.error("请选择身份！")
                 return
             }else{
-                axios.post("/login/",{
-                    name: this.user.name,
-                    password:this.user.password, //明文传输密码
-                    identity:this.user.identity
+                axios.post("/api/profile/",{
+                    username: this.user.name,
+                    password: this.user.password, //明文传输密码
+                    // identity:this.user.identity
                 })
                 .then(response => {   
-                    console.log("response.data.status:", response.data.status)
-                    if(response.data.status === 200){
+                    console.log("response.status:", response)
+                    if(response.status === 201){
                         this.$router.push({path: "/index"})
                     }else{
                         alert("您输入的用户名或密码错误！")
                     }
+                }).catch(error => {
+                    console.log(error)
                 })
             }
         },
@@ -92,6 +94,9 @@ export default{
     color: #333;
     text-align: center;
     line-height: 60px;
+}
+.el-main{
+    padding: 0;
 }
 .login_form{
     background-color: #B3C0D1;
