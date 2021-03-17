@@ -1,6 +1,21 @@
-python 3.8.5
+# Thunder network项目后端
+主要依赖 Django 以及 REST framework 框架
 
-Django 3.1
+需要在内层backend文件夹下编写一个config.txt
 
-restframework 3.12.2
+格式如下
+
+```
+[db]
+MYSQL_USER = root
+MYSQL_PWD = 123456
+```
+
+需要在mysql中建立名为django_db的数据库
+
+在mysql中执行
+
+```
+create database django_db
+```
 
