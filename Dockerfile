@@ -19,16 +19,16 @@ RUN npm run build
 ENV HOME=/opt/app
 WORKDIR $HOME
 
-COPY backend/requirements.txt $HOME
-RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+# COPY backend/requirements.txt $HOME
+# RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
-COPY backend $HOME/backend
-COPY config $HOME/config
+# COPY backend $HOME/backend
+# COPY config $HOME/config
 
-RUN cp -r /opt/frontend $HOME/frontend
+# RUN cp -r /opt/frontend $HOME/frontend
 
-EXPOSE 80
-ENV NUXT_PORT=80
-ENV NUXT_HOST=0.0.0.0
+# EXPOSE 80
+# ENV NUXT_PORT=80
+# ENV NUXT_HOST=0.0.0.0
 
-ENV PYTHONUNBUFFERED=true
+# ENV PYTHONUNBUFFERED=true

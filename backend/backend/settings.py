@@ -27,7 +27,7 @@ SECRET_KEY = 'bz96dwqv&&pjlya5mul&q(w7@p^klh-584)t0^0oaq@m4+owhi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -52,9 +52,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'HUAWEI.auth.CsrfExemptSessionAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
     )
 }
 

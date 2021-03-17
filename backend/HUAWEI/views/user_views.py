@@ -10,9 +10,12 @@ from rest_framework.views import APIView
 from HUAWEI.serializers import UserProfileSerializers
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.authentication import TokenAuthentication
-
+from HUAWEI.auth import CsrfExemptSessionAuthentication
+from rest_framework.authentication import BasicAuthentication
 
 class UserProfileView(APIView):
+
+    permission_classes = [AllowAny]
     def get(self, request):
         try:
             serializer = UserProfileSerializers(request.user)
@@ -36,7 +39,9 @@ class UserProfileView(APIView):
 
 
 class UserOperationView(APIView):
+
     permission_classes = (AllowAny,)
+
     def post(self, request):
         body = json.loads(request.body)
         try:
@@ -52,7 +57,7 @@ class UserOperationView(APIView):
                                      contact_email=contact_email, contact_address=contact_address)
             return Response('success', 201)
         except:
-            return Response('Parameter error', 400)
+            return Response('Parameter error', 401)
 
     def put(self, request):
         pass
