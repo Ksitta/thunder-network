@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import index from '@/views/index.vue'
 import login from '@/views/login.vue'
 import register from '@/views/register.vue'
-import index from '@/views/index.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +22,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
+    path: '/index',
+    name: 'index',
+    component: index
+  },
+  {
     path: '/login',
     name: 'login',
     component: login,
@@ -36,11 +41,6 @@ const routes = [
     meta: {
       isLogin: false
     }
-  },
-  {
-    path: '/index',
-    name: 'index',
-    component: index
   }
   
 ]
