@@ -1,21 +1,29 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.http import JsonResponse
-from HUAWEI.models import User
-import json
-from django.contrib import auth
+from .models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from HUAWEI.serializers import UserProfileSerializers
-from rest_framework.permissions import IsAuthenticated,AllowAny
-from rest_framework.authentication import TokenAuthentication
-from HUAWEI.auth import CsrfExemptSessionAuthentication
-from rest_framework.authentication import BasicAuthentication
+from rest_framework import viewsets
+from .serializers import UserRegisterSerializers, TokenObtainSerializer, UserProfileSerializers
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_simplejwt.views import TokenViewBase
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return UserRegisterSerializers
+
+    def list(self, request, *args, **kwargs):
+        return Response('不存在API', 404)
+
 
 class UserProfileView(APIView):
+    permission_classes = [IsAuthenticated]
 
-    permission_classes = [AllowAny]
     def get(self, request):
         try:
             serializer = UserProfileSerializers(request.user)
@@ -23,49 +31,26 @@ class UserProfileView(APIView):
         except:
             return Response("Not login", 400)
 
-    def post(self, request):
-        body = json.loads(request.body)
-        try:
-            username = body['username']
-            password = body['password']
-            user = auth.authenticate(username=username, password=password)
-            if user:
-                auth.login(request, user)
-                request.session.set_expiry(0)
-                return Response("Success", 201)
-            return Response("Error password", 400)
-        except:
-            return Response("User not found", 400)
-
 
 class UserOperationView(APIView):
-
-    permission_classes = (AllowAny,)
-
-    def post(self, request):
-        body = json.loads(request.body)
-        try:
-            username = body['username']
-            password = body['password']
-            contact_details = body['contact_details']
-            contact_email = body['contact_email']
-            contact_address = body['contact_address']
-            user = User.objects.filter(username=username)
-            if user.exists():
-                return Response('User id existed', status=400)
-            User.objects.create_user(username=username, password=password, contact_details=contact_details,
-                                     contact_email=contact_email, contact_address=contact_address)
-            return Response('success', 201)
-        except:
-            return Response('Parameter error', 401)
+    permission_classes = [IsAuthenticated]
 
     def put(self, request):
-        pass
+        user = request.user
+        info = UserProfileSerializers(user, data=request.data)
+        info.is_valid(True)
+        info.save()
+        return Response("Success", 204)
 
     def delete(self, request):
         try:
             user = request.user
+            user.delete()
+            return Response("Success", 204)
         except:
             return Response("Error", 404)
-        user.delete()
-        return Response("Success", 204)
+
+
+class TokenObtainView(TokenViewBase):
+    serializer_class = TokenObtainSerializer
+
