@@ -2,12 +2,12 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import JsonResponse
-from .models import User
+from HUAWEI.models import User
 import json
 from django.contrib import auth
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserProfileSerializers
+from HUAWEI.serializers import UserProfileSerializers
 from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework.authentication import TokenAuthentication
 

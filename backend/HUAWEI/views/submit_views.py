@@ -1,13 +1,11 @@
-from django.shortcuts import render
-
 # Create your views here.
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Site
-from .serializers import SiteSerializer
-from rest_framework.permissions import IsAuthenticated, AllowAny
-from .nce import createSite
+from HUAWEI.models import Site
+from HUAWEI.serializers import SiteSerializer
+from rest_framework.permissions import IsAuthenticated
+from HUAWEI.views.nce import createSite
 from copy import deepcopy
 
 class SubmitOrderView(APIView):
@@ -31,7 +29,7 @@ class SubmitOrderView(APIView):
                 'user': self.request.user.pk,
                 'site_id': newsiteid}
         data.update(item)
-        serializer = SiteSerializer(data=data)
+        serializer = SiteSerializer(data=data, many=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
