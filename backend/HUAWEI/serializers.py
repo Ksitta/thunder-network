@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from . import models
-from .models import User
+from .models import User, Equipment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
@@ -79,3 +79,12 @@ class TokenObtainSerializer(TokenObtainPairSerializer):
 
         return data
 
+
+class EquipmentSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Equipment
+        fields = ['eq_id', 'site', 'eq_name', 'eq_status']
+
+    def create(self, validated_data):
+        return models.Equipment.objects.create(**validated_data)
