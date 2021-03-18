@@ -48,8 +48,8 @@ export default {
   },
   methods: {
     refresh: function() {
-      console.log('refresh!')
-      axios.get('/api/profile/')
+      console.log('refresh userhome!')
+      axios.get('/api/user/profile/')
       .then((response) => {
         console.log(response)
         console.log(response.data.user)

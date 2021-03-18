@@ -92,7 +92,6 @@ export default {
 
       if (idx === "1") {
         this.showpage.home = true
-        this.$refs.userhome.refresh()
       }
       // menu-item 的点击事件
     },

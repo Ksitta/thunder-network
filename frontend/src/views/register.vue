@@ -129,10 +129,11 @@ export default{
         Submit:function(form){
             this.$refs[form].validate(valid => {
                 if (valid){
-                    axios.post("/api/user/", {
+                    axios.post("/api/user/register/", {
                     username: this.user.username,
                     contact_details: this.user.contact_details,
                     contact_email: this.user.contact_email, 
+
                     contact_address: this.user.address,
                     password: this.user.password, //明文传输密码
                     })
