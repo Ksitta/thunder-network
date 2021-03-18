@@ -90,7 +90,7 @@ export default{
                 this.$message.error("请输入密码！")
                 return
             }else{
-                axios.post("/api/user/", {
+                axios.post("/api/user/register/", {
                     username: this.user.name,
                     password: this.user.password, //明文传输密码
                     contact_details: this.user.contact,
