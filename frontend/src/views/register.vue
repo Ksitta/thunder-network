@@ -4,25 +4,31 @@
             <!-- <el-header height="80px">Header</el-header> -->
             <el-main>
                 <div class="register_form">
-                    <el-form class="form" :rules="rules" ref="form" :model="user" label-width="80px">
+                    <el-form class="form" :rules="rules" ref="form" :model="user" label-position="right" label-width="100px" size="medium">
                         <h3>注册</h3>
                         <br>
-                        <el-form-item label="用户名" prop="username">
+                        <el-form-item label="用户名:" prop="username" >
                             <el-input class="item" placeholder="请输入用户名" v-model="user.username" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="电话" prop="contact_details" >
+                        <el-form-item label="电话:" prop="contact_details" >
                             <el-input class="item" placeholder="请输入电话" v-model="user.contact_details" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="邮箱" prop="contact_email">
+                        <el-form-item label="邮箱:" prop="contact_email">
                             <el-input class="item" placeholder="请输入邮箱" v-model="user.contact_email" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="地址" prop="contact_address">
+                        <el-form-item label="地址:" prop="contact_address">
                             <el-input class="item" placeholder="请输入地址" v-model="user.contact_address" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="设置密码" prop="password">
-                            <el-input class="item" placeholder="请设置密码" v-model="user.password" type="password" clearable auto-complete="off"></el-input>
+                        <el-form-item label="设置密码:" prop="password">
+                            <el-input class="item" placeholder="请设置密码" v-model="user.password" type="password" ></el-input>
+                            <div class="progress-bar_wrap">
+                                <span id = "one" class="progress-bar_item"></span>
+                                <span id = "two" class="progress-bar_item"></span>
+                                <span id = "three" class="progress-bar_item"></span>
+                            </div>
+                            <span class="progress-bar_text">{{msgText}} </span>
                         </el-form-item>
-                        <el-form-item label="确认密码" prop="cpassword">
+                        <el-form-item label="确认密码:" prop="cpassword">
                             <el-input class="item" placeholder="请确认密码" v-model="user.cpassword" type="password" clearable auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item>
@@ -113,7 +119,8 @@ export default{
                 password: '',
                 cpassword: '',
             },
-
+            msgText: '',
+            
             rules:{
                 username: [{required: true, validator: validateUsername, trigger: 'blur'}],
                 contact_details: [{required: true, validator: validatePhone, trigger: 'blur'}],
@@ -125,7 +132,26 @@ export default{
 
         }
     },
-    methods:{
+    methods: {
+        checkStrong: function(sValue) {
+            var modes = 0;
+            if(sValue.length < 1) return modes;
+            if(/\d/.test(sValue)) modes++; //数字
+            if(/[a-z]/.test(sValue)) modes++; //小写
+            if(/[A-Z]/.test(sValue)) modes++; //大写
+            if(/\W/.test(sValue)) modes++; //特殊字符
+
+            switch(modes) {
+                case 1:
+                    return 1;
+                case 2:
+                    return 2;
+                case 3:
+                case 4:
+                    return sValue.length < 10 ? 3 : 4
+            }
+            return modes;
+        },
         Submit:function(form){
             this.$refs[form].validate(valid => {
                 if (valid){
@@ -153,6 +179,31 @@ export default{
                 }
             })
         },
+    },
+    watch: {
+        "user.password"(newValue) {
+            var scale = this.checkStrong(newValue);
+            if(scale == 0){
+                this.msgText = ''
+            }
+            if(scale > 1 || scale == 1) {
+                this.msgText = '弱'
+                document.getElementById("one").style.background = "#FF4B47"
+            }else {
+                document.getElementById("one").style.background = "#F6F6FA"
+            }
+            if(scale > 2 || scale == 2) {
+                this.msgText = '中'
+                document.getElementById("two").style.background = "#F9AE35"
+            }else{
+                document.getElementById("two").style.background = "#F6F6FA"
+            }if(scale == 4) {
+                this.msgText = '强'
+                document.getElementById("three").style.background = "#2DAF7D"
+            }else{
+                document.getElementById("three").style.background = "#F6F6FA"
+            }
+        }
     }
 }
 </script>
@@ -162,12 +213,6 @@ export default{
     position: absolute;
     height: 100%;
     width: 100%;
-}
-.el-header{
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
 }
 .el-main{
     padding: 0;
@@ -179,14 +224,39 @@ export default{
     align-items: center;
     justify-content: center;
 }
-.form{
+.el-form{
     width: 40%;
-    margin-bottom: 20vh;
+    margin-bottom: 10vh;
     background-color:white;
-    border-radius: 2px;
-    padding: 5% 3%;
+    border-radius: 10px;
+    padding: 3% 3%;
 }
 .item{
-    width: 75%;
+    width: 80%;
+    position: relative;
+    left:-40px;
+    margin-left: 0px;
+}
+.progress-bar_wrap {
+    width: 300px;
+    height: 5px;
+    display: inline-block;
+    border-radius: 5px;
+    position: relative;
+    left:-50px;
+}
+.progress-bar_text {
+    display: inline-block;
+    color: #aaa;
+    margin-left: 5px;
+    position: relative;
+    left:-45px;
+}
+.progress-bar_item {
+    display: inline-block;
+    height: 100%;
+    width: 32.5%;
+    margin-right: .8%;
+    border-radius: 5px;
 }
 </style>
