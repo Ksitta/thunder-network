@@ -85,13 +85,13 @@ export default{
             }
         }
 
-        var passReg = /^[a-zA-Z]\w{6,18}$/
+        var passReg = /^[0-9a-zA-Z]\w{6,18}$/
         var validatePass = (rule, value, callback) => {
             if(!value) {
                 return callback(new Error("密码不可为空！"))
             }
             else if(!passReg.test(value)) {
-                callback(new Error("密码以字母开头,长度在8~18之间,只能包含字母、数字和下划线"))
+                callback(new Error("密码长度在6~18之间,需包含大小写字母、数字和下划线"))
             }else{
                 if(this.cpassword !== "") {
                     this.$refs.form.validateField("cpassword") 
