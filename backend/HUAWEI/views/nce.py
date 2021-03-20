@@ -1,8 +1,14 @@
 import requests
+import configparser
+import os
+import json
+
+cf = configparser.ConfigParser()
+cf.read(os.path.dirname(__file__)+"../../../backend/config.txt")
 
 # 配置北向用户信息及北向地址
-nbi_name = "campusAc01@north.com"
-nbi_pwd = "Vp76Hl8mL@"
+nbi_name = str(cf.get('nce', 'NBI_NAME'))
+nbi_pwd = str(cf.get('nce', 'NBI_PWD'))
 host = "139.9.213.72"
 port = "18002"
 
@@ -25,6 +31,7 @@ def getToken():
     r = requests.post(post_token_url, headers=headers, json={"userName": nbi_name, "password": nbi_pwd},
                       verify=False)
     # 解析token_id
+    print(r.text)
     token_id = r.json()['data']['token_id']
     print("1.【Get Token Id】")
     print("【post_token_url】：" + post_token_url)
@@ -38,6 +45,7 @@ def getToken():
 # 限定仅创建单个站点，仅限定名字？（反正其他信息在数据库里？
 def createSite(name):
     # 配置URL和Headers
+    x = getToken()
     post_sites_url = "https://" + host + ":" + port + SITES_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求

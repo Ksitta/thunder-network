@@ -9,7 +9,13 @@
 [db]
 MYSQL_USER = root
 MYSQL_PWD = 123456
+
+[nce] 
+NBI_NAME = campusAc01@north.com
+NBI_PWD = Zp2T7lMXA@
 ```
+
+其中[nce]中填写申请到的北向账号及密码，用于与华为NCE接口对接
 
 需要在mysql中建立名为django_db的数据库
 

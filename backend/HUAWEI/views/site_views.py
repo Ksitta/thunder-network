@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from HUAWEI.models import Site
-from HUAWEI.serializers import SiteSerializer
+from HUAWEI.serializers import SiteDetailSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class SiteListView(APIView):
@@ -11,7 +11,7 @@ class SiteListView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         sites = Site.objects.filter(user=request.user.pk)
-        serializer = SiteSerializer(instance=sites, many=True)
+        serializer = SiteDetailSerializer(instance=sites, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class SiteDetailView(APIView):
@@ -26,7 +26,7 @@ class SiteDetailView(APIView):
         #except Site.DoesNotExist:
         #    return Response(status=status.HTTP_404_NOT_FOUND)
 
-        serializer = SiteSerializer(instance=site, many=True)
+        serializer = SiteDetailSerializer(instance=site, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
@@ -35,6 +35,6 @@ class SiteDetailView(APIView):
         #    site = Site.objects.get(pk=pk)
         #except Site.DoesNotExist:
         #    return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = SiteSerializer(instance=site, many=True)
+        serializer = SiteDetailSerializer(instance=site, many=True)
         site.delete()
         return Response(serializer.data, status=status.HTTP_200_OK)

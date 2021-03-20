@@ -88,3 +88,9 @@ class EquipmentSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return models.Equipment.objects.create(**validated_data)
+
+class SiteDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Site
+        fields = ('site_name', 'site_address', 'billing_level', 'demand_num', 'demand_1',
+                  'demand_2', 'demand_3', 'status')
