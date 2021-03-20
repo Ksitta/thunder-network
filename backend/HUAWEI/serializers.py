@@ -80,8 +80,7 @@ class TokenObtainSerializer(TokenObtainPairSerializer):
         return data
 
 
-class EquipmentSerializers(serializers.ModelSerializer):
-
+class EquipmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Equipment
         fields = ['eq_id', 'site', 'eq_name', 'eq_status']
@@ -94,3 +93,8 @@ class SiteDetailSerializer(serializers.ModelSerializer):
         model = models.Site
         fields = ('site_name', 'site_address', 'billing_level', 'demand_num', 'demand_1',
                   'demand_2', 'demand_3', 'status')
+
+class EquipmentDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Equipment
+        fields = ['eq_name', 'eq_status']

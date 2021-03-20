@@ -2,9 +2,11 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from HUAWEI.models import Site
-from HUAWEI.serializers import SiteDetailSerializer
+from HUAWEI.models import Site, Equipment
+from HUAWEI.serializers import SiteDetailSerializer, EquipmentDetailSerializer
 from rest_framework.permissions import IsAuthenticated
+from HUAWEI.views.nce import deleteSite
+from copy import copy
 
 class SiteListView(APIView):
     queryset = Site.objects.all()
@@ -23,15 +25,35 @@ class SiteDetailView(APIView):
         site = Site.objects.filter(user=request.user.pk)
         if(int(pk) >= len(site)):
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
         thesite = site[int(pk)]
+        eqs = Equipment.objects.filter(site=thesite.pk)
         serializer = SiteDetailSerializer(instance=thesite)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        eqs_serializer = EquipmentDetailSerializer(instance=eqs, many=True)
+
+        data = copy(serializer.data)
+        item = {'eqs': eqs_serializer.data}
+        data.update(item)
+
+        return Response(data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         site = Site.objects.filter(user=request.user.pk)
         if(int(pk) >= len(site)):
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
         thesite = site[int(pk)]
-        #华为那边也应该删除？ 未完成
+        eqs = Equipment.objects.filter(site=thesite.pk)
+
+        # 与华为交互 删除站点
+        deleteSite(thesite.site_id)
+        # 从数据库中删除
         thesite.delete()
+        # 与华为交互 删除设备 待完成
+
+        # 从数据库中删除
+        eqs.delete()
+
+        # 删除流量表 待完成
+
         return Response(status=status.HTTP_200_OK)
