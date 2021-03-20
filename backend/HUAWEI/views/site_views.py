@@ -21,20 +21,17 @@ class SiteDetailView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request, pk):
         site = Site.objects.filter(user=request.user.pk)
-        #try:
-        #    site = Site.objects.get(pk=pk)
-        #except Site.DoesNotExist:
-        #    return Response(status=status.HTTP_404_NOT_FOUND)
-
-        serializer = SiteDetailSerializer(instance=site, many=True)
+        if(int(pk) >= len(site)):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        thesite = site[int(pk)]
+        serializer = SiteDetailSerializer(instance=thesite)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, pk):
         site = Site.objects.filter(user=request.user.pk)
-        #try:
-        #    site = Site.objects.get(pk=pk)
-        #except Site.DoesNotExist:
-        #    return Response(status=status.HTTP_404_NOT_FOUND)
-        serializer = SiteDetailSerializer(instance=site, many=True)
-        site.delete()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        if(int(pk) >= len(site)):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        thesite = site[int(pk)]
+        #华为那边也应该删除？ 未完成
+        thesite.delete()
+        return Response(status=status.HTTP_200_OK)

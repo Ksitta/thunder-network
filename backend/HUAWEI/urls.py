@@ -14,5 +14,5 @@ urlpatterns = [
     url(r'^site/$', site_views.SiteListView.as_view(), name='site_list'),
     url('^user/token/$', user_views.TokenObtainView.as_view(), name='auth'),
     url('^user/refresh/$', TokenRefreshView.as_view(), name='refresh'),
-    #url(r'^site/(?P<pk>[0-9]+)/$', site_views.SiteDetailView.as_view(), name='site_detail'),
+    url(r'^site/(?P<pk>[0-9]+)/$', site_views.SiteDetailView.as_view(), name='site_detail'),
 ] + ROUTER.urls
