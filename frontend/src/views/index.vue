@@ -60,6 +60,9 @@
         <el-main>
           <!-- Main -->
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
+
+          <orderrequest ref="orderrequest" v-bind:show="showpage.orderrequest" v-if="showpage.orderrequest"></orderrequest>
+          
         </el-main>
       </el-container>
     </el-container>
@@ -68,19 +71,21 @@
 
 <script>
 import userhome from '@/components/userhome'
+import orderrequest from '@/components/orderrequest'
 
 export default {
   name: 'index',
 
   components: {
     userhome,
+    orderrequest,
   },
 
   data: function() {
     return {
       showpage: {
         home: true,
-
+        orderrequest: false
       }
     }
   },
@@ -89,9 +94,13 @@ export default {
     menunav: function(idx) {
       console.log(idx);
       this.showpage.home = false
+      this.showpage.orderrequest = false
 
       if (idx === "1") {
         this.showpage.home = true
+      }
+      if (idx === "2-1") {
+        this.showpage.orderrequest = true
       }
       // menu-item 的点击事件
     },
