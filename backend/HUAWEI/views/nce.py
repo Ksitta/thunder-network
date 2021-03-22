@@ -2,15 +2,16 @@ import requests
 import configparser
 import os
 import json
+from backend.settings import nbi_name, nbi_pwd, nbi_host, nbi_port
 
-cf = configparser.ConfigParser()
-cf.read("/network_config/config.txt")
+# cf = configparser.ConfigParser()
+# cf.read("/network_config/config.txt")
 
 # 配置北向用户信息及北向地址
-nbi_name = str(cf.get('nce', 'NBI_NAME'))
-nbi_pwd = str(cf.get('nce', 'NBI_PWD'))
-host = "139.9.213.72"
-port = "18002"
+# nbi_name = str(cf.get('nce', 'NBI_NAME'))
+# nbi_pwd = str(cf.get('nce', 'NBI_PWD'))
+# nbi_host = "139.9.213.72"
+# nbi_port = "18002"
 
 # 定义接口的URI
 POST_TOKEN_URL = "/controller/v2/tokens"
@@ -25,7 +26,7 @@ DEVICE_TERMINAL_URL = "/controller/campus/v1/performanceservice/basicperformance
 
 def getToken():
     # 配置URL和Headers
-    post_token_url = "https://" + host + ":" + port + POST_TOKEN_URL
+    post_token_url = "https://" + nbi_host + ":" + nbi_port + POST_TOKEN_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json'}
     # 发起请求，添加Json格式数据
     r = requests.post(post_token_url, headers=headers, json={"userName": nbi_name, "password": nbi_pwd},
@@ -46,7 +47,7 @@ def getToken():
 def createSite(name):
     # 配置URL和Headers
     x = getToken()
-    post_sites_url = "https://" + host + ":" + port + SITES_URL
+    post_sites_url = "https://" + nbi_host + ":" + nbi_port + SITES_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -63,7 +64,7 @@ def createSite(name):
 # 限定为id精准查找
 def getSite(id):
     # 配置URL和Headers
-    get_sites_url = "https://" + host + ":" + port + GET_SITES_URL
+    get_sites_url = "https://" + nbi_host + ":" + nbi_port + GET_SITES_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -81,7 +82,7 @@ def getSite(id):
 # 限定为删除单个站点
 def deleteSite(id):
     # 配置URL和Headers
-    delete_sites_url = "https://" + host + ":" + port + SITES_URL
+    delete_sites_url = "https://" + nbi_host + ":" + nbi_port + SITES_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -103,7 +104,7 @@ def deleteSite(id):
 # 参数仍有问题
 def createDevice(name, siteId):
     # 配置URL和Headers
-    post_devices_url = "https://" + host + ":" + port + DEVICES_URL
+    post_devices_url = "https://" + nbi_host + ":" + nbi_port + DEVICES_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -134,7 +135,7 @@ def createDevice(name, siteId):
 # 限定为id查找, 不限定类型
 def getDevice(siteId):
     # 配置URL和Headers
-    get_devices_url = "https://" + host + ":" + port + DEVICES_URL
+    get_devices_url = "https://" + nbi_host + ":" + nbi_port + DEVICES_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -152,7 +153,7 @@ def getDevice(siteId):
 # 限定为删除单个设备
 def deleteDevice(deviceId):
     # 配置URL和Headers
-    delete_devices_url = "https://" + host + ":" + port + DEVICES_URL
+    delete_devices_url = "https://" + nbi_host + ":" + nbi_port + DEVICES_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -175,7 +176,7 @@ def deleteDevice(deviceId):
 # 参数仍存疑
 def CreateSSID(siteId, name):
     # 配置URL和Headers
-    post_ssid_url = "https://" + host + ":" + port + SSID_URL + siteId +"/apssi"
+    post_ssid_url = "https://" + nbi_host + ":" + nbi_port + SSID_URL + siteId +"/apssi"
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -208,7 +209,7 @@ def CreateSSID(siteId, name):
 # siteId查找
 def getSSID(siteId):
     # 配置URL和Headers
-    get_ssid_url = "https://" + host + ":" + port + SSID_URL + siteId +"/apssi"
+    get_ssid_url = "https://" + nbi_host + ":" + nbi_port + SSID_URL + siteId +"/apssi"
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     r = requests.get(get_ssid_url, headers=headers, verify=False)
@@ -223,7 +224,7 @@ def getSSID(siteId):
 # 限定为删除单个SSID
 def deleteSSID(siteId, SSID_id):
     # 配置URL和Headers
-    delete_ssid_url = "https://" + host + ":" + port + SSID_URL + siteId +"/apssi"
+    delete_ssid_url = "https://" + nbi_host + ":" + nbi_port + SSID_URL + siteId +"/apssi"
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -245,7 +246,7 @@ def deleteSSID(siteId, SSID_id):
 
 def getRate(mode, id, timeDimension, beginTime, endTime):
     # 配置URL和Headers
-    get_rate_url = "https://" + host + ":" + port + RATE_URL
+    get_rate_url = "https://" + nbi_host + ":" + nbi_port + RATE_URL
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -267,7 +268,7 @@ def getRate(mode, id, timeDimension, beginTime, endTime):
 # 限定为全部设备的终端数
 def getSiteTerminal(siteId, timeDimension, beginTime, endTime):
     # 配置URL和Headers
-    get_site_terminal_url = "https://" + host + ":" + port + SITE_TERMINAL_URL + siteId
+    get_site_terminal_url = "https://" + nbi_host + ":" + nbi_port + SITE_TERMINAL_URL + siteId
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {
@@ -288,7 +289,7 @@ def getSiteTerminal(siteId, timeDimension, beginTime, endTime):
 # 限定为全部设备的终端数
 def getDeviceTerminal(deviceId, timeDimension, beginTime, endTime):
     # 配置URL和Headers
-    get_device_terminal_url = "https://" + host + ":" + port + DEVICE_TERMINAL_URL + deviceId
+    get_device_terminal_url = "https://" + nbi_host + ":" + nbi_port + DEVICE_TERMINAL_URL + deviceId
     headers = {'Content-Type': 'application/json', 'Accept': 'application/json', 'X-AUTH-TOKEN': getToken()}
     # 发起请求
     data = {

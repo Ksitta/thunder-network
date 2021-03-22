@@ -19,11 +19,11 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-cf = configparser.ConfigParser()
-cf.read("/network_config/config.txt")
+# cf = configparser.ConfigParser()
+# cf.read("/network_config/config.txt")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = cf.get('django', 'SECRET_KEY')
+# SECRET_KEY = cf.get('django', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,16 +89,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_db',
-        'USER': cf.get('db', 'MYSQL_USER'),
-        'PASSWORD': cf.get('db', 'MYSQL_PWD'),
-        'HOST': cf.get('db', 'MYSQL_HOSTS'),
-        'PORT': cf.get('db', 'MYSQL_PORT')
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'django_db',
+#         'USER': cf.get('db', 'MYSQL_USER'),
+#         'PASSWORD': cf.get('db', 'MYSQL_PWD'),
+#         'HOST': cf.get('db', 'MYSQL_HOSTS'),
+#         'PORT': cf.get('db', 'MYSQL_PORT')
+#     }
+# }
 
 AUTH_USER_MODEL = 'HUAWEI.User'
 
@@ -136,3 +136,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+from config.local_settings import *

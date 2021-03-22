@@ -13,5 +13,5 @@ chardet==4.0.0
 idna==2.10
 requests==2.25.1
 mysqlclient==2.0.3
-
+pytest==6.2.2
 # pip install --user -e git+https://codehub.devcloud.cn-north-4.huaweicloud.com/campus00001/CloudCampusPythonSDK.git@master#egg=cloudcampusPythonSdk
