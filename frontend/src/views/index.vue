@@ -60,6 +60,7 @@
         <el-main>
           <!-- Main -->
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
+          <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
         </el-main>
       </el-container>
     </el-container>
@@ -68,19 +69,21 @@
 
 <script>
 import userhome from '@/components/userhome'
+import sitequery from '../components/sitequery.vue';
 
 export default {
   name: 'index',
 
   components: {
     userhome,
+    sitequery,
   },
 
   data: function() {
     return {
       showpage: {
         home: true,
-
+        sitequery: true
       }
     }
   },
@@ -89,9 +92,12 @@ export default {
     menunav: function(idx) {
       console.log(idx);
       this.showpage.home = false
-
+      this.showpage.sitequery = false
       if (idx === "1") {
         this.showpage.home = true
+      }
+      if(idx === "3-1") {
+        this.showpage.sitequery = true
       }
       // menu-item 的点击事件
     },
