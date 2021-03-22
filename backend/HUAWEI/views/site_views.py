@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment
 from HUAWEI.serializers import SiteDetailSerializer, EquipmentDetailSerializer
 from rest_framework.permissions import IsAuthenticated
-from HUAWEI.views.nce import deleteSite
+from HUAWEI.views.nce import delete_site
 from copy import copy
 
 class SiteListView(APIView):
@@ -46,7 +46,7 @@ class SiteDetailView(APIView):
         eqs = Equipment.objects.filter(site=thesite.pk)
 
         # 与华为交互 删除站点
-        deleteSite(thesite.site_id)
+        delete_site(thesite.site_id)
         # 从数据库中删除
         thesite.delete()
         # 与华为交互 删除设备 待完成
