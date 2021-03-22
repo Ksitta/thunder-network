@@ -4,7 +4,7 @@ import os
 import json
 
 cf = configparser.ConfigParser()
-cf.read(os.path.dirname(__file__)+"../../../backend/config.txt")
+cf.read("/network_config/config.txt")
 
 # 配置北向用户信息及北向地址
 nbi_name = str(cf.get('nce', 'NBI_NAME'))

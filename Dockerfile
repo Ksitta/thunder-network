@@ -11,7 +11,6 @@ WORKDIR $FRONTEND
 COPY frontend/package.json $FRONTEND
 COPY frontend/package-lock.json $FRONTEND
 RUN npm install
-
 COPY frontend/ $FRONTEND
 RUN npm run build
 
@@ -24,9 +23,6 @@ COPY backend/requirements.txt $HOME
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
 COPY backend $HOME/backend
-COPY config $HOME/config
-
-RUN cp -r /opt/frontend $HOME/frontend
 
 EXPOSE 80
 ENV NUXT_PORT=80

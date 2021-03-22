@@ -19,8 +19,11 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
+cf = configparser.ConfigParser()
+cf.read("/network_config/config.txt")
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'bz96dwqv&&pjlya5mul&q(w7@p^klh-584)t0^0oaq@m4+owhi'
+SECRET_KEY = cf.get('django', 'SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,17 +90,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-cf = configparser.ConfigParser()
-parent_dir = os.path.dirname(os.path.abspath(__file__))
-cf.read(os.path.join(parent_dir, "config.txt"))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_db',
         'USER': cf.get('db', 'MYSQL_USER'),
         'PASSWORD': cf.get('db', 'MYSQL_PWD'),
-        'HOST': 'localhost',
-        'PORT': '3306'
+        'HOST': cf.get('db', 'MYSQL_HOSTS'),
+        'PORT': cf.get('db', 'MYSQL_PORT')
     }
 }
 
