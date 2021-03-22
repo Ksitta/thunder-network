@@ -23,7 +23,7 @@ RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
 COPY backend $HOME/backend
 
-COPY --from=0 /opt/frontend/build frontend/build
+COPY --from=0 /opt/frontend/dist frontend/dist
 
 EXPOSE 80
 ENV NUXT_PORT=80
