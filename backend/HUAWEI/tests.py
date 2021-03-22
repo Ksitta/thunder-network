@@ -27,6 +27,8 @@ class UserModelTests(TestCase):
         self.token = response.data['access']
         self.assertEqual(response.status_code, 200)
 
+        response = self.client.get('/api/user/profile')
+
     def test_2_login(self):
         data = {
             "username": "test",
@@ -34,9 +36,6 @@ class UserModelTests(TestCase):
         }
         response = self.client.post('/api/user/token/', data=data, content_type="application/json")
         self.assertEqual(response.status_code, 401)
-
-    def test_3_login(self):
-        print(self.token)
 
 
 class ViewTests(TestCase):

@@ -21,11 +21,9 @@ build:
   stage: test
 
   before_script:
-    - cd frontend
-    - npm config set registry https://registry.npm.taobao.org
-    - npm install
-    - cd ../backend
+    - cd backend
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_dev.txt
+    - python manage.py migrate
     - cd ..
 
 unit-test:
@@ -36,10 +34,6 @@ unit-test:
     - BACKEND_RET=$?
     - exit $BACKEND_RET
   after_script:
-    - SUFFIX=$RANDOM
-    - curl "http://10.0.0.11/sonar-scanner.tar.gz" -s -o "/tmp/sonar-$SUFFIX.tar.gz"
-    - tar -xf "/tmp/sonar-$SUFFIX.tar.gz" -C /opt
-    - /opt/sonar-scanner/bin/sonar-scanner
 
 
 deploy:
