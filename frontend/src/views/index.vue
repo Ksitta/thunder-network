@@ -61,6 +61,8 @@
           <!-- Main -->
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
+          <orderrequest ref="orderrequest" v-bind:show="showpage.orderrequest" v-if="showpage.orderrequest"></orderrequest>
+          
         </el-main>
       </el-container>
     </el-container>
@@ -70,6 +72,7 @@
 <script>
 import userhome from '@/components/userhome'
 import sitequery from '../components/sitequery.vue';
+import orderrequest from '@/components/orderrequest'
 
 export default {
   name: 'index',
@@ -77,13 +80,15 @@ export default {
   components: {
     userhome,
     sitequery,
+    orderrequest,
   },
 
   data: function() {
     return {
       showpage: {
         home: true,
-        sitequery: true
+        sitequery: true,
+        orderrequest: false
       }
     }
   },
@@ -92,15 +97,19 @@ export default {
     menunav: function(idx) {
       console.log(idx);
       this.showpage.home = false
+      this.showpage.orderrequest = false
       this.showpage.sitequery = false
       if (idx === "1") {
         this.showpage.home = true
       }
+      if (idx === "2-1") {
+        this.showpage.orderrequest = true
+      }
       if(idx === "3-1") {
         this.showpage.sitequery = true
       }
+    }
       // menu-item 的点击事件
-    },
   },
 
 }
