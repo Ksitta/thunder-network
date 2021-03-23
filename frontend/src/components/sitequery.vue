@@ -5,7 +5,7 @@
             <el-input v-model="unfinished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
         </el-row>
         <div class="unfinished_SiteData">
-            <el-table :data="unfinished_sitedata" style="width: 100%" max-height="400" height="300">
+            <el-table :data="unfinished_sitedata" style="width: 100%" max-height="300" height="300" @row-click="showDialog">
                 <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
                 <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
                 <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
@@ -20,7 +20,7 @@
             <el-input v-model="finished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
         </el-row>
         <div class="finished_SiteData">
-            <el-table :data="finished_sitedata" style="width: 100%" max-height="400" height="300">
+            <el-table :data="finished_sitedata" style="width: 100%" max-height="300" height="300" @row-click="showDialog">
                 <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
                 <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
                 <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
@@ -29,18 +29,24 @@
                 <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
             </el-table>
         </div>
+        <SiteDialog :dialogVisible="SiteDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' :siteinfo="siteinfo"></SiteDialog>
     </div>
 </template>
 
 <script>
 
 import axios from 'axios'
+import SiteDialog from "@/components/SiteDialog"
 
 export default{
     name: 'site_query',
+    components: {
+        SiteDialog
+    },
     data(){
         return{
             unfinished_data: [{
+                    site_index: 0,
                     site_name: "site1",
                     site_address: "清华大学",
                     billing_level: '包月',
@@ -49,6 +55,7 @@ export default{
                     demand_3: "",
                 },
                 {
+                    site_index: 1,
                     site_name: "site2",
                     site_address: "清华大学",
                     billing_level: '包年',
@@ -58,6 +65,7 @@ export default{
                 }
             ],
             finished_data: [{
+                    site_index: 2,
                     site_name: "site1",
                     site_address: "清华大学",
                     billing_level: '包月',
@@ -66,6 +74,7 @@ export default{
                     demand_3: "",
                 },
                 {
+                    site_index: 3,
                     site_name: "site2",
                     site_address: "清华大学",
                     billing_level: '包年',
@@ -76,36 +85,89 @@ export default{
             ],
             unfinished_search: '',
             finished_search: '',
+            siteinfo:{
+                    site_name: 'site1',
+                    site_address: '清华大学',
+                    billing_level: '包月',
+                    demand_num: 2,
+                    demand_1: 'Guest',
+                    demand_2: 'Management',
+                    demand_3: '无',
+                    status: '未处理',
+                    eqs: [{
+                        eq_name: 'ap1',
+                        eq_status: '已部署',
+                    },
+                    {
+                        eq_name: 'ap2',
+                        eq_status: '未部署'
+                    }]
+            },
+            SiteDialog:{
+                dialogVisible: false
+            }
         }
     },
     created(){
         axios.get('/api/site/')
         .then((response)=>{
             var res = response.data.data
+            var i = 0
             for(let item of res){
                 if(item.status == 1){
                     this.unfinished_data.push({
+                        site_index: i,
                         site_name: item.site_name,
                         site_address: item.site_address,
                         billing_level: (item.billing_level == 1)? '包月' : '包年',
-                        demand_1: item.demand_1,
-                        demand_2: item.demand_2,
-                        demand_3: item.demand_3
+                        demand_1: (item.demand_1 == '')? '无' : item.demand_1,
+                        demand_2: (item.demand_2 == '')? '无' : item.demand_2,
+                        demand_3: (item.demand_3 == '')? '无' : item.demand_3
                     })
                 }else{
                     this.finished_data.push({
+                        site_index: i,
                         site_name: item.site_name,
                         site_address: item.site_address,
                         billing_level: (item.billing_level == 1)? '包月' : '包年',
-                        demand_1: item.demand_1,
-                        demand_2: item.demand_2,
-                        demand_3: item.demand_3
+                        demand_1: (item.demand_1 == '')? '无' : item.demand_1,
+                        demand_2: (item.demand_2 == '')? '无' : item.demand_2,
+                        demand_3: (item.demand_3 == '')? '无' : item.demand_3
                     })
                 }
+                i++
             }
         })
     },
     methods: {
+        showDialog: function(row){
+            this.SiteDialog.dialogVisible = true
+            var pk = row.site_index
+            var path = "/api/site/" + pk + "/"
+            axios.get(path)
+            .then((response)=>{
+                var res=response.data.data
+                this.siteinfo.site_name = res.site_name
+                this.siteinfo.site_address = res.site_address
+                this.siteinfo.billing_level = (res.billing_level == 1)? '包月' : '包年'
+                this.siteinfo.demand_num = res.demand_num
+                this.siteinfo.demand_1 = (res.demand_1 == '')? '无' : res.demand_1
+                this.siteinfo.demand_2 = (res.demand_2 == '')? '无' : res.demand_2
+                this.siteinfo.demand_3 = (res.demand_3 == '')? '无' : res.demand_3
+                this.siteinfo.status = (res.status == 1)? '未处理':'处理'
+                var eqs = res.eqs
+                for(let item of eqs){
+                    this.siteinfo.eqs.push({
+                        eq_name: item.eq_name,
+                        eq_status: (item.eq_status == 1)? '已部署' : '未部署'
+                    })
+                }
+            })
+
+        },
+        Dialog_cancel:function(){
+            this.SiteDialog.dialogVisible = false
+        }
     },
     computed: {
         unfinished_sitedata(){
@@ -134,9 +196,3 @@ export default{
 }
 </script>
 
-<style scoped>
-.SearchSite{
-    position: relative;
-    right: 0px;
-}
-</style>
