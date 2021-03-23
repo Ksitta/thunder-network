@@ -21,6 +21,7 @@ let isRefreshing = false
 
 axios.interceptors.response.use(success => success, error => {
   if (error.response.status === 401 && error.response.data.code === "token_not_valid") {
+    sessionStorage.setItem('user_token', '')
     const config = error.response.config
     if (!isRefreshing) {
       isRefreshing = true
