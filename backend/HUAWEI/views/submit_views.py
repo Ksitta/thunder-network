@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from HUAWEI.models import Site
 from HUAWEI.serializers import SiteSerializer, EquipmentSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from HUAWEI.views.nce import createSite
+from HUAWEI.views.nce import create_site
 from copy import deepcopy
 
 class SubmitOrderView(APIView):
@@ -19,7 +19,7 @@ class SubmitOrderView(APIView):
         """
         # 与华为交互 创建Site
           ### 获取site_id
-        newsiteid = createSite(str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        newsiteid = create_site(str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
           ### 创建站点ssid 待完成
 
         # 在数据库中更新Site表
