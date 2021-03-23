@@ -28,7 +28,8 @@ class UserRegisterSerializers(serializers.ModelSerializer):
 class UserProfileSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ['contact_details', 'contact_email', 'contact_address']
+        fields = ['contact_details', 'contact_email', 'contact_address', 'username']
+        extra_kwargs = {'username': {'read_only': True}}
 
     def update(self, instance: User, data):
         instance.contact_address = data['contact_address']

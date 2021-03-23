@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # cf.read("/network_config/config.txt")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = cf.get('django', 'SECRET_KEY')
+SECRET_KEY = 'bz96dwqv&&pjlya5mul&q(w7@p^klh-584)t0^0oaq@m4+owhi'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -89,16 +89,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'django_db',
-#         'USER': cf.get('db', 'MYSQL_USER'),
-#         'PASSWORD': cf.get('db', 'MYSQL_PWD'),
-#         'HOST': cf.get('db', 'MYSQL_HOSTS'),
-#         'PORT': cf.get('db', 'MYSQL_PORT')
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 AUTH_USER_MODEL = 'HUAWEI.User'
 
@@ -137,4 +133,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-from config.local_settings import *
+nbi_name = "campusAc01@north.com"
+nbi_pwd = "Je344E845@"
+nbi_host = "139.9.213.72"
+nbi_port = "18002"
+
+# from config.local_settings import *
