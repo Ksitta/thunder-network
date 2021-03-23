@@ -159,8 +159,7 @@ export default{
                     username: this.user.username,
                     contact_details: this.user.contact_details,
                     contact_email: this.user.contact_email, 
-
-                    contact_address: this.user.address,
+                    contact_address: this.user.contact_address,
                     password: this.user.password, //明文传输密码
                     })
                     .then(response => {
