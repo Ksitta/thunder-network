@@ -1,7 +1,7 @@
 <template>
     <div class="orderrequest">
-        <div class="login_form">
-            <el-form class="form" ref="form" :model="form" label-width="80px">
+        <div class="submit_form">
+            <el-form class="form" ref="form" label-width="80px" label-position="left">
                 <h3>提交订单</h3>
                 <br>
                 <el-form-item label="站点名称" >
@@ -10,11 +10,33 @@
                 <el-form-item label="站点地址">
                     <el-input class="item" placeholder="请输入站点地址" v-model="info.site_address" clearable auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item>                
+                <el-form-item label="计费方式">
+                    <div style="padding-left: 20px; padding-right: 20px;">
+                        <el-radio v-model="info.billing_level" label="1" border size="medium">按月计费</el-radio>
+                        <el-radio v-model="info.billing_level" label="2" border size="medium">按年计费</el-radio>
+                    </div>
+                </el-form-item>
+
+                <el-form-item
+                v-for="(demand, index) in info.demands"
+                :label="'网络需求' + index"
+                :key="demand.key"
+                >
+                <!-- :prop="'domains.' + index + '.value'"> -->
+                    <el-input v-model="demand.value" class="demand_input"></el-input>
+                    <el-button @click.prevent="removeDemand(demand)" class="demand_deletebtn">删除</el-button>
+                </el-form-item>
+
+                <el-form-item>
+                    <!-- <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button> -->
+                    <el-button @click="addDemand" :disabled="fullDemands">新增虚拟网络需求</el-button>
+                    <!-- <el-button @click="resetForm('dynamicValidateForm')">重置</el-button> -->
+                </el-form-item>
+
+                <el-form-item>
                     <el-button type="primary" @click="Submit">提交</el-button>
                 </el-form-item>
             </el-form>
-            收到的信息：{{retinfo}}
         </div>
     </div>
 </template>
@@ -29,27 +51,36 @@ export default{
             info:{
                 site_name: "",
                 site_address: "",
-                billing_level: 1,
-                demand_num: 0,
-                demand_1: "",
-                demand_2: "",
-                demand_3: "",
+                billing_level: "",
+                // demand_num: 0,
+                demands: [{
+                    value: ""
+                }],
             },
-            retinfo: "",
         }
     },
     methods:{
         Submit:function(){
-            console.log('submit!')
-            axios.post("/api/submit/", {
+            let submitinfo = {
                 site_name: this.info.site_name,
                 site_address: this.info.site_address,
-                billing_level: this.info.billing_level,
-                demand_num: this.info.demand_num,
-                demand_1: this.info.demand_1,
-                demand_2: this.info.demand_2,
-                demand_3: this.info.demand_3,
-            })
+                billing_level: parseInt(this.info.billing_level),
+                demand_num: this.info.demands.length,
+                demand_1: "",
+                demand_2: "",
+                demand_3: "",
+            }
+            if (this.info.demands.length >= 1) {
+                submitinfo.demand_1 = this.info.demands[0].value
+            }
+            if (this.info.demands.length >= 2) {
+                submitinfo.demand_2 = this.info.demands[1].value
+            }
+            if (this.info.demands.length >= 3) {
+                submitinfo.demand_3 = this.info.demands[2].value
+            }
+            console.log(submitinfo)
+            axios.post("/api/submit/", submitinfo)
             .then(response => {
                 console.log("response:",response)
                 if(response.status === 201){
@@ -63,40 +94,53 @@ export default{
                 console.log(error)
             })
         },
+        addDemand: function() {
+            this.info.demands.push({
+                value: "",
+                key: Date.now()
+            })
+        },
+        removeDemand: function(demand) {
+            let index = this.info.demands.indexOf(demand)
+            if (index !== -1) {
+                this.info.demands.splice(index, 1)
+            }
+        }
+    },
+    computed: {
+        fullDemands: function() {
+            return this.info.demands.length >= 3;
+        }
     }
+
 }
 </script>
 
 <style scoped>
-/* .register{
-    position: absolute;
-    height: 100%;
-    width: 100%;
-} */
-/* .el-header{
-    background-color: #B3C0D1;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-} */
 .el-main{
     padding: 0;
 }
-.register_form{
-    background-color: #B3C0D1;
+.submit_form {
+    /* background-color: #B3C0D1; */
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.form{
+.form {
     /* width: 40%; */
     margin-bottom: 20vh;
     background-color:white;
     border-radius: 2px;
     padding: 5% 3%;
 }
-.item{
-    width: 75%;
+.item {
+    width: 90%;
+}
+.demand_input {
+    width: 50%;
+}
+.demand_deletebtn {
+    margin-left: 30px;
 }
 </style>
