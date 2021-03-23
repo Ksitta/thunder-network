@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 import index from '@/views/index.vue'
 import login from '@/views/login.vue'
 import register from '@/views/register.vue'
@@ -8,10 +8,18 @@ import register from '@/views/register.vue'
 Vue.use(VueRouter)
 
 const routes = [
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   component: Home
+  // },
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'index',
+    component: index,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/about',
@@ -24,14 +32,17 @@ const routes = [
   {
     path: '/index',
     name: 'index',
-    component: index
+    component: index,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/login',
     name: 'login',
     component: login,
     meta: {
-      isLogin: false
+      requireAuth: false
     }
   },
   {
@@ -39,7 +50,7 @@ const routes = [
     name: 'register',
     component: register,
     meta: {
-      isLogin: false
+      requireAuth: false
     }
   }
   
@@ -52,3 +63,17 @@ const router = new VueRouter({
 })
 
 export default router
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (sessionStorage.getItem("user_token")) {
+      next()
+    } else {
+      next({
+        path: '/login'
+      })
+    }
+  } else {
+    next()
+  }
+});
