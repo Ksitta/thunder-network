@@ -134,8 +134,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 nbi_name = "campusAc01@north.com"
-nbi_pwd = "Je344E845@"
+nbi_pwd = "Fl4Th8G1A@"
 nbi_host = "139.9.213.72"
 nbi_port = "18002"
 
-# from config.local_settings import *
+try:
+    from config.local_settings import *
+except:
+    pass
