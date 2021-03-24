@@ -7,7 +7,7 @@ const store = new Vuex.Store({
 	state: {
     user_token: "" || sessionStorage.getItem('user_token'),
     user_refresh: "" || sessionStorage.getItem('user_refresh'),
-    user_name: "Unknown User" || sessionStorage.getItem('user_name')
+    user_name: "" || sessionStorage.getItem('user_name')
   },
   mutations: {
     newtoken (state, config) {
