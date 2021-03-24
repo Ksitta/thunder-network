@@ -3,11 +3,25 @@
     <el-container style="height:100%;">
       <el-header height="80px">
         <!-- Header -->
-        <img src="https://www.tsinghua.edu.cn/images/logo_1.svg" alt="logo" class="header-logo">
-        <ul class="header-operations">
+        <a href="/">
+          <img src="https://www.tsinghua.edu.cn/images/logo_1.svg" alt="logo" class="header-logo">
+        </a>
+
+      <el-dropdown @command="userCommand">
+        <span class="el-dropdown-link">
+          {{this.$store.state.user_name}}
+          <i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item icon="el-icon-edit" command="edit">修改信息</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-s-operation" command="quit">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+
+        <!-- <ul class="header-operations">
           <li>标题</li>
           <li>帮助</li>
-        </ul>
+        </ul> -->
       </el-header>
 
       <el-container>
@@ -60,6 +74,9 @@
         <el-main>
           <!-- Main -->
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
+          <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
+          <orderrequest ref="orderrequest" v-bind:show="showpage.orderrequest" v-if="showpage.orderrequest"></orderrequest>
+          
         </el-main>
       </el-container>
     </el-container>
@@ -68,34 +85,53 @@
 
 <script>
 import userhome from '@/components/userhome'
+import sitequery from '../components/sitequery.vue';
+import orderrequest from '@/components/orderrequest'
 
 export default {
   name: 'index',
 
   components: {
     userhome,
+    sitequery,
+    orderrequest,
   },
 
   data: function() {
     return {
       showpage: {
         home: true,
-
+        sitequery: false,
+        orderrequest: false
       }
     }
   },
 
   methods: {
-    menunav: function(idx) {
+    menunav: function(idx) { // menu-item 的点击事件
       console.log(idx);
       this.showpage.home = false
-
+      this.showpage.orderrequest = false
+      this.showpage.sitequery = false
       if (idx === "1") {
         this.showpage.home = true
-        this.$refs.userhome.refresh()
       }
-      // menu-item 的点击事件
+      if (idx === "2-1") {
+        this.showpage.orderrequest = true
+      }
+      if(idx === "3-1") {
+        this.showpage.sitequery = true
+      }
     },
+    userCommand: function(command) {
+      console.log(command);
+      if (command == "quit") {
+        sessionStorage.setItem('user_token', '')
+        sessionStorage.setItem('user_refresh', '')
+        sessionStorage.setItem('user_name', 'Unknown User')
+        this.$router.push({path: "/"})
+      }
+    }
   },
 
 }
@@ -133,6 +169,19 @@ export default {
   height: 60px;
   margin: 10px;
   float: left;
+}
+
+.el-dropdown{
+  float: right;
+  margin-right: 20px;
+  /* line-height: 80px; */
+  margin-top: 32px;
+  font-size: 16px;
+}
+
+.el-dropdown-link{
+  color: white;
+  cursor: pointer;
 }
 
 </style>

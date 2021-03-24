@@ -58,19 +58,22 @@ export default{
                 this.$message.error("请选择身份！")
                 return
             }else{
-                axios.post("/api/profile/",{
+                axios.post("/api/user/token/",{
                     username: this.user.name,
                     password: this.user.password, //明文传输密码
-                    // identity:this.user.identity
                 })
                 .then(response => {   
                     console.log("response.status:", response)
-                    if(response.status === 201){
+                    if(response.status === 200){
+                        this.$store.commit('newtoken', {
+                            username: this.user.name,
+                            access: response.data.access,
+                            refresh: response.data.refresh,
+                        })
                         this.$router.push({path: "/index"})
-                    }else{
-                        alert("您输入的用户名或密码错误！")
                     }
                 }).catch(error => {
+                    this.$message.error("您输入的用户名或密码错误！")
                     console.log(error)
                 })
             }
