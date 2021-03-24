@@ -87,7 +87,7 @@ export default {
     return {
       showpage: {
         home: true,
-        sitequery: true,
+        sitequery: false,
         orderrequest: false
       }
     }
