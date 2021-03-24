@@ -3,11 +3,25 @@
     <el-container style="height:100%;">
       <el-header height="80px">
         <!-- Header -->
-        <img src="https://www.tsinghua.edu.cn/images/logo_1.svg" alt="logo" class="header-logo">
-        <ul class="header-operations">
+        <a href="/">
+          <img src="https://www.tsinghua.edu.cn/images/logo_1.svg" alt="logo" class="header-logo">
+        </a>
+
+      <el-dropdown @command="userCommand">
+        <span class="el-dropdown-link">
+          {{this.$store.state.user_name}}
+          <i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item icon="el-icon-edit" command="edit">修改信息</el-dropdown-item>
+          <el-dropdown-item icon="el-icon-s-operation" command="quit">退出登录</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+
+        <!-- <ul class="header-operations">
           <li>标题</li>
           <li>帮助</li>
-        </ul>
+        </ul> -->
       </el-header>
 
       <el-container>
@@ -94,7 +108,7 @@ export default {
   },
 
   methods: {
-    menunav: function(idx) {
+    menunav: function(idx) { // menu-item 的点击事件
       console.log(idx);
       this.showpage.home = false
       this.showpage.orderrequest = false
@@ -108,8 +122,16 @@ export default {
       if(idx === "3-1") {
         this.showpage.sitequery = true
       }
+    },
+    userCommand: function(command) {
+      console.log(command);
+      if (command == "quit") {
+        sessionStorage.setItem('user_token', '')
+        sessionStorage.setItem('user_refresh', '')
+        sessionStorage.setItem('user_name', 'Unknown User')
+        this.$router.push({path: "/"})
+      }
     }
-      // menu-item 的点击事件
   },
 
 }
@@ -147,6 +169,19 @@ export default {
   height: 60px;
   margin: 10px;
   float: left;
+}
+
+.el-dropdown{
+  float: right;
+  margin-right: 20px;
+  /* line-height: 80px; */
+  margin-top: 32px;
+  font-size: 16px;
+}
+
+.el-dropdown-link{
+  color: white;
+  cursor: pointer;
 }
 
 </style>
