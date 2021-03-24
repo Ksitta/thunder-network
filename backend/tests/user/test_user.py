@@ -37,8 +37,6 @@ class UserModelTests(TestCase):
         response = self.client.post('/api/user/token/', data=data, content_type="application/json")
         self.assertEqual(response.status_code, 401)
 
-    def test_3_assert(self):
-        self.assertEqual(1, 1)
 
 class ViewTests(TestCase):
     def test_index(self):
