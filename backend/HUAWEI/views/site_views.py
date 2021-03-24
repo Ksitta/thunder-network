@@ -12,7 +12,7 @@ class SiteListView(APIView):
     queryset = Site.objects.all()
     permission_classes = [IsAuthenticated]
     def get(self, request):
-        sites = Site.objects.filter(user=request.user.pk)
+        sites = Site.objects.filter(user=self.request.user)
         serializer = SiteDetailSerializer(instance=sites, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -56,4 +56,4 @@ class SiteDetailView(APIView):
 
         # 删除流量表 待完成
 
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)

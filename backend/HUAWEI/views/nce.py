@@ -27,11 +27,7 @@ def get_token():
     r = requests.post(post_token_url, headers=token_headers, json={"userName": nbi_name, "password": nbi_pwd},
                       verify=False)
     # 解析token_id
-    print(r.text)
     token_id = r.json()['data']['token_id']
-    print("1.【Get Token Id】")
-    print("【post_token_url】：" + post_token_url)
-    print("【token_id】：" + token_id)
     return token_id
 
 headers = {'Content-Type': APPJSON, 'Accept': APPJSON, 'X-AUTH-TOKEN': get_token()}
@@ -50,11 +46,14 @@ def create_site(name):
     }
     r = requests.post(post_sites_url, headers=headers, json=data, verify=False)
     # 解析站点信息
-    print("2.【Post Sites】")
-    print("【post_sites_url】：" + post_sites_url)
-    body = r.json()["success"]
-    print("【success】：" + str(body[0]['id']))
-    return body[0]['id']
+    print("【Post Sites】")
+    try:
+        body = r.json()["success"]
+        site_id = body[0]['id']
+    except IndexError:
+        return IndexError
+    print("【success】：" + str(site_id))
+    return site_id
 
 # 限定为id精准查找
 def get_site(id):

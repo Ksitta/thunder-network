@@ -19,13 +19,16 @@ class SubmitOrderView(APIView):
         """
         # 与华为交互 创建Site
           ### 获取site_id
-        newsiteid = create_site(str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        create_site_response = create_site(str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        if create_site_response == IndexError:
+            return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
+        new_site_id = create_site_response
           ### 创建站点ssid 待完成
 
         # 在数据库中更新Site表
         item = {'status': 1,
                 'user': self.request.user.pk,
-                'site_id': newsiteid}
+                'site_id': new_site_id}
         data.update(item)
 
         serializer = SiteSerializer(data=data)
@@ -37,7 +40,7 @@ class SubmitOrderView(APIView):
         # 与华为交互 创建设备 待完成
 
         # 在数据库中更新设备
-        new_site = Site.objects.get(site_id=newsiteid)
+        new_site = Site.objects.get(site_id=new_site_id)
         eq_data1 = {
             'eq_id': "111",
             'site': new_site.pk,

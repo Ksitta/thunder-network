@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="3.475" timestamp="2021-03-23T10:12:37.753181" hostname="LAPTOP-8L0NEK04"><testcase classname="" name="tests.user.test_user" time="0.000"><error message="collection failure">tests\user\test_user.py:2: in &lt;module&gt;
+    from HUAWEI.models import User
+HUAWEI\models.py:2: in &lt;module&gt;
+    from django.contrib.auth.models import AbstractUser
+c:\users\huawei\miniconda3\lib\site-packages\django\contrib\auth\models.py:2: in &lt;module&gt;
+    from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+c:\users\huawei\miniconda3\lib\site-packages\django\contrib\auth\base_user.py:48: in &lt;module&gt;
+    class AbstractBaseUser(models.Model):
+c:\users\huawei\miniconda3\lib\site-packages\django\db\models\base.py:108: in __new__
+    app_config = apps.get_containing_app_config(module)
+c:\users\huawei\miniconda3\lib\site-packages\django\apps\registry.py:252: in get_containing_app_config
+    self.check_apps_ready()
+c:\users\huawei\miniconda3\lib\site-packages\django\apps\registry.py:134: in check_apps_ready
+    settings.INSTALLED_APPS
+c:\users\huawei\miniconda3\lib\site-packages\django\conf\__init__.py:83: in __getattr__
+    self._setup(name)
+c:\users\huawei\miniconda3\lib\site-packages\django\conf\__init__.py:64: in _setup
+    raise ImproperlyConfigured(
+E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.</error></testcase></testsuite></testsuites>
