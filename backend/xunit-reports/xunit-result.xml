@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="3.475" timestamp="2021-03-23T10:12:37.753181" hostname="LAPTOP-8L0NEK04"><testcase classname="" name="tests.user.test_user" time="0.000"><error message="collection failure">tests\user\test_user.py:2: in &lt;module&gt;
     from HUAWEI.models import User
 HUAWEI\models.py:2: in &lt;module&gt;
@@ -17,3 +18,6 @@ c:\users\huawei\miniconda3\lib\site-packages\django\conf\__init__.py:83: in __ge
 c:\users\huawei\miniconda3\lib\site-packages\django\conf\__init__.py:64: in _setup
     raise ImproperlyConfigured(
 E   django.core.exceptions.ImproperlyConfigured: Requested setting INSTALLED_APPS, but settings are not configured. You must either define the environment variable DJANGO_SETTINGS_MODULE or call settings.configure() before accessing settings.</error></testcase></testsuite></testsuites>
+=======
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="4" time="10.436" timestamp="2021-03-23T22:17:09.501270" hostname="DESKTOP-VQ01I9A"><testcase classname="tests.user.test_user.UserModelTests" name="test_1_register" time="9.270" /><testcase classname="tests.user.test_user.UserModelTests" name="test_2_login" time="0.315" /><testcase classname="tests.user.test_user.UserModelTests" name="test_3_assert" time="0.043" /><testcase classname="tests.user.test_user.ViewTests" name="test_index" time="0.317" /></testsuite></testsuites>
+>>>>>>> 7ec528e82c1be40435bb1c0291f69211ef4f7f8a

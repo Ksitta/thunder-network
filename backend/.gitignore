@@ -1,3 +1,5 @@
 config.txt
 /.idea
+.coverage
+/xunit-reports
 local_settings.py
