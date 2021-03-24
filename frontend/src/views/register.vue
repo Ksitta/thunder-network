@@ -166,10 +166,9 @@ export default{
                         console.log("response:",response)
                         if(response.status === 201){
                             this.$router.push({path: "/login"})
-                        }else{
-                            alert("您输入的用户名已存在！")
                         }
                     }).catch (error => {
+                        alert("您输入的用户名已存在！")
                         console.log(error)
                     })
                 }else{
