@@ -91,7 +91,7 @@ export default{
                 return callback(new Error("密码不可为空！"))
             }
             else if(!passReg.test(value)) {
-                callback(new Error("密码长度在6~18之间,需包含大小写字母、数字和下划线"))
+                callback(new Error("密码长度在6~18之间,只能包含大小写字母、数字和下划线"))
             }else{
                 if(this.cpassword !== "") {
                     this.$refs.form.validateField("cpassword") 
