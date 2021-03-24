@@ -129,7 +129,7 @@ export default {
         sessionStorage.setItem('user_token', '')
         sessionStorage.setItem('user_refresh', '')
         sessionStorage.setItem('user_name', '')
-        this.$router.push({path: "/"})
+        this.$router.push({path: "/login"})
       }
     }
   },

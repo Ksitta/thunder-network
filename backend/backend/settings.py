@@ -73,8 +73,8 @@ ROOT_URLCONF = 'backend.urls'
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=3600),
+    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=20000),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
 
@@ -162,7 +162,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 nbi_name = "campusAc01@north.com"
-nbi_pwd = "Yo6QBZp8Y@"
+nbi_pwd = "Yq6rzE24m@"
 nbi_host = "139.9.213.72"
 nbi_port = "18002"
 

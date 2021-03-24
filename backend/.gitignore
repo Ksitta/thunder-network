@@ -3,3 +3,4 @@ config.txt
 .coverage
 /xunit-reports
 local_settings.py
+/.pytest_cache

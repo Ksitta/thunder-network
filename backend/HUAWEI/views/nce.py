@@ -44,6 +44,7 @@ def create_site(name):
     data = {
         "sites": [{"name": name}]
     }
+    headers = {'Content-Type': APPJSON, 'Accept': APPJSON, 'X-AUTH-TOKEN': get_token()}
     r = requests.post(post_sites_url, headers=headers, json=data, verify=False)
     # 解析站点信息
     print("【Post Sites】")

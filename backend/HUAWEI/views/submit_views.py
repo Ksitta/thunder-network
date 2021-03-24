@@ -42,13 +42,13 @@ class SubmitOrderView(APIView):
         # 在数据库中更新设备
         new_site = Site.objects.get(site_id=new_site_id)
         eq_data1 = {
-            'eq_id': "111",
+            'eq_id': str(new_site.pk) + "111",
             'site': new_site.pk,
             'eq_name': "ap1",
             'eq_status': 1
         }
         eq_data2 = {
-            'eq_id': "222",
+            'eq_id': str(new_site.pk) + "222",
             'site': new_site.pk,
             'eq_name': "ap2",
             'eq_status': 1
