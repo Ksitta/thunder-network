@@ -21,12 +21,12 @@ WORKDIR $HOME
 COPY backend/requirements.txt $HOME
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
-COPY backend $HOME
+COPY backend/ $HOME
 
 COPY --from=0 /opt/frontend/dist frontend/dist
 
-EXPOSE 8080
-ENV NUXT_PORT=8080
+EXPOSE 80
+ENV NUXT_PORT=80
 ENV NUXT_HOST=0.0.0.0
 
 ENV PYTHONUNBUFFERED=true
