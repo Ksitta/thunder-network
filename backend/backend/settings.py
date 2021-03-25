@@ -162,7 +162,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 nbi_name = "campusAc01@north.com"
-nbi_pwd = "Yq6rzE24m@"
+nbi_pwd = "Mo7ZHP96b@"
 nbi_host = "139.9.213.72"
 nbi_port = "18002"
 
