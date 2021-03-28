@@ -30,7 +30,7 @@ def get_token():
     token_id = r.json()['data']['token_id']
     return token_id
 
-headers = {'Content-Type': APPJSON, 'Accept': APPJSON, 'X-AUTH-TOKEN': get_token()}
+#headers = {'Content-Type': APPJSON, 'Accept': APPJSON, 'X-AUTH-TOKEN': get_token()}
 
 """
 以下为站点创建、查询和删除的请求函数
