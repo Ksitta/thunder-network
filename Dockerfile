@@ -1,7 +1,4 @@
-FROM python:3.8.5
 FROM node:12.18.3
-
-RUN apt-get update
 
 RUN npm config set registry https://registry.npm.taobao.org
 
@@ -16,19 +13,20 @@ RUN npm install
 COPY frontend/ $FRONTEND
 RUN npm run build
 
+FROM python:3.8.5
+
 ENV HOME=/opt/app
 WORKDIR $HOME
 
-# COPY backend/requirements.txt $HOME
-# RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+COPY backend/requirements.txt $HOME
+RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
-# COPY backend $HOME/backend
-# COPY config $HOME/config
+COPY backend/ $HOME
 
-# RUN cp -r /opt/frontend $HOME/frontend
+COPY --from=0 /opt/frontend/dist frontend/dist
 
-# EXPOSE 80
-# ENV NUXT_PORT=80
-# ENV NUXT_HOST=0.0.0.0
+EXPOSE 80
 
-# ENV PYTHONUNBUFFERED=true
+ENV PYTHONUNBUFFERED=true
+
+CMD ["/bin/sh", "config/run.sh"]

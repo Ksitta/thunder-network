@@ -9,7 +9,7 @@
 
       <el-dropdown @command="userCommand">
         <span class="el-dropdown-link">
-          {{this.$store.state.user_name}}
+          {{getUsername}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -128,11 +128,18 @@ export default {
       if (command == "quit") {
         sessionStorage.setItem('user_token', '')
         sessionStorage.setItem('user_refresh', '')
-        sessionStorage.setItem('user_name', 'Unknown User')
-        this.$router.push({path: "/"})
+        sessionStorage.setItem('user_name', '')
+        this.$router.push({path: "/login"})
       }
     }
   },
+
+  computed: {
+    getUsername: function() {
+      let name = this.$store.state.user_name;
+      return name ? name : "Unknown User";
+    }
+  }
 
 }
 </script>

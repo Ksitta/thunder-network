@@ -45,64 +45,11 @@ export default{
     },
     data(){
         return{
-            unfinished_data: [{
-                    site_index: 0,
-                    site_name: "site1",
-                    site_address: "清华大学",
-                    billing_level: '包月',
-                    demand_1: "Visitor",
-                    demand_2: "Management",
-                    demand_3: "",
-                },
-                {
-                    site_index: 1,
-                    site_name: "site2",
-                    site_address: "清华大学",
-                    billing_level: '包年',
-                    demand_1: "Guest",
-                    demand_2: "Management",
-                    demand_3: "",
-                }
-            ],
-            finished_data: [{
-                    site_index: 2,
-                    site_name: "site1",
-                    site_address: "清华大学",
-                    billing_level: '包月',
-                    demand_1: "Visitor",
-                    demand_2: "Management",
-                    demand_3: "",
-                },
-                {
-                    site_index: 3,
-                    site_name: "site2",
-                    site_address: "清华大学",
-                    billing_level: '包年',
-                    demand_1: "Guest",
-                    demand_2: "Management",
-                    demand_3: "",
-                }
-            ],
+            unfinished_data: [],
+            finished_data: [],
             unfinished_search: '',
             finished_search: '',
-            siteinfo:{
-                    site_name: 'site1',
-                    site_address: '清华大学',
-                    billing_level: '包月',
-                    demand_num: 2,
-                    demand_1: 'Guest',
-                    demand_2: 'Management',
-                    demand_3: '无',
-                    status: '未处理',
-                    eqs: [{
-                        eq_name: 'ap1',
-                        eq_status: '已部署',
-                    },
-                    {
-                        eq_name: 'ap2',
-                        eq_status: '未部署'
-                    }]
-            },
+            siteinfo:{site_address:""},
             SiteDialog:{
                 dialogVisible: false
             }
@@ -111,7 +58,7 @@ export default{
     created(){
         axios.get('/api/site/')
         .then((response)=>{
-            var res = response.data.data
+            var res = response.data
             var i = 0
             for(let item of res){
                 if(item.status == 1){
@@ -143,10 +90,12 @@ export default{
         showDialog: function(row){
             this.SiteDialog.dialogVisible = true
             var pk = row.site_index
+            console.log(pk)
             var path = "/api/site/" + pk + "/"
             axios.get(path)
             .then((response)=>{
-                var res=response.data.data
+                var res=response.data
+                console.log(res)
                 this.siteinfo.site_name = res.site_name
                 this.siteinfo.site_address = res.site_address
                 this.siteinfo.billing_level = (res.billing_level == 1)? '包月' : '包年'
@@ -156,12 +105,14 @@ export default{
                 this.siteinfo.demand_3 = (res.demand_3 == '')? '无' : res.demand_3
                 this.siteinfo.status = (res.status == 1)? '未处理':'处理'
                 var eqs = res.eqs
+                this.siteinfo.eqs = []
                 for(let item of eqs){
                     this.siteinfo.eqs.push({
                         eq_name: item.eq_name,
                         eq_status: (item.eq_status == 1)? '已部署' : '未部署'
                     })
                 }
+                console.log(this.siteinfo)
             })
 
         },

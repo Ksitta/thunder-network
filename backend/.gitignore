@@ -1,2 +1,7 @@
-config.txt
+/config
 /.idea
+.coverage
+/xunit-reports
+local_settings.py
+/.pytest_cache
+/coverage-reports

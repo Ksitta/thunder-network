@@ -19,7 +19,7 @@
 
                 <el-form-item
                 v-for="(demand, index) in info.demands"
-                :label="'网络需求' + index"
+                :label="'网络需求' + (index + 1)"
                 :key="demand.key"
                 >
                 <!-- :prop="'domains.' + index + '.value'"> -->

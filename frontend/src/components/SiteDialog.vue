@@ -65,28 +65,22 @@ export default{
             type: Object,
             default: () => {
                 return {
-                    site_name: 'site1',
-                    site_address: '清华大学',
-                    billing_level: '包月',
-                    demand_num: 2,
-                    demand_1: 'Guest',
-                    demand_2: 'Management',
+                    site_name: '',
+                    site_address: '',
+                    billing_level: '',
+                    demand_num: 0,
+                    demand_1: '',
+                    demand_2: '',
                     demand_3: '',
-                    status: '未处理',
-                    eqs: [{
-                        eq_name: 'ap1',
-                        eq_status: '已部署',
-                    },
-                    {
-                        eq_name: 'ap2',
-                        eq_status: '未部署'
-                    }]
+                    status: '',
+                    eqs: []
                 }
             }
         }
     },
     methods: {
         cancel:function(){
+            console.log(this.siteinfo)
             this.$emit('Dialog_cancel')
         }
     }
