@@ -170,3 +170,6 @@ try:
     from config.local_settings import *
 except:
     pass
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATICFILES_DIR = os.path.join(BASE_DIR, 'frontend', 'dist')

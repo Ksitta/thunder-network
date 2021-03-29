@@ -26,8 +26,6 @@ COPY backend/ $HOME
 COPY --from=0 /opt/frontend/dist frontend/dist
 
 EXPOSE 80
-ENV NUXT_PORT=80
-ENV NUXT_HOST=0.0.0.0
 
 ENV PYTHONUNBUFFERED=true
 

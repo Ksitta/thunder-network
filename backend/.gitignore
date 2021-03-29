@@ -1,4 +1,4 @@
-config.txt
+/config
 /.idea
 .coverage
 /xunit-reports
