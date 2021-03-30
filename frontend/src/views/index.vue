@@ -4,7 +4,7 @@
       <el-header height="80px">
         <!-- Header -->
         <a href="/">
-          <img src="https://www.tsinghua.edu.cn/images/logo_1.svg" alt="logo" class="header-logo">
+          <img src="web-logo.png" alt="logo" class="header-logo">
         </a>
 
       <el-dropdown @command="userCommand">
