@@ -1,0 +1,26 @@
+[
+	{
+		"model": "HUAWEI.user",
+		"pk": 1,
+		"fields": {
+            "username": "client_1",
+            "password": "client1",
+            "email": "client1@thunder.com",
+            "contact_details": "13900000000",
+            "contact_email": "123@163.com",
+            "contact_address": "2132131241234"
+		}
+	},
+	{
+		"model": "HUAWEI.user",
+		"pk": 2,
+		"fields": {
+            "username": "client_2",
+            "password": "client2",
+            "email": "client1@thunder.com",
+            "contact_details": "13900000000",
+            "contact_email": "123@163.com",
+            "contact_address": "2132131241234"
+		}
+	}
+]
