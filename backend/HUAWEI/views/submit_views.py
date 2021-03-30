@@ -7,6 +7,7 @@ from HUAWEI.serializers import SiteSerializer, EquipmentSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from HUAWEI.views.nce import create_site
 from copy import deepcopy
+import time
 
 class SubmitOrderView(APIView):
     queryset = Site.objects.all()
@@ -19,11 +20,11 @@ class SubmitOrderView(APIView):
         """
         # 与华为交互 创建Site
           ### 获取site_id
-        #create_site_response = create_site(str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
-        #if create_site_response == IndexError:
-        #    return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
-        #new_site_id = create_site_response
-        new_site_id = str(self.request.user.pk)+"-"+"site"
+        create_site_response = create_site(str(self.request.user.username) + str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        if create_site_response == IndexError:
+            return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
+        new_site_id = create_site_response
+        # new_site_id = str(self.request.user.pk)+"-"+"site"
           ### 创建站点ssid 待完成
 
         # 在数据库中更新Site表

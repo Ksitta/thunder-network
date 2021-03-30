@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment
 from HUAWEI.serializers import SiteDetailSerializer, EquipmentDetailSerializer
 from rest_framework.permissions import IsAuthenticated
-from HUAWEI.views.nce import delete_site
+# from HUAWEI.views.nce import delete_site
 from copy import copy
 
 class SiteListView(APIView):
@@ -46,14 +46,16 @@ class SiteDetailView(APIView):
         eqs = Equipment.objects.filter(site=thesite.pk)
 
         # 与华为交互 删除站点
-        # delete_site(thesite.site_id)
+        # print("thesite.site_id: ", thesite.site_id)
+        # delete_site_site_response = delete_site(thesite.site_id)
+        # if delete_site_site_response == False:
+        #     return Response(status=status.HTTP_400_BAD_REQUEST)
         # 从数据库中删除
         thesite.delete()
         # 与华为交互 删除设备 待完成
 
         # 从数据库中删除
         eqs.delete()
-
         # 删除流量表 待完成
 
         return Response(status=status.HTTP_204_NO_CONTENT)

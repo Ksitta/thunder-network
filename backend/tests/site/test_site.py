@@ -2,10 +2,8 @@ from django.test import TestCase
 from http import HTTPStatus
 from django.urls import reverse
 from tests.utils import TestClient as Client
-#from rest_framework.test import APIClient as Client
 from rest_framework import status
-from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient
+import time
 from HUAWEI.models import User, Site
 
 # Include an appropriate `Authorization:` header on all requests.
@@ -16,17 +14,19 @@ class TestSite(TestCase):
         'username': 'client1',
         'password': 'client1'
     }
-
-    bad_site = {
-        'site_name': 'site2',
+    
+    site = {
+        'site_name': str(time.time()),
         'site_address': '清华大学',
         'billing_level': 1,
         'demand_num': 2,
-        'demand_1': 'Guest'
+        'demand_1': 'Guest',
+        'demand_2': 'Management',
+        'demand_3': '',
     }
-    
-    site = {
-        'site_name': 'site2',
+
+    bad_site = {
+        'site_name': site['site_name'],
         'site_address': '清华大学',
         'billing_level': 1,
         'demand_num': 2,
@@ -50,6 +50,7 @@ class TestSite(TestCase):
         assert client.post(reverse('submit'), data=self.site).status_code == status.HTTP_401_UNAUTHORIZED
         client.login(**self.user)
         assert client.post(reverse('submit'), data=self.site).status_code == status.HTTP_201_CREATED
+        # print("hhhhhhhhhhhhhhh: ", client.post(reverse('submit'), data=self.bad_site).status_code)
         assert client.post(reverse('submit'), data=self.bad_site).status_code == status.HTTP_400_BAD_REQUEST
 
     def test_get_site_detail(self):
@@ -67,7 +68,5 @@ class TestSite(TestCase):
         assert client.delete(reverse('site_detail',
                           args=[self.detail_pk])).status_code == HTTPStatus.UNAUTHORIZED
         client.login(**self.user)
-        assert client.delete(reverse('site_detail',
-                          args=[self.bad_detail_pk])).status_code == status.HTTP_400_BAD_REQUEST
         assert client.delete(reverse('site_detail',
                           args=[self.detail_pk])).status_code == status.HTTP_204_NO_CONTENT

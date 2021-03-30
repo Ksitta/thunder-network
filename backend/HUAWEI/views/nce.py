@@ -18,11 +18,12 @@ RATE_URL = "/controller/campus/v1/performanceservice/basicperformance/networktra
 SITE_TERMINAL_URL = "/controller/campus/v1/performanceservice/basicperformance/station/sites/"
 DEVICE_TERMINAL_URL = "/controller/campus/v1/performanceservice/basicperformance/station/device/"
 
+base_headers = {'Content-Type': APPJSON, 'Accept': APPJSON}
 
 def get_token():
     # 配置URL和Headers
     post_token_url = HTTPS + nbi_host + ":" + nbi_port + POST_TOKEN_URL
-    token_headers = {'Content-Type': APPJSON, 'Accept': APPJSON}
+    token_headers = base_headers
     # 发起请求，添加Json格式数据
     r = requests.post(post_token_url, headers=token_headers, json={"userName": nbi_name, "password": nbi_pwd},
                       verify=False)
@@ -30,7 +31,6 @@ def get_token():
     token_id = r.json()['data']['token_id']
     return token_id
 
-#headers = {'Content-Type': APPJSON, 'Accept': APPJSON, 'X-AUTH-TOKEN': get_token()}
 
 """
 以下为站点创建、查询和删除的请求函数
@@ -44,7 +44,8 @@ def create_site(name):
     data = {
         "sites": [{"name": name}]
     }
-    headers = {'Content-Type': APPJSON, 'Accept': APPJSON, 'X-AUTH-TOKEN': get_token()}
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
     r = requests.post(post_sites_url, headers=headers, json=data, verify=False)
     # 解析站点信息
     print("【Post Sites】")
@@ -57,34 +58,45 @@ def create_site(name):
     return site_id
 
 # 限定为id精准查找
-def get_site(id):
-    # 配置URL和Headers
-    get_sites_url = HTTPS + nbi_host + ":" + nbi_port + GET_SITES_URL
-    # 发起请求
-    data = {
-        "id": id
-    }
-    r = requests.get(get_sites_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("3.【Get Sites Info】")
-    print("【get_sites_url】：" + get_sites_url)
-    print(r.text)
-    # 未写返回值
+# def get_site(id):
+#     # 配置URL和Headers
+#     get_sites_url = HTTPS + nbi_host + ":" + nbi_port + GET_SITES_URL
+#     # 发起请求
+#     data = {
+#         "id": id
+#     }
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.get(get_sites_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("3.【Get Sites Info】")
+#     print("【get_sites_url】：" + get_sites_url)
+#     print(r.text)
+#     # 未写返回值
 
 # 限定为删除单个站点
-def delete_site(id):
-    # 配置URL和Headers
-    delete_sites_url = HTTPS + nbi_host + ":" + nbi_port + SITES_URL
-    # 发起请求
-    data = {
-        "ids": [id]
-    }
-    r = requests.delete(delete_sites_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("4.【Delete Sites】")
-    print("【delete_sites_url】：" + delete_sites_url)
-    print(r.text)
-    #未写返回值
+# def delete_site(id):
+#     # 配置URL和Headers
+#     delete_sites_url = HTTPS + nbi_host + ":" + nbi_port + SITES_URL
+#     # 发起请求
+#     data = {
+#         "ids": [id]
+#     }
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.delete(delete_sites_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("4.【Delete Sites】")
+#     print("【delete_sites_url】：" + delete_sites_url)
+#     try:
+#         body = r.json()["success"]
+#     except KeyError:
+#         print("EEEEEEEEEEEERROR!")
+#         print(r.text)
+#         return False
+#     print("【success】：" + str(body))
+#     return True
+#     #未写返回值
 
 """
 以下为设备创建、查询和删除的请求函数
@@ -110,7 +122,8 @@ def create_device(name, site_id):
             }
         ]
     }
-
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
     r = requests.post(post_devices_url, headers=headers, json=data, verify=False)
     # 解析站点信息
     print("5.【Post Devices】")
@@ -126,6 +139,8 @@ def get_device(site_id):
     data = {
         "siteid": site_id
     }
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
     r = requests.get(get_devices_url, headers=headers, json=data, verify=False)
     # 解析站点信息
     print("6.【Get Devices Info】")
@@ -142,6 +157,8 @@ def delete_device(device_id):
         "deviceIds": [device_id]
         #"reset": "true"
     }
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
     r = requests.delete(delete_devices_url, headers=headers, json=data, verify=False)
     # 解析站点信息
     print("7.【Delete Devices】")
@@ -175,7 +192,8 @@ def create_ssid(site_id, name):
         },
         "ssidPolicy": {}
     }
-
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
     r = requests.post(post_ssid_url, headers=headers, json=data, verify=False)
     # 解析站点信息
     print("8.【Post SSID】")
@@ -188,6 +206,8 @@ def get_ssid(site_id):
     # 配置URL和Headers
     get_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
     # 发起请求
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
     r = requests.get(get_ssid_url, headers=headers, verify=False)
     # 解析站点信息
     print("9.【Get SSID Info】")
@@ -204,6 +224,8 @@ def delete_ssid(site_id, ssid_id):
         "ids": [ssid_id]
         #"reset": "true"
     }
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
     r = requests.delete(delete_ssid_url, headers=headers, json=data, verify=False)
     # 解析站点信息
     print("10.【Delete SSID】")
@@ -214,56 +236,56 @@ def delete_ssid(site_id, ssid_id):
 """
 以下为查询速率、终端数的请求函数
 """
-
-def get_rate(mode, id, time_dimension, begin_time, end_time):
-    # 配置URL和Headers
-    get_rate_url = HTTPS + nbi_host + ":" + nbi_port + RATE_URL
-    # 发起请求
-    data = {
-        "mode": mode,
-        "id": id,
-        "timeDimension": time_dimension,
-        "beginTime": begin_time,
-        "endTime": end_time
-    }
-    r = requests.get(get_rate_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("11.【Get Rate Info】")
-    print("【get_rate_url】：" + get_rate_url)
-    print(r.text)
-    # 未写返回值
-
-# 限定为全部设备的终端数
-def get_site_terminal(site_id, time_dimension, begin_time, end_time):
-    # 配置URL和Headers
-    get_site_terminal_url = HTTPS + nbi_host + ":" + nbi_port + SITE_TERMINAL_URL + site_id
-    # 发起请求
-    data = {
-        "timeDimension": time_dimension,
-        "beginTime": begin_time,
-        "endTime": end_time,
-        "deviceType": "ALL"
-    }
-    r = requests.get(get_site_terminal_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("12.【Get Site Terminal Info】")
-    print("【get_site_terminal_url】：" + get_site_terminal_url)
-    print(r.text)
-    # 未写返回值
-
-# 限定为全部设备的终端数
-def get_device_terminal(device_id, time_dimension, begin_time, end_time):
-    # 配置URL和Headers
-    get_device_terminal_url = HTTPS + nbi_host + ":" + nbi_port + DEVICE_TERMINAL_URL + device_id
-    # 发起请求
-    data = {
-        "timeDimension": time_dimension,
-        "beginTime": begin_time,
-        "endTime": end_time,
-    }
-    r = requests.get(get_device_terminal_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("13.【Get Device Terminal Info】")
-    print("【get_device_terminal_url】：" + get_device_terminal_url)
-    print(r.text)
-    # 未写返回值
+#
+# def get_rate(mode, id, time_dimension, begin_time, end_time):
+#     # 配置URL和Headers
+#     get_rate_url = HTTPS + nbi_host + ":" + nbi_port + RATE_URL
+#     # 发起请求
+#     data = {
+#         "mode": mode,
+#         "id": id,
+#         "timeDimension": time_dimension,
+#         "beginTime": begin_time,
+#         "endTime": end_time
+#     }
+#     r = requests.get(get_rate_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("11.【Get Rate Info】")
+#     print("【get_rate_url】：" + get_rate_url)
+#     print(r.text)
+#     # 未写返回值
+#
+# # 限定为全部设备的终端数
+# def get_site_terminal(site_id, time_dimension, begin_time, end_time):
+#     # 配置URL和Headers
+#     get_site_terminal_url = HTTPS + nbi_host + ":" + nbi_port + SITE_TERMINAL_URL + site_id
+#     # 发起请求
+#     data = {
+#         "timeDimension": time_dimension,
+#         "beginTime": begin_time,
+#         "endTime": end_time,
+#         "deviceType": "ALL"
+#     }
+#     r = requests.get(get_site_terminal_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("12.【Get Site Terminal Info】")
+#     print("【get_site_terminal_url】：" + get_site_terminal_url)
+#     print(r.text)
+#     # 未写返回值
+#
+# # 限定为全部设备的终端数
+# def get_device_terminal(device_id, time_dimension, begin_time, end_time):
+#     # 配置URL和Headers
+#     get_device_terminal_url = HTTPS + nbi_host + ":" + nbi_port + DEVICE_TERMINAL_URL + device_id
+#     # 发起请求
+#     data = {
+#         "timeDimension": time_dimension,
+#         "beginTime": begin_time,
+#         "endTime": end_time,
+#     }
+#     r = requests.get(get_device_terminal_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("13.【Get Device Terminal Info】")
+#     print("【get_device_terminal_url】：" + get_device_terminal_url)
+#     print(r.text)
+#     # 未写返回值
