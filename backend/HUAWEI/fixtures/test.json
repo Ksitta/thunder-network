@@ -9,5 +9,21 @@
             "contact_email": "123@163.com",
             "contact_address": "2132131241234"
 		}
+	},
+	{
+		"model": "HUAWEI.site",
+		"pk": 1,
+		"fields": {
+			"user": 1,
+			"site_name": "site1",
+			"site_address": "清华大学",
+			"billing_level": 1,
+			"demand_num": 2,
+			"demand_1": "Guest",
+			"demand_2": "Management",
+			"demand_3": "",
+			"status": 1
+		}
 	}
+
 ]
