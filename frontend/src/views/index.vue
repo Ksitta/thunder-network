@@ -71,7 +71,7 @@
 
         </el-aside>
 
-        <el-main>
+        <el-main class="loading-area">
           <!-- Main -->
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>

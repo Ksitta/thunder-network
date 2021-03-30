@@ -192,7 +192,7 @@ export default{
                             this.$router.push({path: "/login"})
                         }
                     }).catch (error => {
-                        alert("您输入的用户名已存在！")
+                        alert("error submit!")
                         console.log(error)
                     })
                 }else{
@@ -224,7 +224,8 @@ export default{
                 document.getElementById("two").style.background = "#F9AE35"
             }else{
                 document.getElementById("two").style.background = "#F6F6FA"
-            }if(scale == 4) {
+            }
+            if(scale == 4) {
                 this.msgText = '强'
                 document.getElementById("three").style.background = "#2DAF7D"
             }else{

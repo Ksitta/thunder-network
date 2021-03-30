@@ -31,4 +31,10 @@ body {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.el-loading-spinner{
+  font-size: 40px;
+
+}
+
 </style>
