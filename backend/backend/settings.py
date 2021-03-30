@@ -173,3 +173,4 @@ except:
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATICFILES_DIR = os.path.join(BASE_DIR, 'frontend', 'dist')
+# FIXTURE_DIRS = (os.path.join(BASE_DIR,'fixtures',),)

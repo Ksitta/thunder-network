@@ -27,7 +27,6 @@ build:
   before_script:
     - cd backend/
     - pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements_dev.txt
-    - python manage.py loadtestdata
     - cd ../frontend/
     - npm config set registry https://registry.npm.taobao.org
     - npm install

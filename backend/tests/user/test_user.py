@@ -1,5 +1,7 @@
 from django.test import TestCase
 from HUAWEI.models import User
+from django.urls import reverse
+from rest_framework import status
 import json
 from tests.utils import TestClient
 
@@ -8,10 +10,17 @@ class UserModelTests(TestCase):
     token: str
     new_client: TestClient
 
+    fixtures = ['test.json']
+
+    user = {
+        'username': 'client1',
+        'password': 'client1'
+    }
+
     def setUp(self):
         self.new_client = TestClient()
 
-    def test_register(self):
+    def test_1_register(self):
         data = {
             "username": "test",
             "password": "123456",
@@ -25,7 +34,8 @@ class UserModelTests(TestCase):
         response = self.new_client.post('/api/user/register/', data=data, content_type="application/json")
         self.assertEqual(response.status_code, 400)
 
-    def test_login(self):
+    def test_2_login(self):
+
         data = {
             "username": "test",
             "password": "error_pwd"
@@ -33,12 +43,8 @@ class UserModelTests(TestCase):
         response = self.new_client.post('/api/user/token/', data=data, content_type="application/json")
         self.assertEqual(response.status_code, 401)
 
-        data = {
-            "username": "client_1",
-            "password": "client1"
-        }
-        response = self.new_client.post('/api/user/token/', data=data, content_type="application/json")
-        self.assertEqual(response.status_code, 201)
+        response = self.new_client.post('/api/user/token/', data=self.user, content_type="application/json")
+        self.assertEqual(response.status_code, 200)
 
     def test_profile(self):
         self.new_client.logout()

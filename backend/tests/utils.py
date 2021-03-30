@@ -1,10 +1,7 @@
 from http import HTTPStatus
-from json import loads
-
-from django.test.client import Client, MULTIPART_CONTENT, BOUNDARY, encode_multipart
+from django.test.client import Client
 from django.urls import reverse
 from rest_framework_simplejwt.tokens import RefreshToken
-import requests
 
 
 class TestClient(Client):
@@ -36,27 +33,21 @@ class TestClient(Client):
         params = locals()
         params.pop('self')
         token = extra.pop('token', None)
-        #print(token)
         if token and 'access' in token:
             self.token = token
         if self.token:
             params['HTTP_AUTHORIZATION'] = 'Bearer ' + self.token['access']
         if not params['content_type']:
             params.pop('content_type')
-        # print(str(params))
         response = super().post(**params)
-        #print(self.token)
         if getattr(response, 'data', None) and 'access' in response.data:
             self.token.update(response.data)
         return response
 
     def login(self, **credentials):
         """Login for jwt"""
-        print("Begin Login!!!")
-        print(self.post(reverse('auth'), credentials).status_code)
         if self.post(reverse('auth'), credentials).status_code == HTTPStatus.OK:
             self.username = credentials.get('username')
-            print("hhhhhhhhhhhh")
             return True
         return False
 
@@ -69,7 +60,6 @@ class TestClient(Client):
     def refresh(self):
         """Refresh the token"""
         refresh = self.token.get('refresh')
-        #print("refresh: ", refresh)
         if not refresh:
             return False
         return self.post(reverse('refresh'), data={'refresh': refresh}, refresh=True).status_code == HTTPStatus.OK
