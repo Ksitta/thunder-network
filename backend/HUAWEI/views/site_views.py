@@ -46,7 +46,7 @@ class SiteDetailView(APIView):
         eqs = Equipment.objects.filter(site=thesite.pk)
 
         # 与华为交互 删除站点
-        delete_site(thesite.site_id)
+        # delete_site(thesite.site_id)
         # 从数据库中删除
         thesite.delete()
         # 与华为交互 删除设备 待完成

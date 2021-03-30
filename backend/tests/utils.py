@@ -44,6 +44,22 @@ class TestClient(Client):
             self.token.update(response.data)
         return response
 
+    def delete(self, path, data='', content_type='application/json',
+               follow=False, secure=False, **extra):
+        """Override delete"""
+        if self.auto_refresh and not extra.get('refresh'):
+            self.refresh()
+        params = locals()
+        params.pop('self')
+        token = extra.pop('token', None)
+        if token and 'access' in token:
+            self.token = token
+        if self.token:
+            params['HTTP_AUTHORIZATION'] = 'Bearer ' + self.token['access']
+        if not params['content_type']:
+            params.pop('content_type')
+        return super().delete(**params)
+
     def login(self, **credentials):
         """Login for jwt"""
         if self.post(reverse('auth'), credentials).status_code == HTTPStatus.OK:
