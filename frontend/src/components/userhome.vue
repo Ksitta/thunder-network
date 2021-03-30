@@ -4,7 +4,7 @@
       <el-row :gutter="20" id="row_up">
         <el-col :span="8">
           <div class="useravatar">
-            <el-avatar :size="150" src="http://60.cs.tsinghua.edu.cn/images/cs.jpg"></el-avatar>
+            <el-avatar :size="150" src="user.jfif"></el-avatar>
           </div>
         </el-col>
         <el-col :span="16">
@@ -92,7 +92,7 @@ export default {
   height: 100%;
   margin: auto;
   padding: 60px;
-  border-style: dashed;
+  /* border-style: dashed; */
 }
 
 #row_up {

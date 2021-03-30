@@ -28,7 +28,7 @@
         <el-aside width="240px">
           <!-- Aside -->
           
-          <el-menu style="height:100%" @select="menunav">
+          <el-menu background-color="#eef3fa" style="height:100%" @select="menunav">
             <!-- Menu -->
             <el-menu-item
               index="1"
@@ -153,7 +153,27 @@ export default {
 }
 
 .el-header {
-  background-color: rgb(77, 146, 214);
+  background-color: rgb(188, 209, 233);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+  /* border-radius: 30px; */
+}
+
+.el-main {
+  background-color: rgb(251, 252, 254);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0px 30px 30px 0px;
+}
+
+.el-menu {
+  background-color: rgb(238, 243, 250);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 30px 0px 0px 30px;
+}
+
+.el-menu-item {
+  margin:10px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
 }
 
 .header-operations {
@@ -164,7 +184,8 @@ export default {
 }
 
 .header-operations li {
-  color: rgb(255, 255, 255);
+  /* color: rgb(255, 255, 255); */
+  color: rgb(0, 0, 0);
   display: inline-block;
   vertical-align: middle;
   line-height: 80px;
@@ -187,8 +208,10 @@ export default {
 }
 
 .el-dropdown-link{
-  color: white;
+  /* color: white; */
+  color: black;
   cursor: pointer;
+  font-weight: bold;
 }
 
 </style>
