@@ -42,6 +42,22 @@ class TestClient(Client):
             self.token.update(response.data)
         return response
 
+    def put(self, path, data=None, content_type='application/json',
+             follow=False, secure=False, **extra):
+        if self.auto_refresh and not extra.get('refresh'):
+            self.refresh()
+        params = locals()
+        params.pop('self')
+        token = extra.pop('token', None)
+        if token and 'access' in token:
+            self.token = token
+        if self.token:
+            params['HTTP_AUTHORIZATION'] = 'Bearer ' + self.token['access']
+        if not params['content_type']:
+            params.pop('content_type')
+        response = super().put(**params)
+        return response
+
     def delete(self, path, data='', content_type='application/json',
                follow=False, secure=False, **extra):
         if self.auto_refresh and not extra.get('refresh'):

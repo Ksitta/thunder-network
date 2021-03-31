@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 from HUAWEI.serializers import UserRegisterSerializers, TokenObtainSerializer, UserProfileSerializers
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenViewBase
 
 
@@ -17,23 +17,13 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return UserRegisterSerializers
 
-    def list(self, request, *args, **kwargs):
-        return Response('不存在API', 404)
-
 
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        try:
-            serializer = UserProfileSerializers(request.user)
-            return Response({'user': serializer.data}, 200)
-        except:
-            return Response("Not login", 400)
-
-
-class UserOperationView(APIView):
-    permission_classes = [IsAuthenticated]
+        serializer = UserProfileSerializers(request.user)
+        return Response({'user': serializer.data}, 200)
 
     def put(self, request):
         user = request.user
@@ -43,12 +33,9 @@ class UserOperationView(APIView):
         return Response("Success", 204)
 
     def delete(self, request):
-        try:
-            user = request.user
-            user.delete()
-            return Response("Success", 204)
-        except:
-            return Response("Error", 404)
+        user = request.user
+        user.delete()
+        return Response("Success", 204)
 
 
 class TokenObtainView(TokenViewBase):

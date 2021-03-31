@@ -9,7 +9,7 @@ ROUTER.register('user/register', user_views.UserViewSet, basename='register')
 
 urlpatterns = [
     url('^user/profile/$', user_views.UserProfileView.as_view(), name='profile'),
-    url('^user/edit/$', user_views.UserOperationView.as_view(), name='edit'),
+    url('^user/edit/$', user_views.UserProfileView.as_view(), name='edit'),
     url('^submit/$', submit_views.SubmitOrderView.as_view(), name='submit'),
     url(r'^site/$', site_views.SiteListView.as_view(), name='site_list'),
     url('^user/token/$', user_views.TokenObtainView.as_view(), name='token'),

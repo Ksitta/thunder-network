@@ -63,6 +63,26 @@ class UserModelTests(TestCase):
         self.assertEqual(info["contact_email"], "123@163.com")
         self.assertEqual(info["contact_address"], "2132131241234")
 
+    def test_edit(self):
+        response = self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        data = {
+            "contact_details": "13700000000",
+            "contact_email": "abc@qq.com",
+            "contact_address": "thu"
+        }
+        responce = self.new_client.put(reverse('edit'), data=data, content_type="application/json")
+        self.assertEqual(responce.status_code, 204)
+
+        self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
+        response = self.new_client.get(reverse('profile'))
+        self.assertEqual(response.status_code, 200)
+        info = response.json()['user']
+        self.assertEqual(info["contact_details"], "13700000000")
+        self.assertEqual(info["contact_email"], "abc@qq.com")
+        self.assertEqual(info["contact_address"], "thu")
+
+
 
 class ViewTests(TestCase):
     new_client: TestClient
