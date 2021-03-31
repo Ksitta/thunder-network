@@ -13,7 +13,6 @@ class TestClient(Client):
         self.username = None
 
     def get(self, path, data=None, follow=False, secure=False, **extra):
-        """Override get"""
         if self.auto_refresh and not extra.get('refresh'):
             self.refresh()
         params = locals()
@@ -27,7 +26,6 @@ class TestClient(Client):
 
     def post(self, path, data=None, content_type='application/json',
              follow=False, secure=False, **extra):
-        """Override post"""
         if self.auto_refresh and not extra.get('refresh'):
             self.refresh()
         params = locals()
@@ -46,7 +44,6 @@ class TestClient(Client):
 
     def delete(self, path, data='', content_type='application/json',
                follow=False, secure=False, **extra):
-        """Override delete"""
         if self.auto_refresh and not extra.get('refresh'):
             self.refresh()
         params = locals()
@@ -61,8 +58,7 @@ class TestClient(Client):
         return super().delete(**params)
 
     def login(self, **credentials):
-        """Login for jwt"""
-        if self.post(reverse('auth'), credentials).status_code == HTTPStatus.OK:
+        if self.post(reverse('token'), credentials).status_code == HTTPStatus.OK:
             self.username = credentials.get('username')
             return True
         return False
@@ -74,13 +70,11 @@ class TestClient(Client):
         self.token['refresh'] = str(refresh)
 
     def refresh(self):
-        """Refresh the token"""
         refresh = self.token.get('refresh')
         if not refresh:
             return False
         return self.post(reverse('refresh'), data={'refresh': refresh}, refresh=True).status_code == HTTPStatus.OK
 
     def logout(self):
-        """Logout by clear token"""
         self.token = {}
         self.username = None

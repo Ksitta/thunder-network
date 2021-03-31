@@ -1,13 +1,9 @@
 from django.test import TestCase
-from HUAWEI.models import User
 from django.urls import reverse
-from rest_framework import status
-import json
 from tests.utils import TestClient
 
 
 class UserModelTests(TestCase):
-    token: str
     new_client: TestClient
 
     fixtures = ['test.json']
@@ -17,49 +13,60 @@ class UserModelTests(TestCase):
         'password': 'client1'
     }
 
+    none_user = {
+        "username": "test",
+        "password": "error_pwd"
+    }
+
+    new_user = {
+        "username": "test",
+        "password": "123456",
+        "contact_details": "13900000000",
+        "contact_email": "123@163.com",
+        "contact_address": "2132131241234"
+    }
+
     def setUp(self):
+
         self.new_client = TestClient()
 
-    def test_1_register(self):
-        data = {
-            "username": "test",
-            "password": "123456",
-            "contact_details": "13900000000",
-            "contact_email": "123@163.com",
-            "contact_address": "2132131241234"
-        }
-        response = self.new_client.post('/api/user/register/', data=data, content_type="application/json")
-        self.assertEqual(response.status_code, 201)
+    def test_register(self):
 
-        response = self.new_client.post('/api/user/register/', data=data, content_type="application/json")
-        self.assertEqual(response.status_code, 400)
-
-    def test_2_login(self):
-
-        data = {
-            "username": "test",
-            "password": "error_pwd"
-        }
-        response = self.new_client.post('/api/user/token/', data=data, content_type="application/json")
+        response = self.new_client.post(reverse('token'), data=self.new_user, content_type="application/json")
         self.assertEqual(response.status_code, 401)
 
-        response = self.new_client.post('/api/user/token/', data=self.user, content_type="application/json")
+        response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
+        self.assertEqual(response.status_code, 201)
+
+        response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_login(self):
+
+        response = self.new_client.post(reverse('token'), data=self.none_user, content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
+        response = self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_profile(self):
+
         self.new_client.logout()
-        response = self.new_client.get('/api/user/profile/')
+        response = self.new_client.get(reverse('profile'))
         self.assertEqual(response.status_code, 401)
-        # data = {
-        #     "username": "test",
-        #     "password": "test_pwd"
-        # }
-        # self.new_client.post('/api/user/token/', data=data, content_type="application/json")
-        # response = self.new_client.get('/api/user/profile/')
-        # self.assertEqual(response.status_code, 201)
+
+        self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
+        response = self.new_client.get(reverse('profile'))
+        self.assertEqual(response.status_code, 200)
+        info = response.json()['user']
+        self.assertEqual(info["contact_details"], "13900000000")
+        self.assertEqual(info["contact_email"], "123@163.com")
+        self.assertEqual(info["contact_address"], "2132131241234")
 
 
 class ViewTests(TestCase):
+    new_client: TestClient
+
     def test_index(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 404)
