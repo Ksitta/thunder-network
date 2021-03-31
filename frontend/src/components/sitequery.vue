@@ -14,7 +14,7 @@
                 <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
             </el-table>
         </div>
-        <br>
+        <el-divider/>
         <el-row type="flex" class="finished_SearchSite" justify="space-between">
             <div style="display: inline-block; padding: 10px;">已处理订单：</div>
             <el-input v-model="finished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
@@ -153,5 +153,8 @@ export default{
 }
 .finished_SiteData {
     margin-top: 10px;
+}
+.el-table {
+    border-radius: 5px;
 }
 </style>

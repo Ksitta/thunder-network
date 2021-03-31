@@ -133,7 +133,7 @@ export default{
     background-color:white;
     border-radius: 20px;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    padding: 40px 60px 10px 60px;
+    padding: 20px 60px 10px 60px;
 }
 .item {
     width: 90%;
