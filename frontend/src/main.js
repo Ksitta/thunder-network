@@ -22,8 +22,8 @@ axios.interceptors.request.use((config) => {
 let isRefreshing = false
 
 axios.interceptors.response.use(success => {
-  success
   hideFullScreenLoading()
+  return success
 }, error => {
   hideFullScreenLoading()
   if (error.response.status === 401 && error.response.data.code === "token_not_valid") {

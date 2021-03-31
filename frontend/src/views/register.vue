@@ -43,7 +43,10 @@
                         </el-form-item>
                         <el-form-item>
                             <el-row>
-                                <el-col :span="18">
+                                <el-col :span="10">
+                                    <el-button type="primary" @click="Login">返回</el-button>                
+                                </el-col>
+                                <el-col :span="1">
                                 <el-button type="primary" @click="Submit('form')">提交</el-button>                
                                 </el-col>
                             </el-row>
@@ -123,14 +126,6 @@ export default{
             }
         }
 
-        var validateIdentity = (rule, value, callback) => {
-            if(!value) {
-                return callback(new Error("请选择您的身份！"))
-            }else{
-                callback()
-            }
-        }
-
         return{
             user:{
                 username: '',
@@ -139,7 +134,7 @@ export default{
                 contact_address: '',
                 password: '',
                 cpassword: '',
-                identity: ''
+                identity: '',
             },
             msgText: '',
             
@@ -150,7 +145,7 @@ export default{
                 contact_address: [{required: true, message: "地址不可为空！", trigger: 'blur'}],
                 password: [{required: true, validator: validatePass, trigger: 'blur'}],
                 cpassword: [{required: true, validator: validateCPass, trigger: 'blur'}],
-                identity: [{required: true, validator: validateIdentity, trigger: 'blur'}],
+                identity: [{required: true, message: "请选择您的身份！", trigger: 'change'}],
             },
 
         }
@@ -175,6 +170,10 @@ export default{
             }
             return modes;
         },
+        Login:function(){
+            console.log('skip to login page')
+            this.$router.push({path: '/login'})
+        },
         Submit:function(form){
             this.$refs[form].validate(valid => {
                 if (valid){
@@ -188,6 +187,7 @@ export default{
                     })
                     .then(response => {
                         console.log("response:",response)
+                        alert("注册成功！")
                         if(response.status === 201){
                             this.$router.push({path: "/login"})
                         }

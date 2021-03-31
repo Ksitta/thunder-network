@@ -61,6 +61,7 @@ export default{
                 axios.post("/api/user/token/",{
                     username: this.user.name,
                     password: this.user.password, //明文传输密码
+                    identity: this.user.identity,//身份传输
                 })
                 .then(response => {   
                     console.log("response.status:", response)
