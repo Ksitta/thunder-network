@@ -5,10 +5,12 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 import { MessageBox } from 'element-ui'
+import {showFullScreenLoading, hideFullScreenLoading} from '../src/plugins/loading.js'
 
 Vue.config.productionTip = false
 
 axios.interceptors.request.use((config) => {
+  showFullScreenLoading()
   if (sessionStorage.getItem('user_token')) {
     config.headers.Authorization = 'Bearer ' + sessionStorage.getItem('user_token')
   }
@@ -19,7 +21,11 @@ axios.interceptors.request.use((config) => {
 
 let isRefreshing = false
 
-axios.interceptors.response.use(success => success, error => {
+axios.interceptors.response.use(success => {
+  hideFullScreenLoading()
+  return success
+}, error => {
+  hideFullScreenLoading()
   if (error.response.status === 401 && error.response.data.code === "token_not_valid") {
     sessionStorage.setItem('user_token', '')
     const config = error.response.config

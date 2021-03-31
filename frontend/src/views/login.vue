@@ -19,7 +19,7 @@
                                 <el-radio label="运营工程师"></el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item>
+                        <el-form-item style="margin-left: -60px;">
                             <el-button type="primary" @click="Register">注册</el-button>                
                             <el-button type="primary" @click="Login">登录</el-button>
                         </el-form-item>
@@ -61,6 +61,7 @@ export default{
                 axios.post("/api/user/token/",{
                     username: this.user.name,
                     password: this.user.password, //明文传输密码
+                    identity: this.user.identity,//身份传输
                 })
                 .then(response => {   
                     console.log("response.status:", response)
@@ -112,7 +113,7 @@ export default{
     width: 40%;
     margin-bottom: 20vh;
     background-color:white;
-    border-radius: 2px;
+    border-radius: 10px;
     padding: 5% 3%;
 }
 .item{

@@ -31,8 +31,25 @@
                         <el-form-item label="确认密码:" prop="cpassword">
                             <el-input class="item" placeholder="请确认密码" v-model="user.cpassword" type="password" clearable auto-complete="off"></el-input>
                         </el-form-item>
+                        <el-form-item label="身份选择:" prop="identity">
+                            <el-row>
+                                <el-col :span="12">
+                                    <el-radio-group v-model="user.identity">
+                                        <el-radio label="用户"></el-radio>
+                                        <el-radio label="运营工程师"></el-radio>
+                                    </el-radio-group>
+                                </el-col>
+                            </el-row>
+                        </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @click="Submit('form')">提交</el-button>                
+                            <el-row>
+                                <el-col :span="10">
+                                    <el-button type="primary" @click="Login">返回</el-button>                
+                                </el-col>
+                                <el-col :span="1">
+                                <el-button type="primary" @click="Submit('form')">提交</el-button>                
+                                </el-col>
+                            </el-row>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -40,7 +57,6 @@
         </el-container>
     </div>
 </template>
-// 密码可尝试强弱进度条，确认密码
 
 <script>
 
@@ -85,7 +101,7 @@ export default{
             }
         }
 
-        var passReg = /^[0-9a-zA-Z]\w{6,18}$/
+        var passReg = /^\w{6,18}$/
         var validatePass = (rule, value, callback) => {
             if(!value) {
                 return callback(new Error("密码不可为空！"))
@@ -118,6 +134,7 @@ export default{
                 contact_address: '',
                 password: '',
                 cpassword: '',
+                identity: '',
             },
             msgText: '',
             
@@ -128,6 +145,7 @@ export default{
                 contact_address: [{required: true, message: "地址不可为空！", trigger: 'blur'}],
                 password: [{required: true, validator: validatePass, trigger: 'blur'}],
                 cpassword: [{required: true, validator: validateCPass, trigger: 'blur'}],
+                identity: [{required: true, message: "请选择您的身份！", trigger: 'change'}],
             },
 
         }
@@ -139,7 +157,7 @@ export default{
             if(/\d/.test(sValue)) modes++; //数字
             if(/[a-z]/.test(sValue)) modes++; //小写
             if(/[A-Z]/.test(sValue)) modes++; //大写
-            if(/\W/.test(sValue)) modes++; //特殊字符
+            if(/_/.test(sValue)) modes++; //特殊字符
 
             switch(modes) {
                 case 1:
@@ -152,6 +170,10 @@ export default{
             }
             return modes;
         },
+        Login:function(){
+            console.log('skip to login page')
+            this.$router.push({path: '/login'})
+        },
         Submit:function(form){
             this.$refs[form].validate(valid => {
                 if (valid){
@@ -161,14 +183,16 @@ export default{
                     contact_email: this.user.contact_email, 
                     contact_address: this.user.contact_address,
                     password: this.user.password, //明文传输密码
+                    identity: this.user.identity,
                     })
                     .then(response => {
                         console.log("response:",response)
+                        alert("注册成功！")
                         if(response.status === 201){
                             this.$router.push({path: "/login"})
                         }
                     }).catch (error => {
-                        alert("您输入的用户名已存在！")
+                        alert("error submit!")
                         console.log(error)
                     })
                 }else{
@@ -177,6 +201,11 @@ export default{
                 }
             })
         },
+    },
+    mounted: function(){
+        document.getElementById("one").style.background = "#F6F6FA"
+        document.getElementById("two").style.background = "#F6F6FA"
+        document.getElementById("three").style.background = "#F6F6FA"
     },
     watch: {
         "user.password"(newValue) {
@@ -195,7 +224,8 @@ export default{
                 document.getElementById("two").style.background = "#F9AE35"
             }else{
                 document.getElementById("two").style.background = "#F6F6FA"
-            }if(scale == 4) {
+            }
+            if(scale == 4) {
                 this.msgText = '强'
                 document.getElementById("three").style.background = "#2DAF7D"
             }else{
@@ -241,7 +271,7 @@ export default{
     display: inline-block;
     border-radius: 5px;
     position: relative;
-    left:-50px;
+    left:-55px;
 }
 .progress-bar_text {
     display: inline-block;
