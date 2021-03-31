@@ -4,14 +4,20 @@
       <el-row :gutter="20" id="row_up">
         <el-col :span="8">
           <div class="useravatar">
-            <el-avatar :size="150" src="http://60.cs.tsinghua.edu.cn/images/cs.jpg"></el-avatar>
+            <el-avatar :size="150" src="user.jfif"></el-avatar>
           </div>
         </el-col>
         <el-col :span="16">
           <div class="userinfo">
             <p>
-              姓名：{{info.username}}
+              <span style="font-size: 40px;">
+                您好
+              </span>
+              <span>
+                ，{{info.username}}
+              </span>
             </p>
+            <el-divider></el-divider>
             <p>
               联系电话：{{info.contact_details}}
             </p>
@@ -92,7 +98,7 @@ export default {
   height: 100%;
   margin: auto;
   padding: 60px;
-  border-style: dashed;
+  /* border-style: dashed; */
 }
 
 #row_up {
@@ -102,6 +108,7 @@ export default {
 }
 
 .userinfo {
+  background-color: rgb(251, 252, 254);
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   font-size: 22px;
