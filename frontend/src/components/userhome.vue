@@ -10,8 +10,14 @@
         <el-col :span="16">
           <div class="userinfo">
             <p>
-              姓名：{{info.username}}
+              <span style="font-size: 40px;">
+                您好
+              </span>
+              <span>
+                ，{{info.username}}
+              </span>
             </p>
+            <el-divider></el-divider>
             <p>
               联系电话：{{info.contact_details}}
             </p>

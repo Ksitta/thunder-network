@@ -19,7 +19,7 @@
                                 <el-radio label="运营工程师"></el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <el-form-item>
+                        <el-form-item style="margin-left: -60px;">
                             <el-button type="primary" @click="Register">注册</el-button>                
                             <el-button type="primary" @click="Login">登录</el-button>
                         </el-form-item>
@@ -112,7 +112,7 @@ export default{
     width: 40%;
     margin-bottom: 20vh;
     background-color:white;
-    border-radius: 2px;
+    border-radius: 10px;
     padding: 5% 3%;
 }
 .item{

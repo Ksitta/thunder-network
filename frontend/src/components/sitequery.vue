@@ -1,11 +1,11 @@
 <template>
     <div id = "wrapper_sitequery">
         <el-row type="flex" class="unfinished_SearchSite" justify="space-between">
-            <div style="display: inline-block">未处理订单：</div>
+            <div style="display: inline-block; padding: 10px;">未处理订单：</div>
             <el-input v-model="unfinished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
         </el-row>
         <div class="unfinished_SiteData">
-            <el-table :data="unfinished_sitedata" style="width: 100%" max-height="300" height="300" @row-click="showDialog">
+            <el-table :data="unfinished_sitedata" style="width: 100%" @row-click="showDialog">
                 <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
                 <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
                 <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
@@ -16,11 +16,11 @@
         </div>
         <br>
         <el-row type="flex" class="finished_SearchSite" justify="space-between">
-            <div style="display: inline-block">已处理订单：</div>
+            <div style="display: inline-block; padding: 10px;">已处理订单：</div>
             <el-input v-model="finished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
         </el-row>
         <div class="finished_SiteData">
-            <el-table :data="finished_sitedata" style="width: 100%" max-height="300" height="300" @row-click="showDialog">
+            <el-table :data="finished_sitedata" style="width: 100%" @row-click="showDialog">
                 <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
                 <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
                 <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
@@ -147,3 +147,11 @@ export default{
 }
 </script>
 
+<style scoped>
+.unfinished_SiteData {
+    margin-top: 10px;
+}
+.finished_SiteData {
+    margin-top: 10px;
+}
+</style>
