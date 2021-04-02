@@ -12,7 +12,8 @@ class TestSite(TestCase):
     fixtures = ['test.json']
     user = {
         'username': 'client1',
-        'password': 'client1'
+        'password': 'client1',
+        'user_type': 0
     }
     
     site = {
