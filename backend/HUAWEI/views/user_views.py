@@ -4,10 +4,11 @@ from django.shortcuts import render
 from HUAWEI.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from HUAWEI.serializers import UserRegisterSerializers, TokenObtainSerializer, UserProfileSerializers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenViewBase
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -41,3 +42,13 @@ class UserProfileView(APIView):
 class TokenObtainView(TokenViewBase):
     serializer_class = TokenObtainSerializer
 
+    def post(self, request, *args, **kwargs):
+        request.data['password'] += str(request.data['user_type'])
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)

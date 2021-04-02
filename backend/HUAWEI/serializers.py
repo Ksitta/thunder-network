@@ -10,17 +10,19 @@ class UserRegisterSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = ['username', 'password', 'contact_details', 'contact_email', 'contact_address']
+        fields = ['username', 'password', 'contact_details', 'contact_email', 'contact_address', 'user_type']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, data):
         user = User(
             username=data['username'],
+            user_type=data['user_type'],
             contact_details=data['contact_details'],
             contact_email=data['contact_email'],
             contact_address=data['contact_address'],
         )
-        user.set_password(data['password'])
+        pwd = data['password'] + str(data['user_type'])
+        user.set_password(pwd)
         user.save()
         return user
 
@@ -61,6 +63,7 @@ class TokenObtainSerializer(TokenObtainPairSerializer):
     }
 
     def validate(self, attrs):
+        print(attrs)
         auth_args = {
             'username': attrs['username'],
             'password': attrs['password'],

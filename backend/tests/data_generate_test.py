@@ -15,6 +15,7 @@ class GenerateTool:
         {
             'username': 'client123',
             'password': 'client1',
+            'user_type' : 0,
             'email': 'client1@thunder.com',
             'contact_details': '13900000000',
             'contact_email': '123@163.com',

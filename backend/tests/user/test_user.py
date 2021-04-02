@@ -10,17 +10,20 @@ class UserModelTests(TestCase):
 
     user = {
         'username': 'client1',
-        'password': 'client1'
+        'password': 'client1',
+        "user_type": 0
     }
 
     none_user = {
         "username": "test",
-        "password": "error_pwd"
+        "password": "error_pwd",
+        "user_type": 0
     }
 
     new_user = {
         "username": "test",
         "password": "123456",
+        "user_type": 0,
         "contact_details": "13900000000",
         "contact_email": "123@163.com",
         "contact_address": "2132131241234"
