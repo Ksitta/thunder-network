@@ -14,9 +14,15 @@ class UserModelTests(TestCase):
         "user_type": 0
     }
 
+    wrong_pwd_user = {
+        'username': 'client1',
+        'password': 'error',
+        "user_type": 0
+    }
+
     none_user = {
         "username": "test",
-        "password": "error_pwd",
+        "password": "none",
         "user_type": 0
     }
 
@@ -47,6 +53,9 @@ class UserModelTests(TestCase):
     def test_login(self):
 
         response = self.new_client.post(reverse('token'), data=self.none_user, content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+
+        response = self.new_client.post(reverse('token'), data=self.wrong_pwd_user, content_type="application/json")
         self.assertEqual(response.status_code, 401)
 
         response = self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
@@ -85,6 +94,12 @@ class UserModelTests(TestCase):
         self.assertEqual(info["contact_email"], "abc@qq.com")
         self.assertEqual(info["contact_address"], "thu")
 
+    def test_delete(self):
+        response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
+        self.assertEqual(response.status_code, 201)
+        self.new_client.post(reverse('token'), data=self.new_user, content_type="application/json")
+        response = self.new_client.delete(reverse('edit'), data=self.new_user, content_type="application/json")
+        self.assertEqual(response.status_code, 204)
 
 
 class ViewTests(TestCase):
