@@ -14,7 +14,7 @@
                             <el-input class="item" placeholder="请输入密码" v-model="user.password" type="password" clearable auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="身份">
-                            <el-radio-group v-model="user.identity">
+                            <el-radio-group v-model="user.user_type">
                                 <el-radio label="用户"></el-radio>
                                 <el-radio label="运营工程师"></el-radio>
                             </el-radio-group>
@@ -41,7 +41,7 @@ export default{
             user:{
                 name: '',
                 password: '',
-                identity:''
+                user_type:''
             }
         }
     },
@@ -54,14 +54,14 @@ export default{
             }else if(!this.user.password){
                 this.$message.error("请输入密码！")
                 return
-            }else if(!this.user.identity){
+            }else if(!this.user.user_type){
                 this.$message.error("请选择身份！")
                 return
             }else{
                 axios.post("/api/user/token/",{
                     username: this.user.name,
                     password: this.user.password, //明文传输密码
-                    identity: this.user.identity,//身份传输
+                    user_type: (this.user.user_type == "用户")? 0 : 1,//身份传输
                 })
                 .then(response => {   
                     console.log("response.status:", response)

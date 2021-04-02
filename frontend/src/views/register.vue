@@ -31,10 +31,10 @@
                         <el-form-item label="确认密码:" prop="cpassword">
                             <el-input class="item" placeholder="请确认密码" v-model="user.cpassword" type="password" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="身份选择:" prop="identity">
+                        <el-form-item label="身份选择:" prop="user_type">
                             <el-row>
                                 <el-col :span="12">
-                                    <el-radio-group v-model="user.identity">
+                                    <el-radio-group v-model="user.user_type">
                                         <el-radio label="用户"></el-radio>
                                         <el-radio label="运营工程师"></el-radio>
                                     </el-radio-group>
@@ -134,7 +134,7 @@ export default{
                 contact_address: '',
                 password: '',
                 cpassword: '',
-                identity: '',
+                user_type: '',
             },
             msgText: '',
             
@@ -145,7 +145,7 @@ export default{
                 contact_address: [{required: true, message: "地址不可为空！", trigger: 'blur'}],
                 password: [{required: true, validator: validatePass, trigger: 'blur'}],
                 cpassword: [{required: true, validator: validateCPass, trigger: 'blur'}],
-                identity: [{required: true, message: "请选择您的身份！", trigger: 'change'}],
+                user_type: [{required: true, message: "请选择您的身份！", trigger: 'change'}],
             },
 
         }
@@ -183,7 +183,7 @@ export default{
                     contact_email: this.user.contact_email, 
                     contact_address: this.user.contact_address,
                     password: this.user.password, //明文传输密码
-                    identity: this.user.identity,
+                    user_type: (this.user.user_type == "用户")? 0 : 1,
                     })
                     .then(response => {
                         console.log("response:",response)
