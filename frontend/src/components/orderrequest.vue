@@ -29,12 +29,12 @@
 
                 <el-form-item>
                     <!-- <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button> -->
-                    <el-button @click="addDemand" :disabled="fullDemands">新增虚拟网络需求</el-button>
+                    <el-button @click="addDemand" :disabled="fullDemands" style="margin-left: -80px;">新增虚拟网络需求</el-button>
                     <!-- <el-button @click="resetForm('dynamicValidateForm')">重置</el-button> -->
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="Submit">提交</el-button>
+                    <el-button type="primary" @click="Submit" style="margin-left: -80px;">提交</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -117,22 +117,23 @@ export default{
 </script>
 
 <style scoped>
-.el-main{
-    padding: 0;
+.orderrequest {
+    height: 100%;
 }
 .submit_form {
     /* background-color: #B3C0D1; */
-    height: 100vh;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .form {
     /* width: 40%; */
-    margin-bottom: 20vh;
+    /* margin-bottom: 20vh; */
     background-color:white;
-    border-radius: 2px;
-    padding: 5% 3%;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    padding: 20px 60px 10px 60px;
 }
 .item {
     width: 90%;
