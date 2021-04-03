@@ -33,6 +33,7 @@
 <script>
 
 import axios from 'axios'
+import md5 from 'js-md5'
 
 export default{
     name: "login",
@@ -60,7 +61,7 @@ export default{
             }else{
                 axios.post("/api/user/token/",{
                     username: this.user.name,
-                    password: this.user.password, //明文传输密码
+                    password: md5(this.user.password),
                     user_type: (this.user.user_type == "用户")? 0 : 1,//身份传输
                 })
                 .then(response => {   
@@ -76,6 +77,11 @@ export default{
                 }).catch(error => {
                     this.$message.error("您输入的用户名或密码错误！")
                     console.log(error)
+                })
+                console.log({
+                    username: this.user.name,
+                    password: md5(this.user.password),
+                    user_type: (this.user.user_type == "用户")? 0 : 1,//身份传输
                 })
             }
         },

@@ -61,6 +61,7 @@
 <script>
 
 import axios from "axios";
+import md5 from 'js-md5'
 
 export default{
     name: "register",
@@ -182,7 +183,7 @@ export default{
                     contact_details: this.user.contact_details,
                     contact_email: this.user.contact_email, 
                     contact_address: this.user.contact_address,
-                    password: this.user.password, //明文传输密码
+                    password: md5(this.user.password),
                     user_type: (this.user.user_type == "用户")? 0 : 1,
                     })
                     .then(response => {
