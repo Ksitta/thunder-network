@@ -52,7 +52,7 @@ class SiteDetailView(APIView):
         if user.user_type == 1 or user.user_type == 2: # 运营&网络工程师
             sites = Site.objects.all()
         else:
-            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+            return Response(status=status.HTTP_403_FORBIDDEN)
         thesite = sites[int(pk)]
 
         if thesite.status == 1 and user.user_type == 1:
@@ -70,7 +70,7 @@ class SiteDetailView(APIView):
         if user.user_type == 1 or user.user_type == 2: # 运营&网络工程师
             sites = Site.objects.all()
         else:
-            sites = Site.objects.filter(user=request.user.pk)
+            return Response(status=status.HTTP_403_FORBIDDEN)
         if(int(pk) >= len(sites)):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
