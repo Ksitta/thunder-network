@@ -39,9 +39,7 @@ class SiteDetailView(APIView):
         data = copy(serializer.data)
 
 
-        if thesite.status == 1: #未完成订单，不返回设备信息
-            pass
-        else:   # 已完成订单 返回设备详细状态
+        if thesite.status == 0: # 已完成订单 返回设备详细状态 未完成订单，不返回设备信息
             eqs = Equipment.objects.filter(site=thesite.pk)
             eqs_serializer = EquipmentDetailSerializer(instance=eqs, many=True)
             item = {'eqs': eqs_serializer.data}
@@ -56,7 +54,6 @@ class SiteDetailView(APIView):
         else:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
         thesite = sites[int(pk)]
-        # serializer = SiteDetailSerializer(instance=thesite)
 
         if thesite.status == 1 and user.user_type == 1:
             thesite.status = 2
