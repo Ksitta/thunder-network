@@ -42,14 +42,8 @@
                             </el-row>
                         </el-form-item>
                         <el-form-item>
-                            <el-row>
-                                <el-col :span="10">
-                                    <el-button type="primary" @click="Login">返回</el-button>                
-                                </el-col>
-                                <el-col :span="1">
-                                <el-button type="primary" @click="Submit('form')">提交</el-button>                
-                                </el-col>
-                            </el-row>
+                            <el-button type="return" @click="Login">返回</el-button>                
+                            <el-button type="submit" @click="Submit('form')">提交</el-button>                
                         </el-form-item>
                     </el-form>
                 </div>
@@ -239,15 +233,17 @@ export default{
 
 <style scoped>
 .register{
-    position: absolute;
-    height: 100%;
+    background:url("../assets/login-background.jpg");
     width: 100%;
+    height: 100%;
+    position:fixed;
+    background-size:100% 100%;
 }
 .el-main{
     padding: 0;
 }
 .register_form{
-    background-color: #B3C0D1;
+    /* background-color: #B3C0D1; */
     height: 100vh;
     display: flex;
     align-items: center;
@@ -256,7 +252,7 @@ export default{
 .el-form{
     width: 40%;
     margin-bottom: 10vh;
-    background-color:white;
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 3% 3%;
 }
@@ -288,4 +284,22 @@ export default{
     margin-right: .8%;
     border-radius: 5px;
 }
+</style>
+
+<style>
+.el-button--return{
+    position: relative;
+    right: 60px;
+    top: -5px;
+    background: transparent;
+    color: white;
+}
+.el-button--submit{
+    position: relative;
+    right: 50px;
+    top: -5px;
+    background: transparent;
+    color: white;
+}
+
 </style>
