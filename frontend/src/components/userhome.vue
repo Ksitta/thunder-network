@@ -16,6 +16,7 @@
               <span>
                 ，{{info.username}}
               </span>
+              <el-tag>{{identity}}</el-tag>
             </p>
             <el-divider></el-divider>
             <p>
@@ -49,6 +50,7 @@ export default {
           contact_details: "",
           contact_email: "",
           contact_address: "",
+          user_type: "",
         }
       }
   },
@@ -63,6 +65,10 @@ export default {
         this.info.contact_details = response.data.user.contact_details
         this.info.contact_email = response.data.user.contact_email
         this.info.contact_address = response.data.user.contact_address
+        this.info.user_type = response.data.user.user_type
+        this.$store.commit('newtype', {
+            type: this.info.user_type
+        })
       })
       .catch((error) => {
         console.log(error)
@@ -77,6 +83,15 @@ export default {
     show: {
       type: Boolean,
       default: () => false,
+    }
+  },
+
+  computed: {
+    identity: function() {
+      if (this.info.user_type == "0") return "用户";
+      if (this.info.user_type == "1") return "运营工程师";
+      if (this.info.user_type == "2") return "网络工程师";
+      return "";
     }
   },
 
@@ -117,6 +132,11 @@ export default {
   padding-left: 60px;
   padding-right: 60px;
   text-align: left;
+}
+
+.el-tag {
+  font-size: 12px;
+  font-weight: bold;
 }
 
 </style>

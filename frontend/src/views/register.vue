@@ -7,19 +7,19 @@
                     <el-form class="form" :rules="rules" ref="form" :model="user" label-position="right" label-width="100px" size="medium">
                         <h3>注册</h3>
                         <br>
-                        <el-form-item label="用户名:" prop="username" >
+                        <el-form-item label="用户名:" prop="username" class = "whiteItem">
                             <el-input class="item" placeholder="请输入用户名" v-model="user.username" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="电话:" prop="contact_details" >
+                        <el-form-item label="电话:" prop="contact_details" class = "whiteItem">
                             <el-input class="item" placeholder="请输入电话" v-model="user.contact_details" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="邮箱:" prop="contact_email">
+                        <el-form-item label="邮箱:" prop="contact_email" class = "whiteItem">
                             <el-input class="item" placeholder="请输入邮箱" v-model="user.contact_email" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="地址:" prop="contact_address">
+                        <el-form-item label="地址:" prop="contact_address" class = "whiteItem">
                             <el-input class="item" placeholder="请输入地址" v-model="user.contact_address" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="设置密码:" prop="password">
+                        <el-form-item label="设置密码:" prop="password" class = "whiteItem">
                             <el-input class="item" placeholder="请设置密码" v-model="user.password" type="password" ></el-input>
                             <div class="progress-bar_wrap">
                                 <span id = "one" class="progress-bar_item"></span>
@@ -28,28 +28,22 @@
                             </div>
                             <span class="progress-bar_text">{{msgText}} </span>
                         </el-form-item>
-                        <el-form-item label="确认密码:" prop="cpassword">
+                        <el-form-item label="确认密码:" prop="cpassword" class = "whiteItem">
                             <el-input class="item" placeholder="请确认密码" v-model="user.cpassword" type="password" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="身份选择:" prop="identity">
+                        <el-form-item label="身份选择:" prop="user_type" class = "whiteItem">
                             <el-row>
                                 <el-col :span="12">
-                                    <el-radio-group v-model="user.identity">
-                                        <el-radio label="用户"></el-radio>
-                                        <el-radio label="运营工程师"></el-radio>
+                                    <el-radio-group v-model="user.user_type">
+                                        <el-radio label="用户" class = "whiteItem"></el-radio>
+                                        <el-radio label="运营工程师" class = "whiteItem"></el-radio>
                                     </el-radio-group>
                                 </el-col>
                             </el-row>
                         </el-form-item>
                         <el-form-item>
-                            <el-row>
-                                <el-col :span="10">
-                                    <el-button type="primary" @click="Login">返回</el-button>                
-                                </el-col>
-                                <el-col :span="1">
-                                <el-button type="primary" @click="Submit('form')">提交</el-button>                
-                                </el-col>
-                            </el-row>
+                            <el-button type="return" @click="Login">返回</el-button>                
+                            <el-button type="submit" @click="Submit('form')">提交</el-button>                
                         </el-form-item>
                     </el-form>
                 </div>
@@ -61,6 +55,7 @@
 <script>
 
 import axios from "axios";
+import md5 from 'js-md5'
 
 export default{
     name: "register",
@@ -134,7 +129,7 @@ export default{
                 contact_address: '',
                 password: '',
                 cpassword: '',
-                identity: '',
+                user_type: '',
             },
             msgText: '',
             
@@ -145,7 +140,7 @@ export default{
                 contact_address: [{required: true, message: "地址不可为空！", trigger: 'blur'}],
                 password: [{required: true, validator: validatePass, trigger: 'blur'}],
                 cpassword: [{required: true, validator: validateCPass, trigger: 'blur'}],
-                identity: [{required: true, message: "请选择您的身份！", trigger: 'change'}],
+                user_type: [{required: true, message: "请选择您的身份！", trigger: 'change'}],
             },
 
         }
@@ -182,8 +177,8 @@ export default{
                     contact_details: this.user.contact_details,
                     contact_email: this.user.contact_email, 
                     contact_address: this.user.contact_address,
-                    password: this.user.password, //明文传输密码
-                    identity: this.user.identity,
+                    password: md5(this.user.password),
+                    user_type: (this.user.user_type == "用户")? 0 : 1,
                     })
                     .then(response => {
                         console.log("response:",response)
@@ -238,15 +233,17 @@ export default{
 
 <style scoped>
 .register{
-    position: absolute;
-    height: 100%;
+    background:url("../assets/login-background.jpg");
     width: 100%;
+    height: 100%;
+    position:fixed;
+    background-size:100% 100%;
 }
 .el-main{
     padding: 0;
 }
 .register_form{
-    background-color: #B3C0D1;
+    /* background-color: #B3C0D1; */
     height: 100vh;
     display: flex;
     align-items: center;
@@ -255,7 +252,7 @@ export default{
 .el-form{
     width: 40%;
     margin-bottom: 10vh;
-    background-color:white;
+    background-color: rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     padding: 3% 3%;
 }
@@ -287,4 +284,22 @@ export default{
     margin-right: .8%;
     border-radius: 5px;
 }
+</style>
+
+<style>
+.el-button--return{
+    position: relative;
+    right: 60px;
+    top: -5px;
+    background: transparent;
+    color: white;
+}
+.el-button--submit{
+    position: relative;
+    right: 50px;
+    top: -5px;
+    background: transparent;
+    color: white;
+}
+
 </style>

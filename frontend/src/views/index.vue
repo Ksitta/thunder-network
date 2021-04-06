@@ -28,9 +28,9 @@
         <el-aside width="240px">
           <!-- Aside -->
           
-          <el-menu background-color="#fbfcfe" style="height:100%" @select="menunav">
+          <el-menu v-if="getIdentity == 0" background-color="#fbfcfe" style="height:100%" @select="menunav">
             <!-- Menu -->
-            <el-menu-item
+            <el-menu-item class="menu-homeitem"
               index="1"
               >
               <i class="el-icon-menu"></i>
@@ -68,6 +68,23 @@
             </el-submenu>
 
           </el-menu>
+          <el-menu v-if="getIdentity == 1" background-color="#fbfcfe" style="height:100%" @select="menunav">
+            <!-- Menu -->
+            <el-menu-item class="menu-homeitem"
+              index="1"
+              >
+              <i class="el-icon-menu"></i>
+              <span>主页</span>
+            </el-menu-item>
+
+            <el-menu-item class="menu-homeitem"
+              index="4"
+              >
+              <i class="el-icon-s-claim"></i>
+              <span>订单管理</span>
+            </el-menu-item>
+
+          </el-menu>
 
         </el-aside>
 
@@ -76,7 +93,7 @@
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
           <orderrequest ref="orderrequest" v-bind:show="showpage.orderrequest" v-if="showpage.orderrequest"></orderrequest>
-          
+          <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
         </el-main>
       </el-container>
     </el-container>
@@ -85,8 +102,9 @@
 
 <script>
 import userhome from '@/components/userhome'
-import sitequery from '../components/sitequery.vue';
+import sitequery from '@/components/sitequery'
 import orderrequest from '@/components/orderrequest'
+import orderprocessing from '@/components/orderprocessing'
 
 export default {
   name: 'index',
@@ -95,6 +113,7 @@ export default {
     userhome,
     sitequery,
     orderrequest,
+    orderprocessing,
   },
 
   data: function() {
@@ -102,7 +121,8 @@ export default {
       showpage: {
         home: true,
         sitequery: false,
-        orderrequest: false
+        orderrequest: false,
+        orderprocessing: false,
       }
     }
   },
@@ -113,6 +133,7 @@ export default {
       this.showpage.home = false
       this.showpage.orderrequest = false
       this.showpage.sitequery = false
+      this.showpage.orderprocessing = false
       if (idx === "1") {
         this.showpage.home = true
       }
@@ -121,6 +142,9 @@ export default {
       }
       if(idx === "3-1") {
         this.showpage.sitequery = true
+      }
+      if(idx === "4") {
+        this.showpage.orderprocessing = true
       }
     },
     userCommand: function(command) {
@@ -138,6 +162,10 @@ export default {
     getUsername: function() {
       let name = this.$store.state.user_name;
       return name ? name : "Unknown User";
+    },
+    getIdentity: function() {
+      let user_type = this.$store.state.user_type;
+      return user_type;
     }
   }
 
@@ -165,17 +193,29 @@ export default {
   border-radius: 0px 30px 30px 0px;
 }
 
+.el-submenu {
+  margin: 10px;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  border-radius: 30px;
+}
+
 .el-menu {
   /* background-color: rgb(238, 243, 250); */
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 30px 0px 0px 30px;
+  border-radius: 20px 0px 0px 20px;
 }
 
-.el-menu-item {
+.menu-homeitem {
+  margin:10px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+/* .el-menu-item {
   margin:10px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-}
+} */
 
 .header-operations {
   float: right;

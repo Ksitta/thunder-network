@@ -10,11 +10,21 @@ from HUAWEI.models import User, Site
 
 class TestSite(TestCase):
     fixtures = ['test.json']
-    user = {
-        'username': 'client1',
-        'password': 'client1',
-        'user_type': 0
-    }
+    user = [{
+                'username': 'client1',
+                'password': 'client1',
+                'user_type': 0
+            },
+            {
+                'username': 'manage1',
+                'password': 'manage1',
+                'user_type': 1
+            },
+            {
+                'username': 'network1',
+                'password': 'network1',
+                'user_type': 2
+            }]
     
     site = {
         'site_name': str(time.time()),
@@ -43,31 +53,51 @@ class TestSite(TestCase):
     def test_get_site_list(self):
         client = Client()
         assert client.get(reverse('site_list')).status_code == status.HTTP_401_UNAUTHORIZED
-        client.login(**self.user)
+        client.login(**self.user[0])
         assert client.get(reverse('site_list')).status_code == status.HTTP_200_OK
     
     def test_submit_site_list(self):
         client = Client()
         assert client.post(reverse('submit'), data=self.site).status_code == status.HTTP_401_UNAUTHORIZED
-        client.login(**self.user)
+        client.login(**self.user[0])
         assert client.post(reverse('submit'), data=self.site).status_code == status.HTTP_201_CREATED
-        # print("hhhhhhhhhhhhhhh: ", client.post(reverse('submit'), data=self.bad_site).status_code)
         assert client.post(reverse('submit'), data=self.bad_site).status_code == status.HTTP_400_BAD_REQUEST
 
     def test_get_site_detail(self):
         client = Client()
         assert client.get(reverse('site_detail',
                           args=[self.detail_pk])).status_code == HTTPStatus.UNAUTHORIZED
-        client.login(**self.user)
+        client.login(**self.user[0])
         assert client.get(reverse('site_detail',
                           args=[self.bad_detail_pk])).status_code == status.HTTP_400_BAD_REQUEST
         assert client.get(reverse('site_detail',
                           args=[self.detail_pk])).status_code == status.HTTP_200_OK
 
+    def test_put_site_detail(self):
+        client = Client()
+        assert client.put(reverse('site_detail',
+                          args=[self.detail_pk])).status_code == HTTPStatus.UNAUTHORIZED
+        client.login(**self.user[0])
+        assert client.put(reverse('site_detail',
+                          args=[self.detail_pk])).status_code == status.HTTP_403_FORBIDDEN
+        client.logout()
+        client.login(**self.user[1])
+        assert client.put(reverse('site_detail', args=[0])).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.put(reverse('site_detail', args=[1])).status_code == status.HTTP_200_OK
+        client.logout()
+        client.login(**self.user[2])
+        assert client.put(reverse('site_detail', args=[0])).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.put(reverse('site_detail', args=[1])).status_code == status.HTTP_200_OK
+
+
     def test_z_delete_site(self):
         client = Client()
         assert client.delete(reverse('site_detail',
                           args=[self.detail_pk])).status_code == HTTPStatus.UNAUTHORIZED
-        client.login(**self.user)
+        client.login(**self.user[0])
+        assert client.delete(reverse('site_detail',
+                          args=[self.detail_pk])).status_code == status.HTTP_403_FORBIDDEN
+        client.logout()
+        client.login(**self.user[1])
         assert client.delete(reverse('site_detail',
                           args=[self.detail_pk])).status_code == status.HTTP_204_NO_CONTENT
