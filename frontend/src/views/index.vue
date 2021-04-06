@@ -143,7 +143,7 @@ export default {
       if(idx === "3-1") {
         this.showpage.sitequery = true
       }
-      if(idx === "3-2") {
+      if(idx === "4") {
         this.showpage.orderprocessing = true
       }
     },
