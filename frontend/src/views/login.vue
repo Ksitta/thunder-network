@@ -6,16 +6,16 @@
                     <el-form class="form" ref="form" :model="form" label-width="70px">
                         <h3>登录</h3>
                         <br>
-                        <el-form-item label="用户名:" >
+                        <el-form-item label="用户名:" class = "whiteItem">
                             <el-input class="item" placeholder="请输入用户名" v-model="user.name" clearable auto-complete="on"></el-input>
                         </el-form-item>
-                        <el-form-item label="密码:">
+                        <el-form-item label="密码:" class = "whiteItem">
                             <el-input class="item" placeholder="请输入密码" v-model="user.password" type="password" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="身份:">
+                        <el-form-item label="身份:" class = "whiteItem">
                             <el-radio-group v-model="user.user_type">
-                                <el-radio label="用户"></el-radio>
-                                <el-radio label="运营工程师"></el-radio>
+                                <el-radio label="用户" class = "whiteItem"></el-radio>
+                                <el-radio label="运营工程师" class = "whiteItem"></el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item style="margin-left: -60px;">
@@ -132,12 +132,12 @@ h3{
     top: 10px;
     font-size: 150%;
 }
-.el-form-item__label{
+.whiteItem .el-form-item__label{
     color: white;
     font-weight: bold;
     font-size: 100%;
 }
-.el-radio__label{
+.whiteItem .el-radio__label{
     color:white;
 }
 .el-button--register{

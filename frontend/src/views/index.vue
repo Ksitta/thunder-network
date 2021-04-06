@@ -76,7 +76,7 @@
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
           <orderrequest ref="orderrequest" v-bind:show="showpage.orderrequest" v-if="showpage.orderrequest"></orderrequest>
-          
+          <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
         </el-main>
       </el-container>
     </el-container>
@@ -85,8 +85,9 @@
 
 <script>
 import userhome from '@/components/userhome'
-import sitequery from '../components/sitequery.vue';
+import sitequery from '@/components/sitequery'
 import orderrequest from '@/components/orderrequest'
+import orderprocessing from '@/components/orderprocessing'
 
 export default {
   name: 'index',
@@ -95,6 +96,7 @@ export default {
     userhome,
     sitequery,
     orderrequest,
+    orderprocessing,
   },
 
   data: function() {
@@ -102,7 +104,8 @@ export default {
       showpage: {
         home: true,
         sitequery: false,
-        orderrequest: false
+        orderrequest: false,
+        orderprocessing: false,
       }
     }
   },
@@ -113,6 +116,7 @@ export default {
       this.showpage.home = false
       this.showpage.orderrequest = false
       this.showpage.sitequery = false
+      this.showpage.orderprocessing = false
       if (idx === "1") {
         this.showpage.home = true
       }
@@ -121,6 +125,9 @@ export default {
       }
       if(idx === "3-1") {
         this.showpage.sitequery = true
+      }
+      if(idx === "3-2") {
+        this.showpage.orderprocessing = true
       }
     },
     userCommand: function(command) {

@@ -2,7 +2,7 @@
     <div class="orderrequest">
         <div class="submit_form">
             <el-form class="form" ref="form" label-width="80px" label-position="left">
-                <h3>提交订单</h3>
+                <h3><font color = "black">提交订单</font></h3>
                 <br>
                 <el-form-item label="站点名称" >
                     <el-input class="item" placeholder="请输入站点名称" v-model="info.site_name" clearable auto-complete="on"></el-input>
