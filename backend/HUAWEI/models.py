@@ -21,6 +21,7 @@ class Site(models.Model):
     demand_2 = models.CharField('需求2', max_length=20, blank=True)
     demand_3 = models.CharField('需求3', max_length=20, blank=True)
     status = models.IntegerField('订单、部署状态')
+    create_time = models.DateTimeField(auto_now_add=True)
 
 
 class Equipment(models.Model):

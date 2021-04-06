@@ -45,7 +45,7 @@ class SiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
         fields = ('site_id', 'site_name', 'user', 'site_address', 'billing_level', 'demand_num', 'demand_1',
-                  'demand_2', 'demand_3', 'status')
+                  'demand_2', 'demand_3', 'status', 'create_time')
 
     def create(self, validated_data):
         """
@@ -95,7 +95,7 @@ class SiteDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
         fields = ('site_name', 'site_address', 'billing_level', 'demand_num', 'demand_1',
-                  'demand_2', 'demand_3', 'status')
+                  'demand_2', 'demand_3', 'status', 'user', 'create_time')
 
 class EquipmentDetailSerializer(serializers.ModelSerializer):
     class Meta:
