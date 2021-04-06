@@ -28,9 +28,9 @@
         <el-aside width="240px">
           <!-- Aside -->
           
-          <el-menu background-color="#fbfcfe" style="height:100%" @select="menunav">
+          <el-menu v-if="getIdentity == 0" background-color="#fbfcfe" style="height:100%" @select="menunav">
             <!-- Menu -->
-            <el-menu-item
+            <el-menu-item class="menu-homeitem"
               index="1"
               >
               <i class="el-icon-menu"></i>
@@ -66,6 +66,23 @@
                 <span>设备查询</span>
               </el-menu-item>
             </el-submenu>
+
+          </el-menu>
+          <el-menu v-if="getIdentity == 1" background-color="#fbfcfe" style="height:100%" @select="menunav">
+            <!-- Menu -->
+            <el-menu-item class="menu-homeitem"
+              index="1"
+              >
+              <i class="el-icon-menu"></i>
+              <span>主页</span>
+            </el-menu-item>
+
+            <el-menu-item class="menu-homeitem"
+              index="4"
+              >
+              <i class="el-icon-s-claim"></i>
+              <span>订单管理</span>
+            </el-menu-item>
 
           </el-menu>
 
@@ -145,6 +162,10 @@ export default {
     getUsername: function() {
       let name = this.$store.state.user_name;
       return name ? name : "Unknown User";
+    },
+    getIdentity: function() {
+      let user_type = this.$store.state.user_type;
+      return user_type;
     }
   }
 
@@ -172,17 +193,29 @@ export default {
   border-radius: 0px 30px 30px 0px;
 }
 
+.el-submenu {
+  margin: 10px;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  border-radius: 30px;
+}
+
 .el-menu {
   /* background-color: rgb(238, 243, 250); */
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 30px 0px 0px 30px;
+  border-radius: 20px 0px 0px 20px;
 }
 
-.el-menu-item {
+.menu-homeitem {
+  margin:10px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+/* .el-menu-item {
   margin:10px;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-}
+} */
 
 .header-operations {
   float: right;
