@@ -28,7 +28,7 @@
         <el-aside width="240px">
           <!-- Aside -->
           
-          <el-menu background-color="#fbfcfe" style="height:100%" @select="menunav">
+          <el-menu v-if="getIdentity == 0" background-color="#fbfcfe" style="height:100%" @select="menunav">
             <!-- Menu -->
             <el-menu-item
               index="1"
@@ -66,6 +66,23 @@
                 <span>设备查询</span>
               </el-menu-item>
             </el-submenu>
+
+          </el-menu>
+          <el-menu v-if="getIdentity == 1" background-color="#fbfcfe" style="height:100%" @select="menunav">
+            <!-- Menu -->
+            <el-menu-item
+              index="1"
+              >
+              <i class="el-icon-menu"></i>
+              <span>主页</span>
+            </el-menu-item>
+
+            <el-menu-item
+              index="4"
+              >
+              <i class="el-icon-menu"></i>
+              <span>订单管理</span>
+            </el-menu-item>
 
           </el-menu>
 
@@ -138,6 +155,10 @@ export default {
     getUsername: function() {
       let name = this.$store.state.user_name;
       return name ? name : "Unknown User";
+    },
+    getIdentity: function() {
+      let user_type = this.$store.state.user_type;
+      return user_type;
     }
   }
 
