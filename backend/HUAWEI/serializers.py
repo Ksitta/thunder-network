@@ -30,8 +30,8 @@ class UserRegisterSerializers(serializers.ModelSerializer):
 class UserProfileSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ['contact_details', 'contact_email', 'contact_address', 'username']
-        extra_kwargs = {'username': {'read_only': True}}
+        fields = ['contact_details', 'contact_email', 'contact_address', 'username', 'user_type']
+        extra_kwargs = {'username': {'read_only': True}, 'user_type': {'read_only' : True}}
 
     def update(self, instance: User, data):
         instance.contact_address = data['contact_address']
@@ -63,7 +63,6 @@ class TokenObtainSerializer(TokenObtainPairSerializer):
     }
 
     def validate(self, attrs):
-        print(attrs)
         auth_args = {
             'username': attrs['username'],
             'password': attrs['password'],
