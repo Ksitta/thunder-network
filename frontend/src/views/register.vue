@@ -7,19 +7,19 @@
                     <el-form class="form" :rules="rules" ref="form" :model="user" label-position="right" label-width="100px" size="medium">
                         <h3>注册</h3>
                         <br>
-                        <el-form-item label="用户名:" prop="username" >
+                        <el-form-item label="用户名:" prop="username" class = "whiteItem">
                             <el-input class="item" placeholder="请输入用户名" v-model="user.username" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="电话:" prop="contact_details" >
+                        <el-form-item label="电话:" prop="contact_details" class = "whiteItem">
                             <el-input class="item" placeholder="请输入电话" v-model="user.contact_details" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="邮箱:" prop="contact_email">
+                        <el-form-item label="邮箱:" prop="contact_email" class = "whiteItem">
                             <el-input class="item" placeholder="请输入邮箱" v-model="user.contact_email" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="地址:" prop="contact_address">
+                        <el-form-item label="地址:" prop="contact_address" class = "whiteItem">
                             <el-input class="item" placeholder="请输入地址" v-model="user.contact_address" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="设置密码:" prop="password">
+                        <el-form-item label="设置密码:" prop="password" class = "whiteItem">
                             <el-input class="item" placeholder="请设置密码" v-model="user.password" type="password" ></el-input>
                             <div class="progress-bar_wrap">
                                 <span id = "one" class="progress-bar_item"></span>
@@ -28,15 +28,15 @@
                             </div>
                             <span class="progress-bar_text">{{msgText}} </span>
                         </el-form-item>
-                        <el-form-item label="确认密码:" prop="cpassword">
+                        <el-form-item label="确认密码:" prop="cpassword" class = "whiteItem">
                             <el-input class="item" placeholder="请确认密码" v-model="user.cpassword" type="password" clearable auto-complete="off"></el-input>
                         </el-form-item>
-                        <el-form-item label="身份选择:" prop="user_type">
+                        <el-form-item label="身份选择:" prop="user_type" class = "whiteItem">
                             <el-row>
                                 <el-col :span="12">
                                     <el-radio-group v-model="user.user_type">
-                                        <el-radio label="用户"></el-radio>
-                                        <el-radio label="运营工程师"></el-radio>
+                                        <el-radio label="用户" class = "whiteItem"></el-radio>
+                                        <el-radio label="运营工程师" class = "whiteItem"></el-radio>
                                     </el-radio-group>
                                 </el-col>
                             </el-row>
