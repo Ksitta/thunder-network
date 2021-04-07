@@ -6,12 +6,11 @@
         </el-row>
         <div class="unfinished_SiteData">
             <el-table :data="unfinished_sitedata" style="width: 100%" maxheight="300px" height="300px">
-                <el-table-column prop= "site_name" label="站点名称" width="160" fixed ></el-table-column>
+                <el-table-column prop= "site_time" label="站点创建时间" width="160" fixed ></el-table-column>
+                <el-table-column prop= "site_user" label="站点创建者" width="160"></el-table-column>
+                <el-table-column prop= "site_name" label="站点名称" width="160" ></el-table-column>
                 <el-table-column prop= "site_address" label="站点地址" width="240"></el-table-column>
-                <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
-                <el-table-column prop= "demand_1" label="虚拟网络需求1" width="180"></el-table-column>
-                <el-table-column prop= "demand_2" label="虚拟网络需求2" width="180"></el-table-column>
-                <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
+                <el-table-column prop= "demand" label="虚拟网络需求" width="180"></el-table-column>
                 <el-table-column label="操作" width="100" align="center">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="order_confirmation(scope.row)">确认</el-button>
@@ -26,12 +25,11 @@
         </el-row>
         <div class="finished_SiteData">
             <el-table :data="finished_sitedata" style="width: 100%" maxheight="300px" height="300px">
-                <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
-                <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
-                <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
-                <el-table-column prop= "demand_1" label="虚拟网络需求1" width="180"></el-table-column>
-                <el-table-column prop= "demand_2" label="虚拟网络需求2" width="180"></el-table-column>
-                <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
+                <el-table-column prop= "site_time" label="站点创建时间" width="160" fixed ></el-table-column>
+                <el-table-column prop= "site_user" label="站点创建者" width="160"></el-table-column>
+                <el-table-column prop= "site_name" label="站点名称" width="160" ></el-table-column>
+                <el-table-column prop= "site_address" label="站点地址" width="240"></el-table-column>
+                <el-table-column prop= "demand" label="虚拟网络需求" width="180"></el-table-column>
             </el-table>
         </div>
         <!-- <SiteDialog :dialogVisible="SiteDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' :siteinfo="siteinfo"></SiteDialog> -->
@@ -68,7 +66,7 @@ export default{
             finished_data: [],
             unfinished_search: '',
             finished_search: '',
-            siteinfo:{site_address:""},
+            // siteinfo:{site_address:""},
             // SiteDialog:{
             //     dialogVisible: false
             // }
@@ -90,22 +88,20 @@ export default{
                     if(item.status == 1){
                         this.unfinished_data.push({
                             site_index: i,
+                            site_time: item.create_time.substring(0,10),
+                            site_user: item.user,
                             site_name: item.site_name,
                             site_address: item.site_address,
-                            billing_level: (item.billing_level == 1)? '包月' : '包年',
-                            demand_1: (item.demand_1 == '')? '无' : item.demand_1,
-                            demand_2: (item.demand_2 == '')? '无' : item.demand_2,
-                            demand_3: (item.demand_3 == '')? '无' : item.demand_3
+                            demand: ((item.demand_1 == '')? '' : (item.demand_1 + ",")) + ((item.demand_2 == '')? '' : (item.demand_2 + ",")) + ((item.demand_3 == '')? '' : item.demand_3),
                         })
                     }else if(item.status == 2){
                         this.finished_data.push({
                             site_index: i,
+                            site_time: item.create_time.substring(0,10),
+                            site_user: item.user,
                             site_name: item.site_name,
                             site_address: item.site_address,
-                            billing_level: (item.billing_level == 1)? '包月' : '包年',
-                            demand_1: (item.demand_1 == '')? '无' : item.demand_1,
-                            demand_2: (item.demand_2 == '')? '无' : item.demand_2,
-                            demand_3: (item.demand_3 == '')? '无' : item.demand_3
+                            demand: ((item.demand_1 == '')? '' : (item.demand_1 + ",")) + ((item.demand_2 == '')? '' : (item.demand_2 + ",")) + ((item.demand_3 == '')? '' : item.demand_3),
                         })
                     }
                     i++
