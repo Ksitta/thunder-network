@@ -94,6 +94,7 @@ class EquipmentSerializer(serializers.ModelSerializer):
 class SiteDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
+
         fields = ('site_name', 'site_address', 'billing_level', 'demand_num', 'demand_1',
                   'demand_2', 'demand_3', 'status', 'user', 'create_time')
 

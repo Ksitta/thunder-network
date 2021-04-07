@@ -103,134 +103,134 @@ def create_site(name):
 """
 
 # 参数仍有问题
-def create_device(name, site_id):
-    # 配置URL和Headers
-    post_devices_url = HTTPS + nbi_host + ":" + nbi_port + DEVICES_URL
-    # 发起请求
-    data = {
-        "devices" : [
-            {
-                "esn": "2102351BTJ0000000666",
-                "name": name,
-                "siteId": site_id,
-                "description": "AR",
-                "resourceId": "HUAWEI",
-                "deviceModel": "AR161EW",
-                #"systemIp": "192.168.1.1",
-                #"ztpConfirm": True,
-                #"role": ["Gateway"]
-            }
-        ]
-    }
-    headers = base_headers
-    headers['X-AUTH-TOKEN'] = get_token()
-    r = requests.post(post_devices_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("5.【Post Devices】")
-    print("【post_devices_url】：" + post_devices_url)
-    print(r.text)
-    # 返回设备id
-
-# 限定为id查找, 不限定类型
-def get_device(site_id):
-    # 配置URL和Headers
-    get_devices_url = HTTPS + nbi_host + ":" + nbi_port + DEVICES_URL
-    # 发起请求
-    data = {
-        "siteid": site_id
-    }
-    headers = base_headers
-    headers['X-AUTH-TOKEN'] = get_token()
-    r = requests.get(get_devices_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("6.【Get Devices Info】")
-    print("【get_devices_url】：" + get_devices_url)
-    print(r.text)
-    # 未写返回值
-
-# 限定为删除单个设备
-def delete_device(device_id):
-    # 配置URL和Headers
-    delete_devices_url = HTTPS + nbi_host + ":" + nbi_port + DEVICES_URL
-    # 发起请求
-    data = {
-        "deviceIds": [device_id]
-        #"reset": "true"
-    }
-    headers = base_headers
-    headers['X-AUTH-TOKEN'] = get_token()
-    r = requests.delete(delete_devices_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("7.【Delete Devices】")
-    print("【delete_devices_url】：" + delete_devices_url)
-    print(r.text)
-    # 未写返回值
+# def create_device(name, site_id):
+#     # 配置URL和Headers
+#     post_devices_url = HTTPS + nbi_host + ":" + nbi_port + DEVICES_URL
+#     # 发起请求
+#     data = {
+#         "devices" : [
+#             {
+#                 "esn": "2102351BTJ0000000666",
+#                 "name": name,
+#                 "siteId": site_id,
+#                 "description": "AR",
+#                 "resourceId": "HUAWEI",
+#                 "deviceModel": "AR161EW",
+#                 #"systemIp": "192.168.1.1",
+#                 #"ztpConfirm": True,
+#                 #"role": ["Gateway"]
+#             }
+#         ]
+#     }
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.post(post_devices_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("5.【Post Devices】")
+#     print("【post_devices_url】：" + post_devices_url)
+#     print(r.text)
+#     # 返回设备id
+#
+# # 限定为id查找, 不限定类型
+# def get_device(site_id):
+#     # 配置URL和Headers
+#     get_devices_url = HTTPS + nbi_host + ":" + nbi_port + DEVICES_URL
+#     # 发起请求
+#     data = {
+#         "siteid": site_id
+#     }
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.get(get_devices_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("6.【Get Devices Info】")
+#     print("【get_devices_url】：" + get_devices_url)
+#     print(r.text)
+#     # 未写返回值
+#
+# # 限定为删除单个设备
+# def delete_device(device_id):
+#     # 配置URL和Headers
+#     delete_devices_url = HTTPS + nbi_host + ":" + nbi_port + DEVICES_URL
+#     # 发起请求
+#     data = {
+#         "deviceIds": [device_id]
+#         #"reset": "true"
+#     }
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.delete(delete_devices_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("7.【Delete Devices】")
+#     print("【delete_devices_url】：" + delete_devices_url)
+#     print(r.text)
+#     # 未写返回值
 
 """
 以下为SSID创建、查询和删除的请求函数
 """
 
-# 参数仍存疑
-def create_ssid(site_id, name):
-    # 配置URL和Headers
-    post_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
-    # 发起请求
-    data = {
-        "name": name,
-        "enable": True,
-        "connectionMode": "bridge",
-        "hidedEnable": False,
-        "maxUserNumber": 10,
-        "relativeRadios": 3,
-        "userSeparation": False,
-        "ssidAuth": {
-            "mode": "ppsk",
-            "pskEncryptType": "wpa2",
-            "securityKeyType": "AES",
-            "portal": {"mode": "portalDisable"	},
-            "macAutoBinding": True
-        },
-        "ssidPolicy": {}
-    }
-    headers = base_headers
-    headers['X-AUTH-TOKEN'] = get_token()
-    r = requests.post(post_ssid_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("8.【Post SSID】")
-    print("【post_ssid_url】：" + post_ssid_url)
-    print(r.text)
-    # 返回 SSID 的 id
-
-# siteId查找
-def get_ssid(site_id):
-    # 配置URL和Headers
-    get_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
-    # 发起请求
-    headers = base_headers
-    headers['X-AUTH-TOKEN'] = get_token()
-    r = requests.get(get_ssid_url, headers=headers, verify=False)
-    # 解析站点信息
-    print("9.【Get SSID Info】")
-    print("【get_ssid_url】：" + get_ssid_url)
-    print(r.text)
-    # 未写返回值
-
-# 限定为删除单个SSID
-def delete_ssid(site_id, ssid_id):
-    # 配置URL和Headers
-    delete_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
-    # 发起请求
-    data = {
-        "ids": [ssid_id]
-        #"reset": "true"
-    }
-    headers = base_headers
-    headers['X-AUTH-TOKEN'] = get_token()
-    r = requests.delete(delete_ssid_url, headers=headers, json=data, verify=False)
-    # 解析站点信息
-    print("10.【Delete SSID】")
-    print("【delete_ssid_url】：" + delete_ssid_url)
-    print(r.text)
+# # 参数仍存疑
+# def create_ssid(site_id, name):
+#     # 配置URL和Headers
+#     post_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
+#     # 发起请求
+#     data = {
+#         "name": name,
+#         "enable": True,
+#         "connectionMode": "bridge",
+#         "hidedEnable": False,
+#         "maxUserNumber": 10,
+#         "relativeRadios": 3,
+#         "userSeparation": False,
+#         "ssidAuth": {
+#             "mode": "ppsk",
+#             "pskEncryptType": "wpa2",
+#             "securityKeyType": "AES",
+#             "portal": {"mode": "portalDisable"	},
+#             "macAutoBinding": True
+#         },
+#         "ssidPolicy": {}
+#     }
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.post(post_ssid_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("8.【Post SSID】")
+#     print("【post_ssid_url】：" + post_ssid_url)
+#     print(r.text)
+#     # 返回 SSID 的 id
+#
+# # siteId查找
+# def get_ssid(site_id):
+#     # 配置URL和Headers
+#     get_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
+#     # 发起请求
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.get(get_ssid_url, headers=headers, verify=False)
+#     # 解析站点信息
+#     print("9.【Get SSID Info】")
+#     print("【get_ssid_url】：" + get_ssid_url)
+#     print(r.text)
+#     # 未写返回值
+#
+# # 限定为删除单个SSID
+# def delete_ssid(site_id, ssid_id):
+#     # 配置URL和Headers
+#     delete_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
+#     # 发起请求
+#     data = {
+#         "ids": [ssid_id]
+#         #"reset": "true"
+#     }
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.delete(delete_ssid_url, headers=headers, json=data, verify=False)
+#     # 解析站点信息
+#     print("10.【Delete SSID】")
+#     print("【delete_ssid_url】：" + delete_ssid_url)
+#     print(r.text)
     # 未写返回值
 
 """
