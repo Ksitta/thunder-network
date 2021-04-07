@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'HUAWEI.apps.HuaweiConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    #'HUAWEI'
 ]
 
 REST_FRAMEWORK = {

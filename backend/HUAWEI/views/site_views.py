@@ -2,23 +2,31 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from HUAWEI.models import Site, Equipment
+from HUAWEI.models import Site, Equipment, User
 from HUAWEI.serializers import SiteDetailSerializer, EquipmentDetailSerializer
 from rest_framework.permissions import IsAuthenticated
 # from HUAWEI.views.nce import delete_site
 from copy import copy
+import json
 
 class SiteListView(APIView):
     queryset = Site.objects.all()
     permission_classes = [IsAuthenticated]
     def get(self, request):
         user = self.request.user
-        if user.user_type == 1 or user.user_type == 2: # 运营&网络工程师
+        if user.user_type == 1 or user.user_type == 2:
+            # 运营&网络工程师
             sites = Site.objects.all()
         else:
             sites = Site.objects.filter(user=user)
         serializer = SiteDetailSerializer(instance=sites, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        ret = []
+        tem = serializer.data
+        for i in range(0, len(tem)):
+            t = tem[i]
+            t['user'] = User.objects.get(pk=t['user']).username
+            ret.append(t)
+        return Response(ret, status=status.HTTP_200_OK)
 
 class SiteDetailView(APIView):
     """
