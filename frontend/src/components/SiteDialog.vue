@@ -32,9 +32,9 @@
             <el-row>
                 <el-col :offset="4"> 
                     <el-table :data="siteinfo.eqs" cell-style="padding:7px" style="width:70%" border>
-                        <el-table-column type="index" align="center"></el-table-column>
-                        <el-table-column prop="eq_name" label="设备名称" width="170"></el-table-column>
-                        <el-table-column prop="eq_status" label="设备状态" width="170"></el-table-column>
+                        <el-table-column type="index" label="id" align="center"></el-table-column>
+                        <el-table-column prop="eq_name" label="设备名称" width="180"></el-table-column>
+                        <el-table-column prop="eq_status" label="设备状态" width="200"></el-table-column>
                     </el-table>
                 </el-col>
             </el-row>
