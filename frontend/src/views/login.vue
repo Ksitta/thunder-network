@@ -89,7 +89,7 @@ export default{
 
 <style scoped>
 .login{
-    background:url("../assets/login-background.jpg");
+    background:url("../assets/bg5.jpeg");
     width: 100%;
     height: 100%;
     position:fixed;

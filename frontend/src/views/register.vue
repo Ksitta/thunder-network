@@ -182,12 +182,12 @@ export default{
                     })
                     .then(response => {
                         console.log("response:",response)
-                        alert("注册成功！")
+                        this.$message.success("注册成功！")
                         if(response.status === 201){
                             this.$router.push({path: "/login"})
                         }
                     }).catch (error => {
-                        alert("error submit!")
+                        this.$message.error("注册失败!")
                         console.log(error)
                     })
                 }else{
@@ -233,7 +233,7 @@ export default{
 
 <style scoped>
 .register{
-    background:url("../assets/login-background.jpg");
+    background:url("../assets/bg5.jpeg");
     width: 100%;
     height: 100%;
     position:fixed;

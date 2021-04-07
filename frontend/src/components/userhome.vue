@@ -4,7 +4,7 @@
       <el-row :gutter="20" id="row_up">
         <el-col :span="8">
           <div class="useravatar">
-            <el-avatar :size="150" src="user.jfif"></el-avatar>
+            <el-avatar :size="150" :src="avatar_src"></el-avatar>
           </div>
         </el-col>
         <el-col :span="16">
@@ -39,6 +39,7 @@
 
 import axios from 'axios'
 import { Message } from 'element-ui';
+import md5 from 'js-md5'
 
 
 export default {
@@ -92,6 +93,9 @@ export default {
       if (this.info.user_type == "1") return "运营工程师";
       if (this.info.user_type == "2") return "网络工程师";
       return "";
+    },
+    avatar_src: function() {
+      return "https://sdn.geekzu.org/avatar/" + md5(this.info.contact_email);
     }
   },
 
