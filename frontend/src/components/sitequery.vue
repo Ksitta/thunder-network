@@ -1,35 +1,37 @@
 <template>
     <div id = "wrapper_sitequery">
-        <el-row type="flex" class="unfinished_SearchSite" justify="space-between">
-            <div style="display: inline-block; padding: 10px;">未处理订单：</div>
-            <el-input v-model="unfinished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
-        </el-row>
-        <div class="unfinished_SiteData">
-            <el-table :data="unfinished_sitedata" style="width: 100%" @row-click="showDialog" maxheight="300px" height="300px">
-                <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
-                <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
-                <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
-                <el-table-column prop= "demand_1" label="虚拟网络需求1" width="180"></el-table-column>
-                <el-table-column prop= "demand_2" label="虚拟网络需求2" width="180"></el-table-column>
-                <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
-            </el-table>
+        <div class="colwrapper">
+            <el-row type="flex" class="unfinished_SearchSite" justify="space-between">
+                <div style="display: inline-block; padding: 10px;">未处理订单：</div>
+                <el-input v-model="unfinished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
+            </el-row>
+            <div class="unfinished_SiteData">
+                <el-table :data="unfinished_sitedata" style="width: 100%" @row-click="showDialog" maxheight="300px" height="300px">
+                    <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
+                    <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
+                    <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
+                    <el-table-column prop= "demand_1" label="虚拟网络需求1" width="180"></el-table-column>
+                    <el-table-column prop= "demand_2" label="虚拟网络需求2" width="180"></el-table-column>
+                    <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
+                </el-table>
+            </div>
+            <el-divider/>
+            <el-row type="flex" class="finished_SearchSite" justify="space-between">
+                <div style="display: inline-block; padding: 10px;">已处理订单：</div>
+                <el-input v-model="finished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
+            </el-row>
+            <div class="finished_SiteData">
+                <el-table :data="finished_sitedata" style="width: 100%" @row-click="showDialog" maxheight="300px" height="300px">
+                    <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
+                    <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
+                    <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
+                    <el-table-column prop= "demand_1" label="虚拟网络需求1" width="180"></el-table-column>
+                    <el-table-column prop= "demand_2" label="虚拟网络需求2" width="180"></el-table-column>
+                    <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
+                </el-table>
+            </div>
+            <SiteDialog :dialogVisible="SiteDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' :siteinfo="siteinfo"></SiteDialog>
         </div>
-        <el-divider/>
-        <el-row type="flex" class="finished_SearchSite" justify="space-between">
-            <div style="display: inline-block; padding: 10px;">已处理订单：</div>
-            <el-input v-model="finished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
-        </el-row>
-        <div class="finished_SiteData">
-            <el-table :data="finished_sitedata" style="width: 100%" @row-click="showDialog" maxheight="300px" height="300px">
-                <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
-                <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
-                <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
-                <el-table-column prop= "demand_1" label="虚拟网络需求1" width="180"></el-table-column>
-                <el-table-column prop= "demand_2" label="虚拟网络需求2" width="180"></el-table-column>
-                <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
-            </el-table>
-        </div>
-        <SiteDialog :dialogVisible="SiteDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' :siteinfo="siteinfo"></SiteDialog>
     </div>
 </template>
 
@@ -148,6 +150,12 @@ export default{
 </script>
 
 <style scoped>
+.colwrapper {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 14px;
+}
 .unfinished_SiteData {
     margin-top: 10px;
 }

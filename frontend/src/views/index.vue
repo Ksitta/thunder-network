@@ -1,22 +1,27 @@
 <template>
   <div class="wrapper">
     <el-container style="height:100%;">
-      <el-header height="80px">
+      <el-header height="48px">
         <!-- Header -->
-        <a href="/">
+        <!-- <a href="/">
           <img src="web-logo.png" alt="logo" class="header-logo">
+        </a> -->
+        <a href="/" id="title-a">
+          <span class="title">
+            Thunder Network
+          </span>
         </a>
 
-      <el-dropdown @command="userCommand">
-        <span class="el-dropdown-link">
-          {{getUsername}}
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item icon="el-icon-edit" command="edit">修改信息</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-s-operation" command="quit">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+        <el-dropdown @command="userCommand">
+          <span class="el-dropdown-link">
+            {{getUsername}}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item icon="el-icon-edit" command="edit">修改信息</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-s-operation" command="quit">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
 
         <!-- <ul class="header-operations">
           <li>标题</li>
@@ -25,19 +30,29 @@
       </el-header>
 
       <el-container>
-        <el-aside width="240px">
+        <el-aside width="228px">
           <!-- Aside -->
           
-          <el-menu v-if="getIdentity == 0" background-color="#fbfcfe" style="height:100%" @select="menunav">
+          <el-menu v-if="getIdentity == 0" background-color="#131720" @select="menunav">
             <!-- Menu -->
-            <el-menu-item class="menu-homeitem"
-              index="1"
-              >
+            <div style="vertical-align: middle;">
+            <el-menu-item class="menu-homeitem" index="1">
               <i class="el-icon-menu"></i>
               <span>主页</span>
             </el-menu-item>
+            </div>
 
-            <el-submenu index="2">
+            <el-menu-item index="3-1">
+              <i class="el-icon-setting"></i>
+              <span>订单查询</span>
+            </el-menu-item>
+
+            <el-menu-item index="2-1">
+              <i class="el-icon-data-analysis"></i>
+              <span>业务查询</span>
+            </el-menu-item>
+
+            <!-- <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-message"></i>
                 <span>订单</span>
@@ -65,9 +80,10 @@
                 <i class="el-icon-data-analysis"></i>
                 <span>设备查询</span>
               </el-menu-item>
-            </el-submenu>
+            </el-submenu> -->
 
           </el-menu>
+
           <el-menu v-if="getIdentity == 1" background-color="#fbfcfe" style="height:100%" @select="menunav">
             <!-- Menu -->
             <el-menu-item class="menu-homeitem"
@@ -174,6 +190,31 @@ export default {
 
 <style scoped>
 
+/* 滚动条样式修改 */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+  border-radius:15px;
+  -webkit-border-radius:  15px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: #ffff;
+  border-radius:15px;
+  -webkit-border-radius:  15px;
+}
+::-webkit-scrollbar-thumb:vertical {
+  height: 5px;
+  background-color: rgba(144, 147, 153, 0.5);
+  border-radius: 15px;
+  -webkit-border-radius:  15px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+  width: 7px;
+  background-color: rgba(144, 147, 153, 0.5);
+  border-radius:  15px;  
+  -webkit-border-radius: 15px;
+}
+
 .wrapper {
   position: absolute;
   height: 100%;
@@ -181,75 +222,72 @@ export default {
 }
 
 .el-header {
-  background-color: rgb(188, 209, 233);
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  /* border-radius: 30px; */
+  background-color: #ffffff;
+  box-shadow: 0 1px 5px 0 rgba(41,85,115,.21);
+  z-index: 2000;
 }
 
 .el-main {
-  /* background-color: rgb(251, 252, 254); */
-  background-color: #eef3fa;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 0px 30px 30px 0px;
+  background-color: #dfe5eb;
+  top: 48px;
+  left: 228px;
+  right: 0px;
+  bottom: 0px;
+  position: absolute;
 }
 
-.el-submenu {
+/* .el-submenu {
   margin: 10px;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
   border-radius: 30px;
-}
+} */
 
 .el-menu {
-  /* background-color: rgb(238, 243, 250); */
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 20px 0px 0px 20px;
+  height: 100%;
+  border: 0px;
+}
+
+.el-menu-item {
+  height: 40px;
+  line-height: 40px;
+  text-align: start;
+  color: #ffffff;
+  font-weight: 600;
+  margin-top: 6px;
 }
 
 .menu-homeitem {
-  margin:10px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  margin-top: 12px;
 }
 
-/* .el-menu-item {
-  margin:10px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-} */
-
-.header-operations {
-  float: right;
-  padding-right: 30px;
-  height: 100%;
-  margin: 0px;
+#titlea:active {
+  color: black;
 }
 
-.header-operations li {
-  /* color: rgb(255, 255, 255); */
-  color: rgb(0, 0, 0);
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 80px;
-  cursor: pointer;
-  padding: 0px 20px;
+.title {
+  color: black;
+  line-height: 48px;
+  float: left;
+  font-weight: 800;
 }
 
 .header-logo {
-  height: 60px;
-  margin: 10px;
+  height: 44px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 0px;
   float: left;
 }
 
 .el-dropdown{
   float: right;
   margin-right: 20px;
-  /* line-height: 80px; */
-  margin-top: 32px;
+  /* line-height: 48px; */
+  margin-top: 16px;
   font-size: 16px;
 }
 
 .el-dropdown-link{
-  /* color: white; */
   color: black;
   cursor: pointer;
   font-weight: bold;
