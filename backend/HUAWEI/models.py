@@ -32,18 +32,32 @@ class Equipment(models.Model):
 
 
 class EquipmentFlow(models.Model):
-    eq_id = models.CharField('设备id', max_length=50, unique=True)
+    eq_id = models.ForeignKey('Equipment', on_delete=models.CASCADE, blank=False)
     terminal_num = models.IntegerField('终端数量')
     up_rate = models.IntegerField('上行速率')
     down_rate = models.IntegerField('下行速率')
+    flow_1 = models.IntegerField('时段1', default=0)
+    flow_2 = models.IntegerField('时段2', default=0)
+    flow_3 = models.IntegerField('时段3', default=0)
+    flow_4 = models.IntegerField('时段4', default=0)
+    flow_5 = models.IntegerField('时段5', default=0)
+    flow_6 = models.IntegerField('时段6', default=0)
+    total_flow = models.IntegerField('总流量', default=0)
     rate_unit = models.CharField('速率单位', max_length=10)
 
 
 class SiteFlow(models.Model):
-    site_id = models.CharField('站点id', max_length=50, unique=True)
+    site_id = models.ForeignKey('Site', on_delete=models.CASCADE, blank=False)
     user_num_2_4 = models.IntegerField('2.4G用户数量')
     user_num_5 = models.IntegerField('5G用户数量')
     up_rate = models.IntegerField('上行速率')
     down_rate = models.IntegerField('下行速率')
+    flow_1 = models.IntegerField('时段1', default=0)
+    flow_2 = models.IntegerField('时段2', default=0)
+    flow_3 = models.IntegerField('时段3', default=0)
+    flow_4 = models.IntegerField('时段4', default=0)
+    flow_5 = models.IntegerField('时段5', default=0)
+    flow_6 = models.IntegerField('时段6', default=0)
+    total_flow = models.IntegerField('总流量', default=0)
     rate_unit = models.CharField('速率单位', max_length=10)
 
