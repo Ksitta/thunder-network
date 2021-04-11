@@ -86,7 +86,7 @@ class TokenObtainSerializer(TokenObtainPairSerializer):
 class EquipmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Equipment
-        fields = ['eq_id', 'site', 'eq_name', 'eq_status']
+        fields = ('eq_id', 'site', 'eq_name', 'eq_status')
 
     def create(self, validated_data):
         return models.Equipment.objects.create(**validated_data)

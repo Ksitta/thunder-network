@@ -3,13 +3,14 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, User
-from HUAWEI.serializers import SiteDetailSerializer, EquipmentDetailSerializer
+from HUAWEI.serializers import SiteSerializer, SiteDetailSerializer, EquipmentDetailSerializer, EquipmentSerializer
 from rest_framework.permissions import IsAuthenticated
+from HUAWEI.views.nce import create_site
 # from HUAWEI.views.nce import delete_site
-from copy import copy
-import json
+from copy import copy, deepcopy
+import time
 
-class SiteListView(APIView):
+class SiteView(APIView):
     queryset = Site.objects.all()
     permission_classes = [IsAuthenticated]
     def get(self, request):
@@ -27,6 +28,37 @@ class SiteListView(APIView):
             t['user'] = User.objects.get(pk=t['user']).username
             ret.append(t)
         return Response(ret, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        data = deepcopy(self.request.data)
+        """
+        基础功能中，暂时自动为其生成AP设备、且自动返回订单成功
+        之后应注意修改为，网络工程师同意后才成功
+        """
+        # 与华为交互 创建Site
+          ### 获取site_id
+        #create_site_response = create_site(str(self.request.user.username) + str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        #if create_site_response == IndexError:
+        #    return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
+
+        # 测试用
+        create_site_response = str(self.request.user.pk) + "-" + data['site_name'] + str(time.time())
+        new_site_id = create_site_response
+
+          ### 创建站点ssid 待完成 华为交互？？？
+
+        # 在数据库中更新Site表
+        item = {'status': 1,
+                'user': self.request.user.pk,
+                'site_id': new_site_id}
+        data.update(item)
+
+        serializer = SiteSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_201_CREATED)
 
 class SiteDetailView(APIView):
     """
