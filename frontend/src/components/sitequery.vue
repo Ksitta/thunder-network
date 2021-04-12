@@ -1,36 +1,125 @@
 <template>
     <div id = "wrapper_sitequery">
+        <div class="head">
+            <el-row type="flex" justify="space-between">
+                <el-button size="large" icon="el-icon-circle-plus" style="width:200px" @click="orderrequest">新增订单</el-button>
+                <el-input v-model="search_info" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
+            </el-row>
+        </div>
         <div class="colwrapper">
-            <el-row type="flex" class="unfinished_SearchSite" justify="space-between">
-                <div style="display: inline-block; padding: 10px;">未处理订单：</div>
-                <el-input v-model="unfinished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
-            </el-row>
-            <div class="unfinished_SiteData">
-                <el-table :data="unfinished_sitedata" style="width: 100%" @row-click="showDialog" maxheight="300px" height="300px">
-                    <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
-                    <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
-                    <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
-                    <el-table-column prop= "demand_1" label="虚拟网络需求1" width="180"></el-table-column>
-                    <el-table-column prop= "demand_2" label="虚拟网络需求2" width="180"></el-table-column>
-                    <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
+            <div class="SiteData">
+                <el-table :data="sitedata" style="width: 100%" maxheight="500px" height="530px" :header-cell-style="{'text-align':'center',fontSize: '15px'}" :cell-style="{fontSize:'15px'}" >
+                <el-table-column type="expand">
+                    <template slot-scope="props">
+                        <el-row>
+                            <el-col :span="12">
+                                <div class="basic_info">
+                                    <el-form label-position="left" inline class="table-expand">
+                                        <el-form-item label="站点名称:" class="basic_info_item">
+                                            <span style="font-size:16px">{{ props.row.site_name}}</span>
+                                        </el-form-item>
+                                        <el-form-item label="站点创建时间:" class="basic_info_item">
+                                            <span style="font-size:16px">{{ props.row.create_time }}</span>
+                                        </el-form-item>
+                                        <el-form-item label="站点地址:" class="basic_info_item">
+                                            <span style="font-size:16px">{{ props.row.site_address }}</span>
+                                        </el-form-item>
+                                        <el-form-item label="计费方式:" class="basic_info_item">
+                                            <span style="font-size:16px">{{ props.row.billing_level }}</span>
+                                        </el-form-item>
+                                        <el-form-item label="虚拟网络需求:" class="basic_info_item">
+                                            <span style="font-size:16px">{{ props.row.demand}}</span>
+                                        </el-form-item>
+                                    </el-form>
+                                </div>
+                            </el-col>
+                            <el-col :span="12">
+                                <div class="stepComponent">
+                                    <div class="stepTitle">
+                                        <div style="float: left; width:2px;height:20px; background:#219AFF;"></div>
+                                        <span style="color:#99a9bf;font-size: 16px;">订单处理状态</span>
+                                        <br>
+                                    </div>
+                                    <div class="orderprocessing">
+                                        <el-steps :active="props.row.status" finish-status="success" process-status="finish" direction="vertical">
+                                            <el-step title="提交订单">
+                                                <template slot="description" >
+                                                    <div class="step-row" v-if="props.row.status >= 0">
+                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="processing_content">
+                                                            <tr>
+                                                                <td style="color:#98A6BE">
+                                                                    <div class="processing_content_detail" style="float:left;width:70%"><span>用户&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.user_name}}</span>&nbsp;&nbsp;提交了订单</span></div>
+                                                                    <div class="processing_content_detail" style="float:right;"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.create_time}}</span> </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </template>
+                                            </el-step>
+                                            <el-step title="网络工程师处理">
+                                                <template slot="description" >
+                                                    <div class="step-row">
+                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="processing_content">
+                                                            <br v-if="props.row.status < 1">
+                                                            <br v-if="props.row.status < 1">
+                                                            <tr v-if="props.row.status >= 1">
+                                                                <td style="color:#98A6BE">
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 1"><span>网络工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.webengineer_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
+                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 1"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.webengineer_time}}</span> </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </template>
+                                            </el-step>
+                                            <el-step title="运营工程师处理">
+                                                <template slot="description" >
+                                                    <div class="step-row" >
+                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="processing_content">
+                                                            <br v-if="props.row.status < 2">
+                                                            <br v-if="props.row.status < 2">
+                                                            <tr v-if="props.row.status >= 2">
+                                                                <td style="color:#98A6BE">
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 2"><span>运营工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.runengineer_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
+                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 2"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.runengineer_time}}</span> </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </template>
+                                            </el-step>
+                                        </el-steps>
+                                    </div>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <el-row v-if="props.row.status == 2">
+                            <h4 style="margin-left:20px">站点设备情况</h4>
+                            <el-table :data="props.row.eqs"  style="width:70%" border :header-cell-style="{'text-align':'center',fontSize: '15px'}" :cell-style="{fontSize:'15px',padding:'7px'}">
+                                <el-table-column type="index" label="id" min-width="10%" align="center"></el-table-column>
+                                <el-table-column prop="eq_name" label="设备名称" min-width="45%" align="center"></el-table-column>
+                                <el-table-column prop="eq_status" label="设备状态" min-width="45%" align="center"></el-table-column>
+                            </el-table>
+                            <br>
+                        </el-row>
+                    </template>
+                    </el-table-column>                    
+                    <el-table-column prop= "site_name" label="站点名称" min-width="15%" align="center"></el-table-column>
+                    <el-table-column prop= "site_address" label="站点地址" min-width="20%" align="center"></el-table-column>
+                    <el-table-column prop= "billing_level" label="计费方式" min-width="10%" align="center"></el-table-column>
+                    <el-table-column prop= "demand" label="虚拟网络需求" min-width="20%" align="center"></el-table-column>
+                    <el-table-column label="订单状态" min-width="35%" align="center">
+                        <template slot-scope="scope">
+                            <el-steps :active="scope.row.status" finish-status="success" process-status="finish" align-center>
+                                <el-step description="提交订单"></el-step>
+                                <el-step description="网络工程师"></el-step>
+                                <el-step description="运营工程师"></el-step>
+                            </el-steps>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </div>
-            <el-divider/>
-            <el-row type="flex" class="finished_SearchSite" justify="space-between">
-                <div style="display: inline-block; padding: 10px;">已处理订单：</div>
-                <el-input v-model="finished_search" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
-            </el-row>
-            <div class="finished_SiteData">
-                <el-table :data="finished_sitedata" style="width: 100%" @row-click="showDialog" maxheight="300px" height="300px">
-                    <el-table-column prop= "site_name" label="站点名称" width="180" fixed ></el-table-column>
-                    <el-table-column prop= "site_address" label="站点地址" width="360"></el-table-column>
-                    <el-table-column prop= "billing_level" label="计费方式" width="140"></el-table-column>
-                    <el-table-column prop= "demand_1" label="虚拟网络需求1" width="180"></el-table-column>
-                    <el-table-column prop= "demand_2" label="虚拟网络需求2" width="180"></el-table-column>
-                    <el-table-column prop= "demand_3" label="虚拟网络需求3" width="180"></el-table-column>
-                </el-table>
-            </div>
-            <SiteDialog :dialogVisible="SiteDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' :siteinfo="siteinfo"></SiteDialog>
+            <orderDialog :dialogVisible="orderDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></orderDialog>
         </div>
     </div>
 </template>
@@ -38,131 +127,211 @@
 <script>
 
 import axios from 'axios'
-import SiteDialog from "@/components/SiteDialog"
+import orderDialog from "@/components/orderDialog"
 
 export default{
     name: 'site_query',
     components: {
-        SiteDialog
+        orderDialog
     },
     data(){
         return{
-            unfinished_data: [],
-            finished_data: [],
-            unfinished_search: '',
-            finished_search: '',
-            siteinfo:{site_address:""},
-            SiteDialog:{
+            site_data: [],
+            search_info: '',
+            // siteinfo:{site_address:""},
+            orderDialog:{
                 dialogVisible: false
             }
         }
     },
     created(){
-        axios.get('/api/site/')
-        .then((response)=>{
-            var res = response.data
-            var i = 0
-            for(let item of res){
-                if(item.status == 1){
-                    this.unfinished_data.push({
-                        site_index: i,
-                        site_name: item.site_name,
-                        site_address: item.site_address,
-                        billing_level: (item.billing_level == 1)? '包月' : '包年',
-                        demand_1: (item.demand_1 == '')? '无' : item.demand_1,
-                        demand_2: (item.demand_2 == '')? '无' : item.demand_2,
-                        demand_3: (item.demand_3 == '')? '无' : item.demand_3
-                    })
-                }else{
-                    this.finished_data.push({
-                        site_index: i,
-                        site_name: item.site_name,
-                        site_address: item.site_address,
-                        billing_level: (item.billing_level == 1)? '包月' : '包年',
-                        demand_1: (item.demand_1 == '')? '无' : item.demand_1,
-                        demand_2: (item.demand_2 == '')? '无' : item.demand_2,
-                        demand_3: (item.demand_3 == '')? '无' : item.demand_3
-                    })
-                }
-                i++
-            }
-        })
+        this.getdata()
     },
     methods: {
-        showDialog: function(row){
-            this.SiteDialog.dialogVisible = true
-            var pk = row.site_index
-            console.log(pk)
-            var path = "/api/site/" + pk + "/"
-            axios.get(path)
+        // showDialog: function(row){
+        //     var pk = row.site_index
+        //     console.log(pk)
+        //     var path = "/api/site/" + pk + "/"
+        //     axios.get(path)
+        //     .then((response)=>{
+        //         var res=response.data
+        //         console.log(res)
+        //         this.siteinfo.site_name = res.site_name
+        //         this.siteinfo.site_address = res.site_address
+        //         this.siteinfo.billing_level = (res.billing_level == 1)? '包月' : '包年'
+        //         this.siteinfo.demand_num = res.demand_num
+        //         this.siteinfo.demand_1 = (res.demand_1 == '')? '无' : res.demand_1
+        //         this.siteinfo.demand_2 = (res.demand_2 == '')? '无' : res.demand_2
+        //         this.siteinfo.demand_3 = (res.demand_3 == '')? '无' : res.demand_3
+        //         this.siteinfo.status = (res.status == 1)? '未处理':'处理'
+        //         var eqs = res.eqs
+        //         this.siteinfo.eqs = []
+        //         for(let item of eqs){
+        //             this.siteinfo.eqs.push({
+        //                 eq_name: item.eq_name,
+        //                 eq_status: (item.eq_status == 1)? '已部署' : '未部署'
+        //             })
+        //         }
+        //         console.log(this.siteinfo)
+        //     })
+
+        // },
+        getdata: function(){
+            this.site_data= [
+                {
+                    "site_name": "site1",
+                    "site_address": "清华大学",
+                    "billing_level": "包月",
+                    "demand": "Guest，Management",
+                    "status": 2,
+                    "user_name": "user1",
+                    "create_time": "2021-4-12",
+                    "webengineer_name": "webeng1",
+                    "webengineer_time": "2021-4-12",
+                    "runengineer_name": "runeng1",
+                    "runengineer_time": "2021-4-12",
+                    "eqs": [
+                        {
+                            "eq_name": "ap1",
+                            "eq_status": 1
+                        },
+                        {
+                            "eq_name": "ap2",
+                            "eq_status": 1
+                        }
+                    ]
+                },
+            ],
+            axios.get('/api/site/')
             .then((response)=>{
-                var res=response.data
-                console.log(res)
-                this.siteinfo.site_name = res.site_name
-                this.siteinfo.site_address = res.site_address
-                this.siteinfo.billing_level = (res.billing_level == 1)? '包月' : '包年'
-                this.siteinfo.demand_num = res.demand_num
-                this.siteinfo.demand_1 = (res.demand_1 == '')? '无' : res.demand_1
-                this.siteinfo.demand_2 = (res.demand_2 == '')? '无' : res.demand_2
-                this.siteinfo.demand_3 = (res.demand_3 == '')? '无' : res.demand_3
-                this.siteinfo.status = (res.status == 1)? '未处理':'处理'
-                var eqs = res.eqs
-                this.siteinfo.eqs = []
-                for(let item of eqs){
-                    this.siteinfo.eqs.push({
-                        eq_name: item.eq_name,
-                        eq_status: (item.eq_status == 1)? '已部署' : '未部署'
+                var res = response.data
+                var i = 0
+                for(let item of res){
+                    var item_demand = ''
+                    var item_eqs = false
+                    if(item.demand_num >= 1){
+                        item_demand += item.demand_1
+                    }
+                    if(item.demand_num >= 2){
+                        item_demand  = item_demand + ',' + item.demand_2
+                    }
+                    if(item.demand_num >= 3){
+                        item.demand = item_demand + ',' + item.demand_3
+                    }
+                    if(item.status == 0){
+                        item_eqs = true
+                    }
+                    this.site_data.push({
+                        site_index: i,
+                        site_name: item.site_name,
+                        site_address: item.site_address,
+                        billing_level: (item.billing_level == 1)? '包月' : '包年',
+                        demand: item_demand,
+                        status: (item.status == 0)? 2: item.status - 1,
+                        user_name: "user1",
+                        create_time: "2021-4-1",
+                        webengineer_name: "webeng1",
+                        webengineer_time: "2021-4-12",
+                        runengineer_name: "runeng1",
+                        runengineer_time: "2021-4-12",
+                        eqs:(item_eqs)? item.eqs : ''
                     })
                 }
-                console.log(this.siteinfo)
             })
+        },
+        Dialog_submit:function(){
+            this.orderDialog.dialogVisible = false
+            this.getdata()
 
         },
         Dialog_cancel:function(){
-            this.SiteDialog.dialogVisible = false
-        }
+            this.orderDialog.dialogVisible = false
+        },
+        orderrequest: function(){
+            this.orderDialog.dialogVisible = true
+        },
     },
     computed: {
-        unfinished_sitedata(){
-            const unfinished_search = this.unfinished_search
-            if(unfinished_search){
-                return this.unfinished_data.filter(data => {
+        sitedata(){
+            const search_info = this.search_info
+            if(search_info){
+                return this.site_data.filter(data => {
                     return Object.keys(data).some(key => {
-                        return String(data[key]).toLowerCase().indexOf(unfinished_search) > -1
+                        return String(data[key]).toLowerCase().indexOf(search_info) > -1
                     })
                 })
             }
-            return this.unfinished_data
+            return this.site_data
         },
-        finished_sitedata(){
-            const finished_search = this.finished_search
-            if(finished_search){
-                return this.finished_data.filter(data => {
-                    return Object.keys(data).some(key => {
-                        return String(data[key]).toLowerCase().indexOf(finished_search) > -1
-                    })
-                })
-            }
-            return this.finished_data
-        }
     }
 }
+
 </script>
 
 <style scoped>
+.head{
+  padding: 0px 16px 10px 20px;
+  margin: 5px;
+}
 .colwrapper {
   background-color: #ffffff;
   border-radius: 10px;
   padding: 16px;
   margin: 14px;
 }
-.unfinished_SiteData {
-    margin-top: 10px;
-}
-.finished_SiteData {
+.SiteData {
     margin-top: 10px;
 }
 .el-table {
     border-radius: 5px;
+}
+.basic_info{
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
+}
+.stepComponent{
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    margin: 10px 10px 10px 10px;
+}
+.stepsTitle{
+    margin: 10px 0px  10px  10px ;
+}
+.orderprocessing{
+    /* font-size: 14px; */
+    margin-left:10px;
+    margin-right:0px;
+    margin-top:10px;
+}
+.processing_content_detail{
+    font: 15px;
+    margin-left: 10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    width:100px;
+    display:inline-block;
+}
+.step-row{
+    min-width:500px;
+    margin-bottom:10px;
+    margin-top:0px;
+}
+</style>
+
+<style>
+.table-expand {
+    font-size: 0;
+}
+.table-expand label {
+    width: 150px;
+    color: #99a9bf;
+    font-size: 16px;
+}
+.table-expand .el-form-item {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-size: 100%;
 }
 </style>
