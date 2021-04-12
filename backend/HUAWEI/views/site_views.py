@@ -42,7 +42,7 @@ class SiteView(APIView):
         #    return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
 
         # 测试用
-        create_site_response = str(self.request.user.pk) + "-" + data['site_name'] + str(time.time())
+        create_site_response = str(self.request.user.pk) + "-" + data['site_name']
         new_site_id = create_site_response
 
           ### 创建站点ssid 待完成 华为交互？？？

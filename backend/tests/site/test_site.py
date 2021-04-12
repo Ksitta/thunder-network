@@ -52,16 +52,16 @@ class TestSite(TestCase):
 
     def test_get_site_list(self):
         client = Client()
-        assert client.get(reverse('site_list')).status_code == status.HTTP_401_UNAUTHORIZED
+        assert client.get(reverse('site')).status_code == status.HTTP_401_UNAUTHORIZED
         client.login(**self.user[0])
-        assert client.get(reverse('site_list')).status_code == status.HTTP_200_OK
+        assert client.get(reverse('site')).status_code == status.HTTP_200_OK
     
-    def test_submit_site_list(self):
+    def test_post_site(self):
         client = Client()
-        assert client.post(reverse('submit'), data=self.site).status_code == status.HTTP_401_UNAUTHORIZED
+        assert client.post(reverse('site'), data=self.site).status_code == status.HTTP_401_UNAUTHORIZED
         client.login(**self.user[0])
-        assert client.post(reverse('submit'), data=self.site).status_code == status.HTTP_201_CREATED
-        assert client.post(reverse('submit'), data=self.bad_site).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.post(reverse('site'), data=self.site).status_code == status.HTTP_201_CREATED
+        assert client.post(reverse('site'), data=self.bad_site).status_code == status.HTTP_400_BAD_REQUEST
 
     def test_get_site_detail(self):
         client = Client()
