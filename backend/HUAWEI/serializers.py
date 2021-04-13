@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from . import models
-from .models import User, Equipment
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
@@ -14,7 +13,7 @@ class UserRegisterSerializers(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, data):
-        user = User(
+        user = models.User(
             username=data['username'],
             user_type=data['user_type'],
             contact_details=data['contact_details'],
@@ -33,7 +32,7 @@ class UserProfileSerializers(serializers.ModelSerializer):
         fields = ['contact_details', 'contact_email', 'contact_address', 'username', 'user_type']
         extra_kwargs = {'username': {'read_only': True}, 'user_type': {'read_only' : True}}
 
-    def update(self, instance: User, data):
+    def update(self, instance: models.User, data):
         instance.contact_address = data['contact_address']
         instance.contact_email = data['contact_email']
         instance.contact_details = data['contact_details']
@@ -44,8 +43,8 @@ class UserProfileSerializers(serializers.ModelSerializer):
 class SiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
-        fields = ('site_id', 'site_name', 'user', 'site_address', 'billing_level', 'demand_num', 'demand_1',
-                  'demand_2', 'demand_3', 'status', 'create_time')
+        fields = ['site_id', 'site_name', 'user', 'site_address', 'billing_level', 'demand_num', 'demand_1',
+                  'demand_2', 'demand_3', 'status', 'create_time']
 
     def create(self, validated_data):
         """
@@ -86,7 +85,7 @@ class TokenObtainSerializer(TokenObtainPairSerializer):
 class EquipmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Equipment
-        fields = ('eq_id', 'site', 'eq_name', 'eq_status')
+        fields = ['eq_id', 'site', 'eq_name', 'eq_status']
 
     def create(self, validated_data):
         return models.Equipment.objects.create(**validated_data)
@@ -95,10 +94,20 @@ class SiteDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
 
-        fields = ('site_name', 'site_address', 'billing_level', 'demand_num', 'demand_1',
-                  'demand_2', 'demand_3', 'status', 'user', 'create_time')
+        fields = ['site_name', 'site_address', 'billing_level', 'demand_num', 'demand_1',
+                  'demand_2', 'demand_3', 'status', 'user', 'create_time']
 
 class EquipmentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Equipment
         fields = ['eq_name', 'eq_status']
+
+class SiteFlowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Site
+        fields = ['site_name', 'total_up', 'total_down', 'rate_unit', 'flow_data']
+
+class EquipmentFlowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Equipment
+        fields = ['eq_name', 'total_up', 'total_down', 'rate_unit', 'flow_data']

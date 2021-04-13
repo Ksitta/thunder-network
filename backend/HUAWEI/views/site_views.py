@@ -15,19 +15,18 @@ class SiteView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         user = self.request.user
-        if user.user_type == 1 or user.user_type == 2:
-            # 运营&网络工程师
+        if user.user_type == 1 or user.user_type == 2:  # 运营&网络工程师
             sites = Site.objects.all()
         else:
             sites = Site.objects.filter(user=user)
         serializer = SiteDetailSerializer(instance=sites, many=True)
-        ret = []
-        tem = serializer.data
-        for i in range(0, len(tem)):
-            t = tem[i]
-            t['user'] = User.objects.get(pk=t['user']).username
-            ret.append(t)
-        return Response(ret, status=status.HTTP_200_OK)
+        return_data = []
+        data_list = serializer.data
+        for i in range(0, len(data_list)):
+            data = data_list[i]
+            data['user'] = User.objects.get(pk=data['user']).username
+            return_data.append(data)
+        return Response(return_data, status=status.HTTP_200_OK)
 
     def post(self, request):
         data = deepcopy(self.request.data)
@@ -37,15 +36,16 @@ class SiteView(APIView):
         """
         # 与华为交互 创建Site
           ### 获取site_id
-        #create_site_response = create_site(str(self.request.user.username) + str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
-        #if create_site_response == IndexError:
-        #    return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
+        create_site_response = create_site(str(self.request.user.username) + str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        if create_site_response == IndexError:
+            return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
 
         # 测试用
-        create_site_response = str(self.request.user.pk) + "-" + data['site_name']
+        # create_site_response = str(self.request.user.pk) + "-" + data['site_name']
         new_site_id = create_site_response
 
           ### 创建站点ssid 待完成 华为交互？？？
+
 
         # 在数据库中更新Site表
         item = {'status': 1,

@@ -72,8 +72,8 @@ ROOT_URLCONF = 'backend.urls'
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=300),
-    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=3000),
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=3000),
+    'REFRESH_TOKEN_LIFETIME': timedelta(seconds=30000),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
 
@@ -160,8 +160,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-nbi_name = "campusAc03@north.com"
-nbi_pwd = "Qx9A9YriU@"
+# nbi_name = "campusAc03@north.com"
+# nbi_pwd = "Qx9A9YriU@"
+nbi_name = "Thunder@tenant.com"
+nbi_pwd = "huawei12#$"
 nbi_host = "139.9.213.72"
 nbi_port = "18002"
 
@@ -172,4 +174,3 @@ except:
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATICFILES_DIR = os.path.join(BASE_DIR, 'frontend', 'dist')
-# FIXTURE_DIRS = (os.path.join(BASE_DIR,'fixtures',),)

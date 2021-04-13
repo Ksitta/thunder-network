@@ -48,13 +48,13 @@ def create_site(name):
     headers['X-AUTH-TOKEN'] = get_token()
     r = requests.post(post_sites_url, headers=headers, json=data, verify=False)
     # 解析站点信息
-    print("【Post Sites】")
+    # print("【Post Sites】")
     try:
         body = r.json()["success"]
         site_id = body[0]['id']
     except IndexError:
         return IndexError
-    print("【success】：" + str(site_id))
+    # print("【success】：" + str(site_id))
     return site_id
 
 # 限定为id精准查找
