@@ -1,9 +1,14 @@
 from threading import Timer
 import time
 from .flow_generate_view import FlowGenerateView
+try:
+    from config.local_settings import deploy
+except:
+    deploy = False
 
 generator = FlowGenerateView()
 
+global t
 
 def get_flow():
     global t
@@ -14,6 +19,6 @@ def get_flow():
     t = Timer(14400, get_flow)
     t.start()
 
-
-t = Timer(14400, get_flow)
-t.start()
+if deploy:
+    t = Timer(14400, get_flow)
+    t.start()
