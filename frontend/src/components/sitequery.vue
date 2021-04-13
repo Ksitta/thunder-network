@@ -258,8 +258,9 @@ export default{
             const search_info = this.search_info
             if(search_info){
                 return this.site_data.filter(data => {
-                    return Object.keys(data).some(key => {
-                        return String(data[key]).toLowerCase().indexOf(search_info) > -1
+                    let show = ["site_name","site_address", "billing_level", "demand"]
+                    return show.some(key => {
+                        return String(data[key]).toLowerCase().indexOf(search_info.toLowerCase()) > -1
                     })
                 })
             }
