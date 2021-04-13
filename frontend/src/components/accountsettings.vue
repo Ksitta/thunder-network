@@ -10,10 +10,12 @@
         </div>
         <div class="colwrapper">
           <div class="basic_info" style=" margin-bottom:30px;">
-              <div class="basic_title" style="padding:10px 20px;">
-                <div class="title">
-                <h3 align="left" style="color:black;">Basic info</h3>
-                <!-- <el-tag>{{identity}}</el-tag> -->
+              <div class="basic_title" style="padding:50px 15px;">
+                <div class="title" style="padding:0px 20px;">
+                  <span style="font-size: 24px;float:left; font-weight:bold;color:black;">
+                    Basic info
+                  </span>
+                <el-tag style="margin-right:650px">{{identity}}</el-tag>
                 <hr>
                 </div>
                 <div class="body" style="padding:24px 30px 30px;">
@@ -40,9 +42,11 @@
         </div>
         <div class="colwrapper1">
           <div class="login_info" style=" margin-bottom:30px;">
-              <div class="login_title" style="padding:10px 20px;">
-                <div class="title">
-                <h3 align="left" style="color:black;">Login info</h3>
+              <div class="login_title" style="padding:50px 15px;">
+                <div class="title" style="padding:0px 20px;">
+                  <span style="font-size: 24px;margin-right:700px; font-weight:bold;color:black;">
+                    Login info
+                  </span>
                 <hr>
                 </div>
                 <div class="body" style="padding:24px 30px 30px;">
@@ -87,16 +91,24 @@ export default{
     name: "accountsettings",
     data(){
         return{
-            user:{}
+            user:{
+              username: "",
+              contact_details: "",
+              contact_email: "",
+              contact_address: "",
+              user_type: "",
+            }
         }
     },
     created(){
       this.getdata()
+      // console.log(this.user)
     },
     methods:{
       getdata: function(){
         axios.get('/api/user/profile/')
         .then((response) => {
+          // console.log(response)
           this.user.username = response.data.user.username
           this.user.contact_details = response.data.user.contact_details
           this.user.contact_email = response.data.user.contact_email
@@ -110,6 +122,7 @@ export default{
             type: "error",
           });
         })
+        // console.log(this.user)
       },
       submit: function(){
         axios.put("api/user/edit/", 
@@ -137,9 +150,9 @@ export default{
         if (this.user.user_type == "2") return "网络工程师";
         return "";
       },
-    avatar_src: function() {
-      return "https://sdn.geekzu.org/avatar/" + md5(this.user.contact_email);
-    }
+      avatar_src: function() {
+        return "https://sdn.geekzu.org/avatar/" + md5(this.user.contact_email);
+      }
     }
 
 }
