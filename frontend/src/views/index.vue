@@ -84,7 +84,7 @@
 
           </el-menu>
 
-          <el-menu v-if="getIdentity == 1" background-color="#fbfcfe" style="height:100%" @select="menunav">
+          <el-menu v-if="getIdentity == 1" background-color="#131720" style="height:100%" @select="menunav">
             <!-- Menu -->
             <el-menu-item class="menu-homeitem"
               index="1"
@@ -95,6 +95,24 @@
 
             <el-menu-item class="menu-homeitem"
               index="4"
+              >
+              <i class="el-icon-s-claim"></i>
+              <span>订单管理</span>
+            </el-menu-item>
+
+          </el-menu>
+
+          <el-menu v-if="getIdentity == 2" background-color="#131720" style="height:100%" @select="menunav">
+            <!-- Menu -->
+            <el-menu-item class="menu-homeitem"
+              index="1"
+              >
+              <i class="el-icon-menu"></i>
+              <span>主页</span>
+            </el-menu-item>
+
+            <el-menu-item class="menu-homeitem"
+              index="5"
               >
               <i class="el-icon-s-claim"></i>
               <span>订单管理</span>
