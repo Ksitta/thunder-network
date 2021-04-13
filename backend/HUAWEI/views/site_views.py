@@ -25,6 +25,10 @@ class SiteView(APIView):
         for i in range(0, len(data_list)):
             data = data_list[i]
             data['user'] = User.objects.get(pk=data['user']).username
+            if data['status'] == 0:  # 已完成订单 返回设备详细状态 未完成订单，不返回设备信息
+                eqs = Equipment.objects.filter(site=sites[i].pk)
+                eqs_serializer = EquipmentDetailSerializer(instance=eqs, many=True)
+                data['eqs'] = eqs_serializer.data
             return_data.append(data)
         return Response(return_data, status=status.HTTP_200_OK)
 
@@ -89,7 +93,7 @@ class SiteDetailView(APIView):
 
     def put(self, request, pk):
         user = self.request.user
-        if user.user_type == 1 or user.user_type == 2: # 运营&网络工程师
+        if user.user_type == 1: # 运营&网络工程师
             sites = Site.objects.all()
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -97,9 +101,6 @@ class SiteDetailView(APIView):
 
         if thesite.status == 1 and user.user_type == 1:
             thesite.status = 2
-            thesite.save()
-        elif thesite.status == 2 and user.user_type == 2:
-            thesite.status = 0
             thesite.save()
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)

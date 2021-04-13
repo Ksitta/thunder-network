@@ -6,7 +6,7 @@ import random, json, time
 
 def generate_flow():
     queryset_flow = RawFlowData.objects.all()
-    nums = queryset_flow.count()
+    nums = 100000
     up = 0
     down = 0
     newnums = random.randint(0, 100)
@@ -24,6 +24,9 @@ class FlowGenerateView(APIView):
     queryset_site = Site.objects.all()
     queryset_eq = Equipment.objects.all()
     def get(self, request):
+        local_time = time.localtime()
+        site_time = str(local_time.tm_year) + '-' + str(local_time.tm_mon) + '-' + str(local_time.tm_mday) + ' ' \
+                    + str(local_time.tm_hour) + ':' + str(local_time.tm_min) + ':' + str(local_time.tm_sec)
         for i in self.queryset_site:
             try:
                 flow_list = json.loads(i.flow_data)
@@ -34,8 +37,6 @@ class FlowGenerateView(APIView):
             eqset = self.queryset_eq.filter(site=i.pk)
             site_up = 0
             site_down = 0
-            local_time = time.localtime()
-            site_time = str(local_time.tm_year)+'-'+str(local_time.tm_mon)+'-'+str(local_time.tm_mday)+' '+str(local_time.tm_hour)
             for j in eqset:
                 try:
                     flow_list_eq = json.loads(j.flow_data)

@@ -29,7 +29,11 @@ class EquipmentView(APIView):
             return Response(status=status.HTTP_403_FORBIDDEN)
         thesite = sites[int(pk)]
 
-        # 与华为交互 创建设备 ????
+        if thesite.status == 2 and user.user_type == 2:
+            thesite.status = 0
+            thesite.save()
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # 在数据库中更新设备
         new_site = Site.objects.get(site_id=thesite.site_id)
