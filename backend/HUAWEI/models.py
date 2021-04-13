@@ -22,6 +22,10 @@ class Site(models.Model):
     demand_3 = models.CharField('需求3', max_length=20, blank=True)
     status = models.IntegerField('订单、部署状态')
     create_time = models.DateTimeField(auto_now_add=True)
+    total_up = models.IntegerField('上行总流量', default=0)
+    total_down = models.IntegerField('下行总流量', default=0)
+    flow_data = models.CharField('流量数据', max_length=1000, default="")
+    rate_unit = models.CharField('速率单位', max_length=10, default='byte')
 
 
 class Equipment(models.Model):
@@ -29,31 +33,9 @@ class Equipment(models.Model):
     site = models.ForeignKey('Site', on_delete=models.CASCADE)
     eq_name = models.CharField('设备名称', max_length=20)
     eq_status = models.IntegerField('设备状态')
-
-
-class EquipmentFlow(models.Model):
-    eq_id = models.ForeignKey('Equipment', on_delete=models.CASCADE, blank=False)
     total_up = models.IntegerField('上行总流量', default=0)
     total_down = models.IntegerField('下行总流量', default=0)
-    flow_1 = models.CharField('时段1', max_length=1000)
-    flow_2 = models.CharField('时段2', max_length=1000)
-    flow_3 = models.CharField('时段3', max_length=1000)
-    flow_4 = models.CharField('时段4', max_length=1000)
-    flow_5 = models.CharField('时段5', max_length=1000)
-    flow_6 = models.CharField('时段6', max_length=1000)
-    rate_unit = models.CharField('速率单位', max_length=10, default='byte')
-
-
-class SiteFlow(models.Model):
-    site_id = models.ForeignKey('Site', on_delete=models.CASCADE, blank=False)
-    total_up = models.IntegerField('上行总流量', default=0)
-    total_down = models.IntegerField('下行总流量', default=0)
-    flow_1 = models.CharField('时段1', max_length=1000)
-    flow_2 = models.CharField('时段2', max_length=1000)
-    flow_3 = models.CharField('时段3', max_length=1000)
-    flow_4 = models.CharField('时段4', max_length=1000)
-    flow_5 = models.CharField('时段5', max_length=1000)
-    flow_6 = models.CharField('时段6', max_length=1000)
+    flow_data = models.CharField('流量数据', max_length=1000, default="")
     rate_unit = models.CharField('速率单位', max_length=10, default='byte')
 
 
