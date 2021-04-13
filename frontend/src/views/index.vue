@@ -127,6 +127,7 @@
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
           <!-- <orderrequest ref="orderrequest" v-bind:show="showpage.orderrequest" v-if="showpage.orderrequest"></orderrequest> -->
+          <flow ref="flow" v-bind:show="showpage.flow" v-if="showpage.flow"></flow>
           <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
         </el-main>
       </el-container>
@@ -139,6 +140,7 @@ import userhome from '@/components/userhome'
 import sitequery from '@/components/sitequery'
 // import orderrequest from '@/components/orderrequest'
 import orderprocessing from '@/components/orderprocessing'
+import flow from '@/components/flow'
 
 export default {
   name: 'index',
@@ -148,6 +150,7 @@ export default {
     sitequery,
     // orderrequest,
     orderprocessing,
+    flow,
   },
 
   data: function() {
@@ -157,6 +160,7 @@ export default {
         sitequery: false,
         // orderrequest: false,
         orderprocessing: false,
+        flow: false,
       }
     }
   },
@@ -166,14 +170,16 @@ export default {
       console.log(idx);
       this.showpage.home = false
       // this.showpage.orderrequest = false
+      this.showpage.flow = false
       this.showpage.sitequery = false
       this.showpage.orderprocessing = false
       if (idx === "1") {
         this.showpage.home = true
       }
-      // if (idx === "2-1") {
-      //   this.showpage.orderrequest = true
-      // }
+      if (idx === "2-1") {
+        // this.showpage.orderrequest = true
+        this.showpage.flow = true
+      }
       if(idx === "3-1") {
         this.showpage.sitequery = true
       }
