@@ -24,23 +24,11 @@
           </div>
 
           <div class="colwrapper">
-            <div class="userinfo">
-              <div style="display:flex; justify-content: start;">
-                <el-avatar shape="square" :size="100" :src="avatar_src"></el-avatar>
-                <div class="usergreet">
-                  <div>
-                    <span style="font-size: 40px; vertical-align: middle;">
-                      {{info.username}}
-                    </span>
-                    <el-tag style="vertical-align: middle;">{{identity}}</el-tag>
-                  </div>
-                  <div style="color: #333850; font-size: 12px; padding-top: 5px;">
-                    email: {{info.contact_email}}
-                  </div>
-                </div>
-              </div>
-              <hr class="divider"/>
-            </div>
+            <ve-histogram
+              :data="chartData"
+              :data-empty="true"
+              :settings="chartSettings">
+            </ve-histogram>
           </div>
         </el-col>
 
@@ -77,6 +65,20 @@ export default {
   name: 'user_home',
   data() {
       return {
+        chartSettings : {
+          showLine: ['下单用户']
+        },
+        chartData: {
+          columns: ['日期', '访问用户', '下单用户', '下单率'],
+          rows: [
+            { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
+            { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
+            { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
+            { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
+            { '日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
+            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }
+          ]
+        },
         info: {
           username: "",
           contact_details: "",
