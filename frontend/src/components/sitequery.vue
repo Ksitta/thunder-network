@@ -44,7 +44,7 @@
                                         <el-steps :active="props.row.status" finish-status="success" process-status="finish" direction="vertical">
                                             <el-step title="提交订单">
                                                 <template slot="description" >
-                                                    <div class="step-row" v-if="props.row.status >= 0">
+                                                    <div class="step-row" v-if="props.row.status >= 1">
                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="processing_content">
                                                             <tr>
                                                                 <td style="color:#98A6BE">
@@ -56,32 +56,34 @@
                                                     </div>
                                                 </template>
                                             </el-step>
-                                            <el-step title="网络工程师处理">
+                                            <el-step title="运营工程师处理">
                                                 <template slot="description" >
                                                     <div class="step-row">
                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="processing_content">
-                                                            <br v-if="props.row.status < 1">
-                                                            <br v-if="props.row.status < 1">
+                                                            <br v-if="props.row.status == 0">
+                                                            <br v-if="props.row.status == 0">
                                                             <tr v-if="props.row.status >= 1">
                                                                 <td style="color:#98A6BE">
-                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 1"><span>网络工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.webengineer_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
-                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 1"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.webengineer_time}}</span> </div>
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status == 1"><span>运营工程师正在处理订单……</span></div>
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 2"><span>运营工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.runengineer_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
+                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 2"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.runengineer_time}}</span> </div>
                                                                 </td>
                                                             </tr>
                                                         </table>
                                                     </div>
                                                 </template>
                                             </el-step>
-                                            <el-step title="运营工程师处理">
+                                            <el-step title="网络工程师处理">
                                                 <template slot="description" >
                                                     <div class="step-row" >
                                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="processing_content">
-                                                            <br v-if="props.row.status < 2">
-                                                            <br v-if="props.row.status < 2">
+                                                            <br v-if="props.row.status == 1">
+                                                            <br v-if="props.row.status == 1">
                                                             <tr v-if="props.row.status >= 2">
                                                                 <td style="color:#98A6BE">
-                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 2"><span>运营工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.runengineer_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
-                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 2"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.runengineer_time}}</span> </div>
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status == 2"><span>网络工程师正在处理订单……</span></div>
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 3"><span>网络工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.webengineer_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
+                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 3"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.webengineer_time}}</span> </div>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -93,7 +95,7 @@
                                 </div>
                             </el-col>
                         </el-row>
-                        <el-row v-if="props.row.status == 2">
+                        <el-row v-if="props.row.status == 3">
                             <h4 style="margin-left:20px">站点设备情况</h4>
                             <el-table :data="props.row.eqs"  style="width:70%" border :header-cell-style="{'text-align':'center',fontSize: '15px'}" :cell-style="{fontSize:'15px',padding:'7px'}">
                                 <el-table-column type="index" label="id" min-width="10%" align="center"></el-table-column>
@@ -112,8 +114,8 @@
                         <template slot-scope="scope">
                             <el-steps :active="scope.row.status" finish-status="success" process-status="finish" align-center>
                                 <el-step description="提交订单"></el-step>
-                                <el-step description="网络工程师"></el-step>
                                 <el-step description="运营工程师"></el-step>
+                                <el-step description="网络工程师"></el-step>
                             </el-steps>
                         </template>
                     </el-table-column>
@@ -227,7 +229,7 @@ export default{
                         site_address: item.site_address,
                         billing_level: (item.billing_level == 1)? '包月' : '包年',
                         demand: item_demand,
-                        status: (item.status == 0)? 2: item.status - 1,
+                        status: (item.status == 0)? 3: item.status,
                         user_name: "user1",
                         create_time: "2021-4-1",
                         webengineer_name: "webeng1",
