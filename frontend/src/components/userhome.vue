@@ -46,22 +46,18 @@
 
         <el-col :span="8" class="right_col">
           <div class="colwrapper">
-            <div class="userinfo">
-              <div style="display:flex; justify-content: start;">
-                <el-avatar shape="square" :size="100" :src="avatar_src"></el-avatar>
-                <div class="usergreet">
-                  <div>
-                    <span style="font-size: 40px; vertical-align: middle;">
-                      {{info.username}}
-                    </span>
-                    <el-tag style="vertical-align: middle;">{{identity}}</el-tag>
-                  </div>
-                  <div style="color: #333850; font-size: 12px; padding-top: 5px;">
-                    email: {{info.contact_email}}
-                  </div>
-                </div>
-              </div>
+
+            <div style="color: #7792b1;">
+              <p>
+                <span style="font-size: 32px; line-height: 26px;">2739475</span>
+                <span> Bytes</span>
+              </p>
+              <p>
+                今日流量
+                <i class="el-icon-odometer"></i>
+              </p>
             </div>
+
           </div>
         </el-col>
 
