@@ -13,6 +13,10 @@ class FlowGenerateView(APIView):
     queryset_flow = RawFlowData.objects.all()
     flow_nums = len(queryset_eq)
     def get(self, request):
+        self.inner_generate()
+        return Response("", 200)
+
+    def inner_generate(self):
         time_array = time.localtime()
         site_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
         for i in self.queryset_site:
@@ -48,7 +52,7 @@ class FlowGenerateView(APIView):
             flow_list.append({'up': site_up, 'down': site_down, 'time': site_time})
             i.flow_data = json.dumps(flow_list)
             i.save()
-        return Response("", 200)
+
 
     def generate_flow(self):
         up = 0
