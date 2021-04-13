@@ -65,8 +65,8 @@
                                                             <tr v-if="props.row.status >= 1">
                                                                 <td style="color:#98A6BE">
                                                                     <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status == 1"><span>运营工程师正在处理订单……</span></div>
-                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 2"><span>运营工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.runengineer_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
-                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 2"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.runengineer_time}}</span> </div>
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 2"><span>运营工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.manager_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
+                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 2"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.manager_time}}</span> </div>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -82,8 +82,8 @@
                                                             <tr v-if="props.row.status >= 2">
                                                                 <td style="color:#98A6BE">
                                                                     <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status == 2"><span>网络工程师正在处理订单……</span></div>
-                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 3"><span>网络工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.webengineer_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
-                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 3"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.webengineer_time}}</span> </div>
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 3"><span>网络工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.network_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
+                                                                    <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 3"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.network_time}}</span> </div>
                                                                 </td>
                                                             </tr>
                                                         </table>
@@ -95,9 +95,9 @@
                                 </div>
                             </el-col>
                         </el-row>
-                        <el-row v-if="props.row.status == 3">
-                            <h4 style="margin-left:20px">站点设备情况</h4>
-                            <el-table  :cell-style="{color: '#666', fontFamily: 'Arial',fontSize:'15px'}" :data="props.row.eqs" :header-cell-style="{background:'#f0f9eb', fontFamily:'Helvetica',fontSize:'14px'}" style="width: 50%">                                
+                        <el-row v-if="props.row.status == 3" style="margin-top: -50px;margin-left: 10px">
+                            <h4 style="margin-left:20px;color:#666;font-size:16px;" v-if="props.row.status == 3">站点设备情况</h4>
+                            <el-table v-if="props.row.status == 3" :cell-style="{color: '#666', fontFamily: 'Arial',fontSize:'15px'}" :data="props.row.eqs" :header-cell-style="{background:'#f0f9eb', fontFamily:'Helvetica',fontSize:'14px'}" style="width: 40%">                                
                                 <el-table-column type="index" label="id" min-width="10%" align="center"></el-table-column>
                                 <el-table-column prop="eq_name" label="设备名称" min-width="45%" align="center"></el-table-column>
                                 <el-table-column prop="eq_status" label="设备状态" min-width="45%" align="center"></el-table-column>
@@ -179,31 +179,7 @@ export default{
 
         // },
         getdata: function(){
-            this.site_data= [
-                {
-                    "site_name": "site1",
-                    "site_address": "清华大学",
-                    "billing_level": "包月",
-                    "demand": "Guest，Management",
-                    "status": 3,
-                    "user_name": "user1",
-                    "create_time": "2021-4-12",
-                    "webengineer_name": "webeng1",
-                    "webengineer_time": "2021-4-12",
-                    "runengineer_name": "runeng1",
-                    "runengineer_time": "2021-4-12",
-                    "eqs": [
-                        {
-                            "eq_name": "ap1",
-                            "eq_status": 1
-                        },
-                        {
-                            "eq_name": "ap2",
-                            "eq_status": 1
-                        }
-                    ]
-                },
-            ],
+            this.site_data= [],
             axios.get('/api/site/')
             .then((response)=>{
                 var res = response.data
@@ -211,6 +187,8 @@ export default{
                 for(let item of res){
                     var item_demand = ''
                     var item_eqs = false
+                    var manager = false
+                    var network = false
                     if(item.demand_num >= 1){
                         item_demand += item.demand_1
                     }
@@ -222,6 +200,10 @@ export default{
                     }
                     if(item.status == 0){
                         item_eqs = true
+                        manager = true
+                        network = true
+                    }else if(item.status == 2){
+                        manager = true
                     }
                     this.site_data.push({
                         site_index: i,
@@ -230,12 +212,12 @@ export default{
                         billing_level: (item.billing_level == 1)? '包月' : '包年',
                         demand: item_demand,
                         status: (item.status == 0)? 3: item.status,
-                        user_name: "user1",
-                        create_time: "2021-4-1",
-                        webengineer_name: "webeng1",
-                        webengineer_time: "2021-4-12",
-                        runengineer_name: "runeng1",
-                        runengineer_time: "2021-4-12",
+                        user_name: item.user,
+                        create_time: item.create_time.substring(0,10),
+                        manager_name: (manager)? item.manager_name : '',
+                        manager_time: (manager)? item.manager_time.substring(0,10) : '',
+                        network_name: (network)? item.network_name : '',
+                        network_time: (network)? item.network_time.substring(0,10) : '',
                         eqs:(item_eqs)? item.eqs : ''
                     })
                 }
