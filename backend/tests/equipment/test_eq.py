@@ -57,7 +57,7 @@ class TestEquipment(TestCase):
     #     ]
     # }
 
-    site_pk = 0
+    site_pk = 2
     # 超出范围
     bad_site_pk = 9
 

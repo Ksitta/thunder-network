@@ -84,10 +84,6 @@ class TestSite(TestCase):
         client.login(**self.user[1])
         assert client.put(reverse('site_detail', args=[0])).status_code == status.HTTP_400_BAD_REQUEST
         assert client.put(reverse('site_detail', args=[1])).status_code == status.HTTP_200_OK
-        client.logout()
-        client.login(**self.user[2])
-        assert client.put(reverse('site_detail', args=[0])).status_code == status.HTTP_400_BAD_REQUEST
-        assert client.put(reverse('site_detail', args=[1])).status_code == status.HTTP_200_OK
 
 
     def test_z_delete_site(self):
