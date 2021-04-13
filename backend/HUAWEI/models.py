@@ -22,6 +22,12 @@ class Site(models.Model):
     demand_3 = models.CharField('需求3', max_length=20, blank=True)
     status = models.IntegerField('订单、部署状态')
     create_time = models.DateTimeField(auto_now_add=True)
+    manager_name = models.CharField('运营工程师', max_length=50, blank=True)
+    manager_time = models.DateTimeField(null=True, default=None, blank=True)
+    network_name = models.CharField('网络工程师', max_length=50, blank=True)
+    network_time = models.DateTimeField(null=True, default=None, blank=True)
+
+
     total_up = models.IntegerField('上行总流量', default=0)
     total_down = models.IntegerField('下行总流量', default=0)
     flow_data = models.CharField('流量数据', max_length=1000, default="")

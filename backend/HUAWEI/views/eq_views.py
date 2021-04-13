@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment
 from HUAWEI.serializers import EquipmentSerializer
 from rest_framework.permissions import IsAuthenticated
+import datetime
 
 class EquipmentView(APIView):
     permission_classes = [IsAuthenticated]
@@ -31,6 +32,8 @@ class EquipmentView(APIView):
 
         if thesite.status == 2 and user.user_type == 2:
             thesite.status = 0
+            thesite.network_name = user.username
+            thesite.network_time = datetime.datetime.now()
             thesite.save()
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)

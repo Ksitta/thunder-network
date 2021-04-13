@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from HUAWEI.views.nce import create_site
 # from HUAWEI.views.nce import delete_site
 from copy import copy, deepcopy
-import time
+import time, datetime
 
 class SiteView(APIView):
     queryset = Site.objects.all()
@@ -25,10 +25,18 @@ class SiteView(APIView):
         for i in range(0, len(data_list)):
             data = data_list[i]
             data['user'] = User.objects.get(pk=data['user']).username
+            if data['status'] == 2:
+                data['manager_name'] = sites[i].manager_name
+                data['manager_time'] = sites[i].manager_time
             if data['status'] == 0:  # 已完成订单 返回设备详细状态 未完成订单，不返回设备信息
                 eqs = Equipment.objects.filter(site=sites[i].pk)
                 eqs_serializer = EquipmentDetailSerializer(instance=eqs, many=True)
                 data['eqs'] = eqs_serializer.data
+                data['manager_name'] = sites[i].manager_name
+                data['manager_time'] = sites[i].manager_time
+                data['network_name'] = sites[i].network_name
+                data['network_time'] = sites[i].network_time
+
             return_data.append(data)
         return Response(return_data, status=status.HTTP_200_OK)
 
@@ -101,6 +109,8 @@ class SiteDetailView(APIView):
 
         if thesite.status == 1 and user.user_type == 1:
             thesite.status = 2
+            thesite.manager_name = user.username
+            thesite.manager_time = datetime.datetime.now()
             thesite.save()
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
