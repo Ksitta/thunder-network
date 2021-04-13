@@ -97,7 +97,7 @@
                         </el-row>
                         <el-row v-if="props.row.status == 3">
                             <h4 style="margin-left:20px">站点设备情况</h4>
-                            <el-table :data="props.row.eqs"  style="width:70%" border :header-cell-style="{'text-align':'center',fontSize: '15px'}" :cell-style="{fontSize:'15px',padding:'7px'}">
+                            <el-table  :cell-style="{color: '#666', fontFamily: 'Arial',fontSize:'15px'}" :data="props.row.eqs" :header-cell-style="{background:'#f0f9eb', fontFamily:'Helvetica',fontSize:'14px'}" style="width: 50%">                                
                                 <el-table-column type="index" label="id" min-width="10%" align="center"></el-table-column>
                                 <el-table-column prop="eq_name" label="设备名称" min-width="45%" align="center"></el-table-column>
                                 <el-table-column prop="eq_status" label="设备状态" min-width="45%" align="center"></el-table-column>
@@ -185,7 +185,7 @@ export default{
                     "site_address": "清华大学",
                     "billing_level": "包月",
                     "demand": "Guest，Management",
-                    "status": 2,
+                    "status": 3,
                     "user_name": "user1",
                     "create_time": "2021-4-12",
                     "webengineer_name": "webeng1",

@@ -77,7 +77,7 @@ export default{
     },
     methods:{
         Submit:function(){
-            this.$emit('Dialog_submit')
+            this.$emit('Dialog_cancel')
             let submitinfo = {
                 site_name: this.info.site_name,
                 site_address: this.info.site_address,
@@ -103,6 +103,7 @@ export default{
                 if(response.status === 201){
                     this.$message.success("提交成功！")
                     this.retinfo = response.data
+                    this.$emit('Dialog_submit')
                 }else{
                     alert(response.status)
                 }
