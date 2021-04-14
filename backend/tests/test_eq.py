@@ -59,7 +59,7 @@ class TestEquipment(TestCase):
 
     site_pk = 2
     # 超出范围
-    bad_site_pk = 9
+    bad_site_pk = 1
 
     def test_post_eq(self):
         client = Client()
@@ -69,4 +69,4 @@ class TestEquipment(TestCase):
         client.logout()
         client.login(**self.user[2])
         assert client.post(reverse('equipment', args=[self.site_pk]), data=self.eq).status_code == status.HTTP_201_CREATED
-        # assert client.post(reverse('equipment'), data=self.eq).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.post(reverse('equipment', args=[self.site_pk]), data=self.eq).status_code == status.HTTP_400_BAD_REQUEST

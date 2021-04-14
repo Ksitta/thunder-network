@@ -43,6 +43,10 @@ class SiteFlowView(APIView):
         else:
             sites = Site.objects.filter(user=user)
         thesite = sites[int(pk)]
+
+        if thesite.status == 1 or thesite.status == 2:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
         eqs_info = Equipment.objects.filter(site=thesite.pk)
 
         return_data = {
@@ -52,8 +56,6 @@ class SiteFlowView(APIView):
 
         site_serializer = SiteFlowSerializer(instance=thesite)
         site_flow = copy(site_serializer.data)
-        print("site_flow: ", site_flow)
-        print("flow_data: ", site_flow['flow_data'])
         site_flow['flow_data'] = json.loads(site_flow['flow_data'])
         return_data['site_flow'] = site_flow
 
