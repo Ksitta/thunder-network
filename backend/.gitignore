@@ -7,3 +7,4 @@ local_settings.py
 /coverage-reports
 generateflow.py
 flow.log
+*.log

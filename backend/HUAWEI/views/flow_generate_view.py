@@ -2,7 +2,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, RawFlowData
-import random, json, time
+import random, json
+import time
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 class FlowGenerateView(APIView):
@@ -17,6 +19,8 @@ class FlowGenerateView(APIView):
         return Response("", 200)
 
     def inner_generate(self):
+        with open('./flow.log', mode='a+') as file:
+            file.write(str(time.time()) + " generated flow info\n")
         time_array = time.localtime()
         site_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
         for i in self.queryset_site:
@@ -64,3 +68,9 @@ class FlowGenerateView(APIView):
             up += new_flow.out_flow
             down += new_flow.in_flow
         return {'up': up, 'down': down}
+
+
+a = FlowGenerateView()
+scheduler = BackgroundScheduler()
+scheduler.add_job(a.inner_generate, 'interval', seconds=14400)
+scheduler.start()
