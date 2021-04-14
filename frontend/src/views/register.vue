@@ -33,10 +33,11 @@
                         </el-form-item>
                         <el-form-item label="身份选择:" prop="user_type" class = "whiteItem">
                             <el-row>
-                                <el-col :span="12">
+                                <el-col :span="24">
                                     <el-radio-group v-model="user.user_type">
-                                        <el-radio label="用户" class = "whiteItem"></el-radio>
-                                        <el-radio label="运营工程师" class = "whiteItem"></el-radio>
+                                        <el-radio label="0" class = "whiteItem">用户</el-radio>
+                                        <el-radio label="1" class = "whiteItem">运营工程师</el-radio>
+                                        <el-radio label="2" class = "whiteItem">网络工程师</el-radio>
                                     </el-radio-group>
                                 </el-col>
                             </el-row>
@@ -178,7 +179,7 @@ export default{
                     contact_email: this.user.contact_email, 
                     contact_address: this.user.contact_address,
                     password: md5(this.user.password),
-                    user_type: (this.user.user_type == "用户")? 0 : 1,
+                    user_type: this.user.user_type,
                     })
                     .then(response => {
                         console.log("response:",response)
@@ -283,6 +284,9 @@ export default{
     width: 32.5%;
     margin-right: .8%;
     border-radius: 5px;
+}
+.whiteItem .el-radio{
+    margin-right: 50px;
 }
 </style>
 
