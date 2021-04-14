@@ -13,12 +13,12 @@
             <div class="submit_form">
                 <el-form class="form" ref="form" label-width="80px" label-position="left">
                     <el-form-item label="设备数量:" class = "label-style">
-                        <el-input placeholder="请输入设备数量" v-model="eqs.eq_num" clearable size="medium" style="width: 90%"></el-input>
+                        <el-input placeholder="请输入设备数量" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;"></el-input>
                     </el-form-item>
                 </el-form> 
                 <div v-for="(eq, index) in eqs.eq_list" :key="eq.key" class="add-row">
                     <span class="label-span1">设备名称:</span>
-                    <el-input v-model="eq.eq_name" size="mini" style="width:40%" />
+                    <el-input v-model="eq.eq_name" size="mini" style="width:40%;" />
                     <span class="label-span">设备状态:</span>
                         <el-radio-group v-model="eq.eq_status" style="width:40%; margin-right: 5px;">
                             <el-radio label="开启" class = "radio-style"></el-radio>
@@ -161,6 +161,9 @@ export default{
 .label-style .el-form-item__label{
     text-align: right;
 }
+.label-style .el-form-item__content{
+    margin-left: 40px;
+}
 
 </style>
 <style scoped>
@@ -180,6 +183,7 @@ export default{
     align-items: center;
     justify-content: space-evenly;
     padding-bottom: 5px;
+    margin-right: 25px;
 }
 .label-span{
     width: 120px;
@@ -205,6 +209,6 @@ export default{
 .footer-btn{
     margin-top: 30px;
     text-align: right;
-    margin-right: 20px;
+    margin-right: 45px;
 }
 </style>

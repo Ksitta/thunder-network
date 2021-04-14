@@ -10,12 +10,12 @@
         </div>
         <div class="colwrapper">
           <div class="basic_info" style=" margin-bottom:30px;">
-              <div class="basic_title" style="padding:50px 15px;">
+              <div class="basic_title" style="padding:10px 15px;">
                 <div class="title" style="padding:0px 20px;">
-                  <span style="font-size: 24px;float:left; font-weight:bold;color:black;">
+                  <h3 align=left style="color:black;">Basic info</h3>
+                  <!-- <span style="font-size: 24px; margin-left:-900px;font-weight:bold;color:black;">
                     Basic info
-                  </span>
-                <el-tag style="margin-right:650px">{{identity}}</el-tag>
+                  </span> -->
                 <hr>
                 </div>
                 <div class="body" style="padding:24px 30px 30px;">
@@ -33,7 +33,9 @@
                     </div>
                   </div>
                   <div class="profile">
-                    <label class="label_style">Profile Image</label>
+                    <div>
+                    <label class="label_style">Profile Avatar</label>
+                    </div>
                     <el-avatar shape="circle" :size="90" :src="avatar_src"></el-avatar>
                   </div>
                 </div>
@@ -42,11 +44,12 @@
         </div>
         <div class="colwrapper1">
           <div class="login_info" style=" margin-bottom:30px;">
-              <div class="login_title" style="padding:50px 15px;">
+              <div class="login_title" style="padding:10px 15px;">
                 <div class="title" style="padding:0px 20px;">
-                  <span style="font-size: 24px;margin-right:700px; font-weight:bold;color:black;">
+                  <h3 align=left style="color:black;">Login info</h3>
+                  <!-- <span style="font-size: 24px;margin-left:-900px; font-weight:bold;color:black;">
                     Login info
-                  </span>
+                  </span> -->
                 <hr>
                 </div>
                 <div class="body" style="padding:24px 30px 30px;">
@@ -125,6 +128,7 @@ export default{
         // console.log(this.user)
       },
       submit: function(){
+        this.$emit('userinfoEdited')
         axios.put("api/user/edit/", 
         {
           username: this.user.username,
@@ -134,7 +138,7 @@ export default{
         })
         .then(response => {   
             console.log("response.status:", response)
-            if(response.status === 200){
+            if(response.status === 204){
                 this.getdata()
             }
         }).catch(error => {
@@ -200,7 +204,6 @@ export default{
 .input_content >>> .el-input__inner{
   font-size: 16px!important;
   color:rgb(37, 36, 36)!important;
-  font-family: cursive!important;  
   border-color: #a9c0ee;   
    
 }

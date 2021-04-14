@@ -108,7 +108,7 @@
           <!-- Main -->
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
-          <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings"></accountsettings>
+          <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings" @userinfoEdited="userinfoEdited"></accountsettings>
           <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
           <networkorder ref="networkorder" v-bind:show="showpage.networkorder" v-if="showpage.networkorder"></networkorder>
         </el-main>
@@ -159,7 +159,7 @@ export default {
         this.showpage.home = true
       }
       if (idx === "2-1") {
-        this.showpage.networkorder = true
+        this.showpage.accountsettings = true
       }
       if(idx === "3-1") {
         this.showpage.sitequery = true
@@ -176,6 +176,13 @@ export default {
         sessionStorage.setItem('user_name', '')
         this.$router.push({path: "/login"})
       }
+    },
+    userinfoEdited: function(){
+      this.showpage.home = true
+      this.showpage.accountsettings = false
+      this.showpage.sitequery = false
+      this.showpage.orderprocessing = false
+      this.showpage.networkorder = false
     }
   },
 
