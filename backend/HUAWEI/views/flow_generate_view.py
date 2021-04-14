@@ -13,7 +13,7 @@ class FlowGenerateView(APIView):
     queryset_site = Site.objects.all()
     queryset_eq = Equipment.objects.all()
     queryset_flow = RawFlowData.objects.all()
-    flow_nums = len(queryset_eq)
+    flow_nums = len(queryset_flow)
     def get(self, request):
         self.inner_generate()
         return Response("", 200)
