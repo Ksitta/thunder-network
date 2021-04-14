@@ -53,6 +53,10 @@ axios.interceptors.response.use(success => {
   return Promise.reject(error);
 });
 
+import VCharts from 'v-charts'
+
+Vue.use(VCharts)
+
 new Vue({
   router,
   store,

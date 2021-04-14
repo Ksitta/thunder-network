@@ -42,14 +42,14 @@
             </el-menu-item>
             </div>
 
-            <el-menu-item index="3-1">
+            <el-menu-item index="2">
               <i class="el-icon-setting"></i>
               <span>订单查询</span>
             </el-menu-item>
 
-            <el-menu-item index="2-1">
+            <el-menu-item index="3">
               <i class="el-icon-data-analysis"></i>
-              <span>业务查询</span>
+              <span>流量查询</span>
             </el-menu-item>
 
             <!-- <el-submenu index="2">
@@ -84,7 +84,7 @@
 
           </el-menu>
 
-          <el-menu v-if="getIdentity == 1" background-color="#fbfcfe" style="height:100%" @select="menunav">
+          <el-menu v-if="getIdentity == 1" background-color="#131720" style="height:100%" @select="menunav">
             <!-- Menu -->
             <el-menu-item class="menu-homeitem"
               index="1"
@@ -100,6 +100,26 @@
               <span>订单管理</span>
             </el-menu-item>
 
+            <!-- 5 -->
+
+          </el-menu>
+
+          <el-menu v-if="getIdentity == 2" background-color="#131720" style="height:100%" @select="menunav">
+            <!-- Menu -->
+            <el-menu-item class="menu-homeitem"
+              index="1"
+              >
+              <i class="el-icon-menu"></i>
+              <span>主页</span>
+            </el-menu-item>
+
+            <el-menu-item class="menu-homeitem"
+              index="6"
+              >
+              <i class="el-icon-s-claim"></i>
+              <span>订单管理</span>
+            </el-menu-item>
+
           </el-menu>
 
         </el-aside>
@@ -109,6 +129,7 @@
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
           <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings" @userinfoEdited="userinfoEdited"></accountsettings>
+          <flow ref="flow" v-bind:show="showpage.flow" v-if="showpage.flow"></flow>
           <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
           <networkorder ref="networkorder" v-bind:show="showpage.networkorder" v-if="showpage.networkorder"></networkorder>
         </el-main>
@@ -123,6 +144,7 @@ import sitequery from '@/components/sitequery'
 import accountsettings from '@/components/accountsettings'
 import orderprocessing from '@/components/orderprocessing'
 import networkorder from '@/components/networkorder'
+import flow from '@/components/flow'
 
 export default {
   name: 'index',
@@ -133,6 +155,7 @@ export default {
     accountsettings,
     orderprocessing,
     networkorder,
+    flow,
   },
 
   data: function() {
@@ -143,6 +166,7 @@ export default {
         accountsettings: false,
         orderprocessing: false,
         networkorder: false,
+        flow: false,
       }
     }
   },
@@ -152,24 +176,43 @@ export default {
       console.log(idx);
       this.showpage.home = false
       this.showpage.accountsettings = false
+      this.showpage.flow = false
       this.showpage.sitequery = false
       this.showpage.orderprocessing = false
       this.showpage.networkorder = false
       if (idx === "1") {
         this.showpage.home = true
       }
-      if (idx === "2-1") {
-        this.showpage.accountsettings = true
-      }
-      if(idx === "3-1") {
+      if (idx === "2") {
         this.showpage.sitequery = true
       }
-      if(idx === "4") {
+      if (idx === "3") {
+        this.showpage.flow = true
+      }
+      if (idx === "4") {
         this.showpage.orderprocessing = true
+      }
+      if (idx === "5") {
+        0;
+      }
+      if (idx === "6") {
+        this.showpage.networkorder = true
+      }
+      if (idx === "7") {
+        0;
       }
     },
     userCommand: function(command) {
       console.log(command);
+      if (command == "edit") {
+        this.showpage.home = false
+        this.showpage.accountsettings = false
+        this.showpage.flow = false
+        this.showpage.sitequery = false
+        this.showpage.orderprocessing = false
+        this.showpage.networkorder = false
+        this.showpage.accountsettings = true
+      }
       if (command == "quit") {
         sessionStorage.setItem('user_token', '')
         sessionStorage.setItem('user_refresh', '')

@@ -14,8 +14,9 @@
                         </el-form-item>
                         <el-form-item label="身份:" class = "whiteItem">
                             <el-radio-group v-model="user.user_type">
-                                <el-radio label="用户" class = "whiteItem"></el-radio>
-                                <el-radio label="运营工程师" class = "whiteItem"></el-radio>
+                                <el-radio label="0" class = "whiteItem">用户</el-radio>
+                                <el-radio label="1" class = "whiteItem">运营工程师</el-radio>
+                                <el-radio label="2" class = "whiteItem">网络工程师</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item style="margin-left: -60px;">
@@ -61,7 +62,7 @@ export default{
                 axios.post("/api/user/token/",{
                     username: this.user.name,
                     password: md5(this.user.password),
-                    user_type: (this.user.user_type == "用户")? 0 : 1,//身份传输
+                    user_type: this.user.user_type,
                 })
                 .then(response => {   
                     console.log("response.status:", response)
@@ -134,6 +135,9 @@ h3{
 }
 .whiteItem .el-radio__label{
     color:white;
+}
+.whiteItem .el-radio{
+    margin-right: 15px;
 }
 .el-button--register{
     position: relative;
