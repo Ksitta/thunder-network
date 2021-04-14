@@ -1,8 +1,8 @@
 <template>
-    <div id = "wrapper_sitequery">
+    <div id = "wrapper_networkorder">
         <div class="head">
             <el-row type="flex" justify="space-between">
-                <el-button size="large" icon="el-icon-circle-plus" style="width:200px" @click="orderrequest">新增订单</el-button>
+                <div></div>
                 <el-input v-model="search_info" style="display: inline-block; margin-top: 0px; width: 400px; height: 40px" placeholder="请输入搜索内容" suffix-icon="el-icon-search"></el-input>
             </el-row>
         </div>
@@ -40,7 +40,7 @@
                                         <span style="color:#99a9bf;font-size: 16px;">订单处理状态</span>
                                         <br>
                                     </div>
-                                    <div class="orderprocessing">
+                                    <div class="networkorder">
                                         <el-steps :active="props.row.status" finish-status="success" process-status="finish" direction="vertical">
                                             <el-step title="提交订单">
                                                 <template slot="description" >
@@ -105,12 +105,13 @@
                             <br>
                         </el-row>
                     </template>
-                    </el-table-column>                    
+                    </el-table-column>
                     <el-table-column prop= "site_name" label="站点名称" min-width="15%" align="center"></el-table-column>
+                    <el-table-column prop= "create_time" label="站点创建时间" min-width="15%" align="center" ></el-table-column>
+                    <el-table-column prop= "user_name" label="站点创建者" min-width="15%" align="center"></el-table-column>
                     <el-table-column prop= "site_address" label="站点地址" min-width="20%" align="center"></el-table-column>
-                    <el-table-column prop= "billing_level" label="计费方式" min-width="10%" align="center"></el-table-column>
                     <el-table-column prop= "demand" label="虚拟网络需求" min-width="20%" align="center"></el-table-column>
-                    <el-table-column label="订单状态" min-width="35%" align="center">
+                    <!-- <el-table-column label="订单状态" min-width="35%" align="center">
                         <template slot-scope="scope">
                             <el-steps :active="scope.row.status" finish-status="success" process-status="finish" align-center>
                                 <el-step description="提交订单"></el-step>
@@ -118,31 +119,37 @@
                                 <el-step description="网络工程师"></el-step>
                             </el-steps>
                         </template>
+                    </el-table-column> -->
+                    <el-table-column label="操作" min-width="15%" align="center">
+                        <template slot-scope="scope">
+                            <el-button size="mini" @click="order_confirmation(scope.row)">处理订单</el-button>
+                        </template>
                     </el-table-column>
                 </el-table>
             </div>
-            <orderDialog :dialogVisible="orderDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></orderDialog>
         </div>
+        <equipmentdialog :dialogVisible="equipmentdialog.dialogVisible" :path="equipmentdialog.path" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></equipmentdialog>
     </div>
 </template>
 
 <script>
 
 import axios from 'axios'
-import orderDialog from "@/components/orderDialog"
+import equipmentdialog from "@/components/equipmentdialog"
 
 export default{
-    name: 'site_query',
-    components: {
-        orderDialog
+    name: 'networkorder',
+    components: { 
+        equipmentdialog 
     },
+    inject: ['reload'],
     data(){
         return{
             site_data: [],
             search_info: '',
-            // siteinfo:{site_address:""},
-            orderDialog:{
-                dialogVisible: false
+            equipmentdialog:{
+                dialogVisible: false,
+                path: '',
             }
         }
     },
@@ -150,34 +157,6 @@ export default{
         this.getdata()
     },
     methods: {
-        // showDialog: function(row){
-        //     var pk = row.site_index
-        //     console.log(pk)
-        //     var path = "/api/site/" + pk + "/"
-        //     axios.get(path)
-        //     .then((response)=>{
-        //         var res=response.data
-        //         console.log(res)
-        //         this.siteinfo.site_name = res.site_name
-        //         this.siteinfo.site_address = res.site_address
-        //         this.siteinfo.billing_level = (res.billing_level == 1)? '包月' : '包年'
-        //         this.siteinfo.demand_num = res.demand_num
-        //         this.siteinfo.demand_1 = (res.demand_1 == '')? '无' : res.demand_1
-        //         this.siteinfo.demand_2 = (res.demand_2 == '')? '无' : res.demand_2
-        //         this.siteinfo.demand_3 = (res.demand_3 == '')? '无' : res.demand_3
-        //         this.siteinfo.status = (res.status == 1)? '未处理':'处理'
-        //         var eqs = res.eqs
-        //         this.siteinfo.eqs = []
-        //         for(let item of eqs){
-        //             this.siteinfo.eqs.push({
-        //                 eq_name: item.eq_name,
-        //                 eq_status: (item.eq_status == 1)? '已部署' : '未部署'
-        //             })
-        //         }
-        //         console.log(this.siteinfo)
-        //     })
-
-        // },
         getdata: function(){
             this.site_data= [],
             axios.get('/api/site/')
@@ -186,10 +165,6 @@ export default{
                 var i = 0
                 for(let item of res){
                     var item_demand = ''
-                    var eqs_list = []
-                    var item_eqs = false
-                    var manager = false
-                    var network = false
                     if(item.demand_num >= 1){
                         item_demand += item.demand_1
                     }
@@ -199,49 +174,37 @@ export default{
                     if(item.demand_num >= 3){
                         item.demand = item_demand + ',' + item.demand_3
                     }
-                    if(item.status == 0){
-                        item_eqs = true
-                        manager = true
-                        network = true
-                    }else if(item.status == 2){
-                        manager = true
+                    if(item.status == 2){
+                        this.site_data.push({
+                            site_index: i,
+                            site_name: item.site_name,
+                            site_address: item.site_address,
+                            billing_level: (item.billing_level == 1)? '包月' : '包年',
+                            demand: item_demand,
+                            status: (item.status == 0)? 3: item.status,
+                            user_name: item.user,
+                            create_time: item.create_time.substring(0,10),
+                            manager_name: item.manager_name,
+                            manager_time: item.manager_time.substring(0,10),
+                        })
                     }
-                    if(item_eqs){
-                        for(let it of item.eqs){
-                            eqs_list.push({
-                                eq_name: it.eq_name,
-                                eq_status: (it.eq_status == 1)? '开启' : '关闭'
-                            })
-                        }
-                    }
-                    this.site_data.push({
-                        site_index: i,
-                        site_name: item.site_name,
-                        site_address: item.site_address,
-                        billing_level: (item.billing_level == 1)? '包月' : '包年',
-                        demand: item_demand,
-                        status: (item.status == 0)? 3: item.status,
-                        user_name: item.user,
-                        create_time: item.create_time.substring(0,10),
-                        manager_name: (manager)? item.manager_name : '',
-                        manager_time: (manager)? item.manager_time.substring(0,10) : '',
-                        network_name: (network)? item.network_name : '',
-                        network_time: (network)? item.network_time.substring(0,10) : '',
-                        eqs: eqs_list
-                    })
+                    i++                
                 }
             })
         },
+        order_confirmation: function(row){
+            this.equipmentdialog.dialogVisible = true
+            var pk = row.site_index
+            this.equipmentdialog.path = "api/equipment/" + pk + "/"
+
+        },
         Dialog_submit:function(){
-            this.orderDialog.dialogVisible = false
+            this.equipmentdialog.dialogVisible = false
             this.getdata()
 
         },
         Dialog_cancel:function(){
-            this.orderDialog.dialogVisible = false
-        },
-        orderrequest: function(){
-            this.orderDialog.dialogVisible = true
+            this.equipmentdialog.dialogVisible = false
         },
     },
     computed: {
@@ -292,7 +255,7 @@ export default{
 .stepsTitle{
     margin: 10px 0px  10px  10px ;
 }
-.orderprocessing{
+.networkorder{
     /* font-size: 14px; */
     margin-left:10px;
     margin-right:0px;

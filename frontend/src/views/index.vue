@@ -1,22 +1,27 @@
 <template>
   <div class="wrapper">
     <el-container style="height:100%;">
-      <el-header height="80px">
+      <el-header height="48px">
         <!-- Header -->
-        <a href="/">
+        <!-- <a href="/">
           <img src="web-logo.png" alt="logo" class="header-logo">
+        </a> -->
+        <a href="/" id="title-a">
+          <span class="title">
+            Thunder Network
+          </span>
         </a>
 
-      <el-dropdown @command="userCommand">
-        <span class="el-dropdown-link">
-          {{getUsername}}
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item icon="el-icon-edit" command="edit">修改信息</el-dropdown-item>
-          <el-dropdown-item icon="el-icon-s-operation" command="quit">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+        <el-dropdown @command="userCommand">
+          <span class="el-dropdown-link">
+            {{getUsername}}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item icon="el-icon-edit" command="edit">修改信息</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-s-operation" command="quit">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
 
         <!-- <ul class="header-operations">
           <li>标题</li>
@@ -25,19 +30,29 @@
       </el-header>
 
       <el-container>
-        <el-aside width="240px">
+        <el-aside width="228px">
           <!-- Aside -->
           
-          <el-menu v-if="getIdentity == 0" background-color="#fbfcfe" style="height:100%" @select="menunav">
+          <el-menu v-if="getIdentity == 0" background-color="#131720" @select="menunav">
             <!-- Menu -->
-            <el-menu-item class="menu-homeitem"
-              index="1"
-              >
+            <div style="vertical-align: middle;">
+            <el-menu-item class="menu-homeitem" index="1">
               <i class="el-icon-menu"></i>
               <span>主页</span>
             </el-menu-item>
+            </div>
 
-            <el-submenu index="2">
+            <el-menu-item index="2">
+              <i class="el-icon-setting"></i>
+              <span>订单查询</span>
+            </el-menu-item>
+
+            <el-menu-item index="3">
+              <i class="el-icon-data-analysis"></i>
+              <span>流量查询</span>
+            </el-menu-item>
+
+            <!-- <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-message"></i>
                 <span>订单</span>
@@ -65,10 +80,11 @@
                 <i class="el-icon-data-analysis"></i>
                 <span>设备查询</span>
               </el-menu-item>
-            </el-submenu>
+            </el-submenu> -->
 
           </el-menu>
-          <el-menu v-if="getIdentity == 1" background-color="#fbfcfe" style="height:100%" @select="menunav">
+
+          <el-menu v-if="getIdentity == 1" background-color="#131720" style="height:100%" @select="menunav">
             <!-- Menu -->
             <el-menu-item class="menu-homeitem"
               index="1"
@@ -84,6 +100,26 @@
               <span>订单管理</span>
             </el-menu-item>
 
+            <!-- 5 -->
+
+          </el-menu>
+
+          <el-menu v-if="getIdentity == 2" background-color="#131720" style="height:100%" @select="menunav">
+            <!-- Menu -->
+            <el-menu-item class="menu-homeitem"
+              index="1"
+              >
+              <i class="el-icon-menu"></i>
+              <span>主页</span>
+            </el-menu-item>
+
+            <el-menu-item class="menu-homeitem"
+              index="6"
+              >
+              <i class="el-icon-s-claim"></i>
+              <span>订单管理</span>
+            </el-menu-item>
+
           </el-menu>
 
         </el-aside>
@@ -92,8 +128,10 @@
           <!-- Main -->
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
-          <orderrequest ref="orderrequest" v-bind:show="showpage.orderrequest" v-if="showpage.orderrequest"></orderrequest>
+          <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings" @userinfoEdited="userinfoEdited"></accountsettings>
+          <flow ref="flow" v-bind:show="showpage.flow" v-if="showpage.flow"></flow>
           <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
+          <networkorder ref="networkorder" v-bind:show="showpage.networkorder" v-if="showpage.networkorder"></networkorder>
         </el-main>
       </el-container>
     </el-container>
@@ -103,8 +141,10 @@
 <script>
 import userhome from '@/components/userhome'
 import sitequery from '@/components/sitequery'
-import orderrequest from '@/components/orderrequest'
+import accountsettings from '@/components/accountsettings'
 import orderprocessing from '@/components/orderprocessing'
+import networkorder from '@/components/networkorder'
+import flow from '@/components/flow'
 
 export default {
   name: 'index',
@@ -112,8 +152,10 @@ export default {
   components: {
     userhome,
     sitequery,
-    orderrequest,
+    accountsettings,
     orderprocessing,
+    networkorder,
+    flow,
   },
 
   data: function() {
@@ -121,8 +163,10 @@ export default {
       showpage: {
         home: true,
         sitequery: false,
-        orderrequest: false,
+        accountsettings: false,
         orderprocessing: false,
+        networkorder: false,
+        flow: false,
       }
     }
   },
@@ -131,30 +175,57 @@ export default {
     menunav: function(idx) { // menu-item 的点击事件
       console.log(idx);
       this.showpage.home = false
-      this.showpage.orderrequest = false
+      this.showpage.accountsettings = false
+      this.showpage.flow = false
       this.showpage.sitequery = false
       this.showpage.orderprocessing = false
+      this.showpage.networkorder = false
       if (idx === "1") {
         this.showpage.home = true
       }
-      if (idx === "2-1") {
-        this.showpage.orderrequest = true
-      }
-      if(idx === "3-1") {
+      if (idx === "2") {
         this.showpage.sitequery = true
       }
-      if(idx === "4") {
+      if (idx === "3") {
+        this.showpage.flow = true
+      }
+      if (idx === "4") {
         this.showpage.orderprocessing = true
+      }
+      if (idx === "5") {
+        0;
+      }
+      if (idx === "6") {
+        this.showpage.networkorder = true
+      }
+      if (idx === "7") {
+        0;
       }
     },
     userCommand: function(command) {
       console.log(command);
+      if (command == "edit") {
+        this.showpage.home = false
+        this.showpage.accountsettings = false
+        this.showpage.flow = false
+        this.showpage.sitequery = false
+        this.showpage.orderprocessing = false
+        this.showpage.networkorder = false
+        this.showpage.accountsettings = true
+      }
       if (command == "quit") {
         sessionStorage.setItem('user_token', '')
         sessionStorage.setItem('user_refresh', '')
         sessionStorage.setItem('user_name', '')
         this.$router.push({path: "/login"})
       }
+    },
+    userinfoEdited: function(){
+      this.showpage.home = true
+      this.showpage.accountsettings = false
+      this.showpage.sitequery = false
+      this.showpage.orderprocessing = false
+      this.showpage.networkorder = false
     }
   },
 
@@ -174,6 +245,31 @@ export default {
 
 <style scoped>
 
+/* 滚动条样式修改 */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+  border-radius:15px;
+  -webkit-border-radius:  15px;
+}
+::-webkit-scrollbar-track-piece {
+  background-color: #ffff;
+  border-radius:15px;
+  -webkit-border-radius:  15px;
+}
+::-webkit-scrollbar-thumb:vertical {
+  height: 5px;
+  background-color: rgba(144, 147, 153, 0.5);
+  border-radius: 15px;
+  -webkit-border-radius:  15px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+  width: 7px;
+  background-color: rgba(144, 147, 153, 0.5);
+  border-radius:  15px;  
+  -webkit-border-radius: 15px;
+}
+
 .wrapper {
   position: absolute;
   height: 100%;
@@ -181,75 +277,72 @@ export default {
 }
 
 .el-header {
-  background-color: rgb(188, 209, 233);
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  /* border-radius: 30px; */
+  background-color: #ffffff;
+  box-shadow: 0 1px 5px 0 rgba(41,85,115,.21);
+  z-index: 2000;
 }
 
 .el-main {
-  /* background-color: rgb(251, 252, 254); */
-  background-color: #eef3fa;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 0px 30px 30px 0px;
+  background-color: #dfe5eb;
+  top: 48px;
+  left: 228px;
+  right: 0px;
+  bottom: 0px;
+  position: absolute;
 }
 
-.el-submenu {
+/* .el-submenu {
   margin: 10px;
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
   border-radius: 30px;
-}
+} */
 
 .el-menu {
-  /* background-color: rgb(238, 243, 250); */
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 20px 0px 0px 20px;
+  height: 100%;
+  border: 0px;
+}
+
+.el-menu-item {
+  height: 40px;
+  line-height: 40px;
+  text-align: start;
+  color: #ffffff;
+  font-weight: 600;
+  margin-top: 6px;
 }
 
 .menu-homeitem {
-  margin:10px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  margin-top: 12px;
 }
 
-/* .el-menu-item {
-  margin:10px;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-} */
-
-.header-operations {
-  float: right;
-  padding-right: 30px;
-  height: 100%;
-  margin: 0px;
+#titlea:active {
+  color: black;
 }
 
-.header-operations li {
-  /* color: rgb(255, 255, 255); */
-  color: rgb(0, 0, 0);
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 80px;
-  cursor: pointer;
-  padding: 0px 20px;
+.title {
+  color: black;
+  line-height: 48px;
+  float: left;
+  font-weight: 800;
 }
 
 .header-logo {
-  height: 60px;
-  margin: 10px;
+  height: 44px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-left: 0px;
   float: left;
 }
 
 .el-dropdown{
   float: right;
   margin-right: 20px;
-  /* line-height: 80px; */
-  margin-top: 32px;
+  /* line-height: 48px; */
+  margin-top: 16px;
   font-size: 16px;
 }
 
 .el-dropdown-link{
-  /* color: white; */
   color: black;
   cursor: pointer;
   font-weight: bold;

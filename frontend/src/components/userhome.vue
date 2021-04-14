@@ -1,35 +1,54 @@
 <template>
   <div id="wrapper_userhome">
     <el-container class="container">
-      <el-row :gutter="20" id="row_up">
-        <el-col :span="8">
-          <div class="useravatar">
-            <el-avatar :size="150" :src="avatar_src"></el-avatar>
+      <el-row :gutter="0" id="row_up">
+        <el-col :span="16" class="left_col">
+          <div class="colwrapper">
+            <div class="userinfo">
+              <div style="display:flex; justify-content: start;">
+                <el-avatar shape="square" :size="100" :src="avatar_src"></el-avatar>
+                <div class="usergreet">
+                  <div>
+                    <span style="font-size: 40px; vertical-align: middle;">
+                      {{info.username}}
+                    </span>
+                    <el-tag style="vertical-align: middle;">{{identity}}</el-tag>
+                  </div>
+                  <div style="color: #333850; font-size: 12px; padding-top: 5px;">
+                    email: {{info.contact_email}}
+                  </div>
+                </div>
+              </div>
+              <hr class="divider"/>
+            </div>
+          </div>
+
+          <div class="colwrapper">
+            <ve-histogram
+              :data="chartData"
+              :data-empty="true"
+              :settings="chartSettings">
+            </ve-histogram>
           </div>
         </el-col>
-        <el-col :span="16">
-          <div class="userinfo">
-            <p>
-              <span style="font-size: 40px;">
-                您好
-              </span>
-              <span>
-                ，{{info.username}}
-              </span>
-              <el-tag>{{identity}}</el-tag>
-            </p>
-            <el-divider></el-divider>
-            <p>
-              联系电话：{{info.contact_details}}
-            </p>
-            <p>
-              联系地址：{{info.contact_address}}
-            </p>
-            <p>
-              联系邮箱：{{info.contact_email}}
-            </p>
+
+        <el-col :span="8" class="right_col">
+          <div class="colwrapper">
+
+            <div style="color: #7792b1;">
+              <p>
+                <span style="font-size: 32px; line-height: 26px;">2739475</span>
+                <span> Bytes</span>
+              </p>
+              <p>
+                今日流量
+                <i class="el-icon-odometer"></i>
+              </p>
+            </div>
+
           </div>
         </el-col>
+
       </el-row>
     </el-container>
   </div>
@@ -46,6 +65,20 @@ export default {
   name: 'user_home',
   data() {
       return {
+        chartSettings : {
+          showLine: ['下单用户']
+        },
+        chartData: {
+          columns: ['日期', '访问用户', '下单用户', '下单率'],
+          rows: [
+            { '日期': '1/1', '访问用户': 1393, '下单用户': 1093, '下单率': 0.32 },
+            { '日期': '1/2', '访问用户': 3530, '下单用户': 3230, '下单率': 0.26 },
+            { '日期': '1/3', '访问用户': 2923, '下单用户': 2623, '下单率': 0.76 },
+            { '日期': '1/4', '访问用户': 1723, '下单用户': 1423, '下单率': 0.49 },
+            { '日期': '1/5', '访问用户': 3792, '下单用户': 3492, '下单率': 0.323 },
+            { '日期': '1/6', '访问用户': 4593, '下单用户': 4293, '下单率': 0.78 }
+          ]
+        },
         info: {
           username: "",
           contact_details: "",
@@ -115,27 +148,41 @@ export default {
 
 .container {
   height: 100%;
-  margin: auto;
-  padding: 60px;
-  /* border-style: dashed; */
+}
+
+.colwrapper {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  margin: 14px;
 }
 
 #row_up {
-  /* background-color: teal; */
   width: 100%;
-  padding: 5%;
 }
 
 .userinfo {
-  background-color: rgb(251, 252, 254);
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  font-size: 22px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-left: 60px;
-  padding-right: 60px;
+  overflow: auto;
+  padding: 20px;
   text-align: left;
+}
+
+.el-avatar {
+  margin-right: 10px;
+  box-shadow: rgba(0,6,36,0.25) 0px 26px 24px -16px,rgba(0,6,36,0.3) 0px 16px 24px -18px,rgba(0,6,36,0.07) 0px 0px 10px 0px;
+}
+
+.usergreet {
+  padding-left: 20px;
+  flex: 1;
+}
+
+.divider {
+  background-color:#dfe5eb;
+  border: none;
+  min-height: 1px;
+  margin-top: 0px;
+  margin-left: 120px;
 }
 
 .el-tag {
