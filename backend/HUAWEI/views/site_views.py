@@ -48,12 +48,12 @@ class SiteView(APIView):
         """
         # 与华为交互 创建Site
           ### 获取site_id
-        create_site_response = create_site(str(self.request.user.username) + str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
-        if create_site_response == IndexError:
-            return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
+        # create_site_response = create_site(str(self.request.user.username) + str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        # if create_site_response == IndexError:
+        #     return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
 
         # 测试用
-        # create_site_response = str(self.request.user.pk) + "-" + data['site_name']
+        create_site_response = str(self.request.user.pk) + "-" + data['site_name']
         new_site_id = create_site_response
 
           ### 创建站点ssid 待完成 华为交互？？？
@@ -98,6 +98,30 @@ class SiteDetailView(APIView):
             data.update(item)
 
         return Response(data, status=status.HTTP_200_OK)
+
+    # def post(self, request, pk):
+    #     user = self.request.user
+    #     network_in = self.request.data['eq_num']
+    #     if user.user_type == 1: # 运营工程师
+    #         sites = Site.objects.all()
+    #     else:
+    #         return Response(status=status.HTTP_403_FORBIDDEN)
+    #     thesite = sites[int(pk)]
+    #
+    #     if thesite.status == 1 and user.user_type == 1:
+    #         thesite.status = 2
+    #         thesite.manager_name = user.username
+    #         thesite.manager_time = datetime.datetime.now()
+    #
+    #         # 分配给网络工程师
+    #         networks = User.objects.filter(status=2)
+    #         the_network = networks[int()]
+    #
+    #
+    #         thesite.save()
+    #     else:
+    #         return Response(status=status.HTTP_400_BAD_REQUEST)
+    #     return Response(status=status.HTTP_200_OK)
 
     def put(self, request, pk):
         user = self.request.user
