@@ -1,5 +1,5 @@
 <template>
-    <div id = "wrapper_orderprocessing">
+    <div id = "wrapper_networkorder">
         <div class="head">
             <el-row type="flex" justify="space-between">
                 <div></div>
@@ -40,7 +40,7 @@
                                         <span style="color:#99a9bf;font-size: 16px;">订单处理状态</span>
                                         <br>
                                     </div>
-                                    <div class="orderprocessing">
+                                    <div class="networkorder">
                                         <el-steps :active="props.row.status" finish-status="success" process-status="finish" direction="vertical">
                                             <el-step title="提交订单">
                                                 <template slot="description" >
@@ -106,10 +106,12 @@
                         </el-row>
                     </template>
                     </el-table-column>
-                    <el-table-column prop= "site_name" label="站点名称" min-width="12%" align="center"></el-table-column>
+                    <el-table-column prop= "site_name" label="站点名称" min-width="15%" align="center"></el-table-column>
+                    <el-table-column prop= "create_time" label="站点创建时间" min-width="15%" align="center" ></el-table-column>
+                    <el-table-column prop= "user_name" label="站点创建者" min-width="15%" align="center"></el-table-column>
                     <el-table-column prop= "site_address" label="站点地址" min-width="20%" align="center"></el-table-column>
                     <el-table-column prop= "demand" label="虚拟网络需求" min-width="20%" align="center"></el-table-column>
-                    <el-table-column label="订单状态" min-width="35%" align="center">
+                    <!-- <el-table-column label="订单状态" min-width="35%" align="center">
                         <template slot-scope="scope">
                             <el-steps :active="scope.row.status" finish-status="success" process-status="finish" align-center>
                                 <el-step description="提交订单"></el-step>
@@ -117,29 +119,38 @@
                                 <el-step description="网络工程师"></el-step>
                             </el-steps>
                         </template>
-                    </el-table-column>
-                    <el-table-column label="操作" min-width="13%" align="center">
+                    </el-table-column> -->
+                    <el-table-column label="操作" min-width="15%" align="center">
                         <template slot-scope="scope">
-                            <el-button size="mini" @click="order_confirmation(scope.row)">确认</el-button>
+                            <el-button size="mini" @click="order_confirmation(scope.row)">处理订单</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
         </div>
+        <equipmentdialog :dialogVisible="equipmentdialog.dialogVisible" :path="equipmentdialog.path" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></equipmentdialog>
     </div>
 </template>
 
 <script>
 
 import axios from 'axios'
+import equipmentdialog from "@/components/equipmentdialog"
 
 export default{
-    name: 'orderprocessing',
+    name: 'networkorder',
+    components: { 
+        equipmentdialog 
+    },
     inject: ['reload'],
     data(){
         return{
             site_data: [],
             search_info: '',
+            equipmentdialog:{
+                dialogVisible: false,
+                path: '',
+            }
         }
     },
     created(){
@@ -154,10 +165,6 @@ export default{
                 var i = 0
                 for(let item of res){
                     var item_demand = ''
-                    var eqs_list = []
-                    var item_eqs = false
-                    var manager = false
-                    var network = false
                     if(item.demand_num >= 1){
                         item_demand += item.demand_1
                     }
@@ -167,55 +174,37 @@ export default{
                     if(item.demand_num >= 3){
                         item.demand = item_demand + ',' + item.demand_3
                     }
-                    if(item.status == 0){
-                        item_eqs = true
-                        manager = true
-                        network = true
-                    }else if(item.status == 2){
-                        manager = true
+                    if(item.status == 2){
+                        this.site_data.push({
+                            site_index: i,
+                            site_name: item.site_name,
+                            site_address: item.site_address,
+                            billing_level: (item.billing_level == 1)? '包月' : '包年',
+                            demand: item_demand,
+                            status: (item.status == 0)? 3: item.status,
+                            user_name: item.user,
+                            create_time: item.create_time.substring(0,10),
+                            manager_name: item.manager_name,
+                            manager_time: item.manager_time.substring(0,10),
+                        })
                     }
-                    if(item_eqs){
-                        for(let it of item.eqs){
-                            eqs_list.push({
-                                eq_name: it.eq_name,
-                                eq_status: (it.eq_status == 1)? '开启' : '关闭'
-                            })
-                        }
-                    }
-                    this.site_data.push({
-                        site_index: i,
-                        site_name: item.site_name,
-                        site_address: item.site_address,
-                        billing_level: (item.billing_level == 1)? '包月' : '包年',
-                        demand: item_demand,
-                        status: (item.status == 0)? 3: item.status,
-                        user_name: item.user,
-                        create_time: item.create_time.substring(0,10),
-                        manager_name: (manager)? item.manager_name : '',
-                        manager_time: (manager)? item.manager_time.substring(0,10) : '',
-                        network_name: (network)? item.network_name : '',
-                        network_time: (network)? item.network_time.substring(0,10) : '',
-                        eqs: eqs_list
-                    })
                     i++                
                 }
             })
         },
         order_confirmation: function(row){
+            this.equipmentdialog.dialogVisible = true
             var pk = row.site_index
-            var path = "/api/site/" + pk + "/"
-            console.log("row", row)
-            axios.put(path)
-            .then(response => {   
-                console.log("response.status:", response)
-                if(response.status === 200){
-                    this.getdata()
-                }
-            }).catch(error => {
-                this.$message.error("处理订单失败！")
-                console.log(error)
-            })
+            this.equipmentdialog.path = "api/equipment/" + pk + "/"
 
+        },
+        Dialog_submit:function(){
+            this.equipmentdialog.dialogVisible = false
+            this.getdata()
+
+        },
+        Dialog_cancel:function(){
+            this.equipmentdialog.dialogVisible = false
         },
     },
     computed: {
@@ -266,7 +255,7 @@ export default{
 .stepsTitle{
     margin: 10px 0px  10px  10px ;
 }
-.orderprocessing{
+.networkorder{
     /* font-size: 14px; */
     margin-left:10px;
     margin-right:0px;

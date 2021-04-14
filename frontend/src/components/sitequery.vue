@@ -186,6 +186,7 @@ export default{
                 var i = 0
                 for(let item of res){
                     var item_demand = ''
+                    var eqs_list = []
                     var item_eqs = false
                     var manager = false
                     var network = false
@@ -205,6 +206,14 @@ export default{
                     }else if(item.status == 2){
                         manager = true
                     }
+                    if(item_eqs){
+                        for(let it of item.eqs){
+                            eqs_list.push({
+                                eq_name: it.eq_name,
+                                eq_status: (it.eq_status == 1)? '开启' : '关闭'
+                            })
+                        }
+                    }
                     this.site_data.push({
                         site_index: i,
                         site_name: item.site_name,
@@ -218,7 +227,7 @@ export default{
                         manager_time: (manager)? item.manager_time.substring(0,10) : '',
                         network_name: (network)? item.network_name : '',
                         network_time: (network)? item.network_time.substring(0,10) : '',
-                        eqs:(item_eqs)? item.eqs : ''
+                        eqs: eqs_list
                     })
                 }
             })

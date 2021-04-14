@@ -110,6 +110,7 @@
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
           <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings"></accountsettings>
           <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
+          <networkorder ref="networkorder" v-bind:show="showpage.networkorder" v-if="showpage.networkorder"></networkorder>
         </el-main>
       </el-container>
     </el-container>
@@ -121,6 +122,7 @@ import userhome from '@/components/userhome'
 import sitequery from '@/components/sitequery'
 import accountsettings from '@/components/accountsettings'
 import orderprocessing from '@/components/orderprocessing'
+import networkorder from '@/components/networkorder'
 
 export default {
   name: 'index',
@@ -130,6 +132,7 @@ export default {
     sitequery,
     accountsettings,
     orderprocessing,
+    networkorder,
   },
 
   data: function() {
@@ -139,6 +142,7 @@ export default {
         sitequery: false,
         accountsettings: false,
         orderprocessing: false,
+        networkorder: false,
       }
     }
   },
@@ -150,11 +154,12 @@ export default {
       this.showpage.accountsettings = false
       this.showpage.sitequery = false
       this.showpage.orderprocessing = false
+      this.showpage.networkorder = false
       if (idx === "1") {
         this.showpage.home = true
       }
       if (idx === "2-1") {
-        this.showpage.accountsettings = true
+        this.showpage.networkorder = true
       }
       if(idx === "3-1") {
         this.showpage.sitequery = true
