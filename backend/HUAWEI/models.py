@@ -29,7 +29,7 @@ class Site(models.Model):
 
     total_up = models.IntegerField('上行总流量', default=0)
     total_down = models.IntegerField('下行总流量', default=0)
-    flow_data = models.CharField('流量数据', max_length=1000, default="{}")
+    flow_data = models.CharField('流量数据', max_length=1000, default="[]")
     rate_unit = models.CharField('速率单位', max_length=10, default='byte')
 
 
@@ -40,7 +40,7 @@ class Equipment(models.Model):
     eq_status = models.IntegerField('设备状态')
     total_up = models.IntegerField('上行总流量', default=0)
     total_down = models.IntegerField('下行总流量', default=0)
-    flow_data = models.CharField('流量数据', max_length=1000, default="{}")
+    flow_data = models.CharField('流量数据', max_length=1000, default="[]")
     rate_unit = models.CharField('速率单位', max_length=10, default='byte')
 
 
