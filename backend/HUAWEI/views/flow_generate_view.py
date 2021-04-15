@@ -23,7 +23,6 @@ class FlowGenerateView(APIView):
         with open('./flow.log', mode='a+') as file:
             file.write(str(time.time()) + " generated flow info\n")
         site_time = datetime.utcfromtimestamp(time.time()+28800).strftime("%Y-%m-%d %H:%M:%S")
-        print(site_time)
         for i in self.queryset_site:
             if not i.status == 0:
                 continue
@@ -37,6 +36,8 @@ class FlowGenerateView(APIView):
             site_up = 0
             site_down = 0
             for j in eqset:
+                if not j.eq_status == 1:
+                    continue
                 try:
                     flow_list_eq = json.loads(j.flow_data)
                 except:
