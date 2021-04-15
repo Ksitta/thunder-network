@@ -110,6 +110,8 @@ export default {
             pk: index,
             eqs: eqs,
           });
+        } else {
+          this.site_list.push({});
         }
       }
     });
