@@ -5,6 +5,7 @@ from HUAWEI.models import Site, Equipment, RawFlowData
 import random, json
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
+from datetime import datetime
 
 
 class FlowGenerateView(APIView):
@@ -21,8 +22,7 @@ class FlowGenerateView(APIView):
     def inner_generate(self):
         with open('./flow.log', mode='a+') as file:
             file.write(str(time.time()) + " generated flow info\n")
-        time_array = time.localtime()
-        site_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+        site_time = datetime.utcfromtimestamp(time.time()+28800).strftime("%Y-%m-%d %H:%M:%S")
         for i in self.queryset_site:
             if not i.status == 0:
                 continue
@@ -36,6 +36,8 @@ class FlowGenerateView(APIView):
             site_up = 0
             site_down = 0
             for j in eqset:
+                if not j.eq_status == 1:
+                    continue
                 try:
                     flow_list_eq = json.loads(j.flow_data)
                 except:

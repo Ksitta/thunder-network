@@ -22,6 +22,7 @@
           :key="item.pk"
           :label="item.eq_name"
           :value="item.pk"
+          :disabled="item.disabled"
         >
         </el-option>
       </el-select>
@@ -101,6 +102,7 @@ export default {
             eqs.push({
               eq_name: item.eqs[idx].eq_name,
               pk: idx,
+              disabled: item.eqs[idx].eq_status != 1,
             });
           }
           this.site_list.push({
