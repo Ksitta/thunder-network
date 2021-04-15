@@ -7,6 +7,7 @@
           :key="item.pk"
           :label="item.site_name"
           :value="item.pk"
+          :disabled="item.disabled"
         >
         </el-option>
       </el-select>
@@ -109,9 +110,14 @@ export default {
             site_name: item.site_name,
             pk: index,
             eqs: eqs,
+            disabled: false,
           });
         } else {
-          this.site_list.push({});
+          this.site_list.push({
+            site_name: item.site_name,
+            pk: index,
+            disabled: true,
+          });
         }
       }
     });
