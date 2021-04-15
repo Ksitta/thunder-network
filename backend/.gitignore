@@ -8,3 +8,4 @@ local_settings.py
 generateflow.py
 flow.log
 *.log
+/frontend

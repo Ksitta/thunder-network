@@ -16,22 +16,25 @@ class TotalFlowView(APIView):
             sites = Site.objects.all()
         else:
             sites = Site.objects.filter(user=user)
-
-        # new_site = Site.objects.get(site_id=thesite.site_id)
-        # for i in range(0, eq_num):
-        #     eq_data = {
-        #         'eq_id': str(new_site.pk) + str(i),
-        #         'site': new_site.pk,
-        #         'eq_name': eq_list[i]['eq_name'],
-        #         'eq_status': int(eq_list[i]['eq_status'])
-        #     }
-        #
-        #     eq_serializer = EquipmentSerializer(data=eq_data)
-        #     if eq_serializer.is_valid():
-        #         eq_serializer.save()
-        #     else:
-        #         return Response(eq_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_200_OK)
+        return_data = {}
+        return_data['total_up'] = 0
+        return_data['total_down'] = 0
+        return_data['rate_unit'] = 'byte'
+        flow_data = []
+        for i in sites:
+            list_info = json.loads(i.flow_data)[:-1:]
+            for j in range(0, len(list_info)):
+                try:
+                    flow_data[j]['up'] += list_info[j]['up']
+                    flow_data[j]['down'] += list_info[j]['down']
+                    return_data['total_up'] += list_info[j]['up']
+                    return_data['total_down'] += list_info[j]['down']
+                except:
+                    flow_data.append(list_info[j])
+                    return_data['total_up'] += list_info[j]['up']
+                    return_data['total_down'] += list_info[j]['down']
+        return_data['flow_data'] = flow_data[:-1:]
+        return Response(return_data, status=status.HTTP_200_OK)
 
 class SiteFlowView(APIView):
     permission_classes = [IsAuthenticated]

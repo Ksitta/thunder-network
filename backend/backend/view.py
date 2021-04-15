@@ -8,7 +8,7 @@ from django.http import FileResponse
 from django.http import HttpResponseNotFound
 
 
-def serve_static(request, path='/index.html'):
+def serve_static(request, path='index.html'):
     '''
     Return static files,
     as django.contrib.staticfiles is disabled in production mode.

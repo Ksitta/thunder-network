@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'HUAWEI.apps.HuaweiConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    # 'django_apscheduler.models',
-    # 'apscheduler',
 ]
 
 REST_FRAMEWORK = {
