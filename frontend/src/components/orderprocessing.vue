@@ -120,8 +120,8 @@
                     </el-table-column>
                     <el-table-column label="操作" min-width="13%" align="center">
                         <template slot-scope="scope">
-                            <el-button size="mini" @click="order_confirmation(scope.row)" v-if="site_data.status == 1">确认</el-button>
-                            <span v-if="site_data.status != 1">已确认</span>
+                            <el-button size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 1">确认</el-button>
+                            <span v-if="scope.row.status >= 2">已确认</span>
                         </template>
                     </el-table-column>
                 </el-table>
