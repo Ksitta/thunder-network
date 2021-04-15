@@ -36,8 +36,8 @@
                             <el-col :span="12">
                                 <div class="stepComponent">
                                     <div class="stepTitle">
-                                        <div style="float: left; width:2px;height:20px; background:#219AFF;"></div>
-                                        <span style="color:#99a9bf;font-size: 16px;">订单处理状态</span>
+                                        <div style="float: left; width:2px;height:20px; background:#219AFF;margin-top: 1px;"></div>
+                                        <span style="color:#99a9bf;font-size: 16px;margin-left: 6px;">订单处理状态</span>
                                         <br>
                                     </div>
                                     <div class="networkorder">

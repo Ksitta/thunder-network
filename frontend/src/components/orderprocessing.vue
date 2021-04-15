@@ -36,8 +36,8 @@
                             <el-col :span="12">
                                 <div class="stepComponent">
                                     <div class="stepTitle">
-                                        <div style="float: left; width:2px;height:20px; background:#219AFF;"></div>
-                                        <span style="color:#99a9bf;font-size: 16px;">订单处理状态</span>
+                                        <div style="float: left; width:2px;height:20px; background:#219AFF; margin-top: 1px;"></div>
+                                        <span style="color:#99a9bf;font-size: 16px; margin-left: 6px;">订单处理状态</span>
                                         <br>
                                     </div>
                                     <div class="orderprocessing">
@@ -121,7 +121,7 @@
                     <el-table-column label="操作" min-width="13%" align="center">
                         <template slot-scope="scope">
                             <el-button size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 1">确认</el-button>
-                            <span v-if="scope.row.status >= 2">已确认</span>
+                            <span v-if="scope.row.status >= 2" style="font-size: 12px;">已确认</span>
                         </template>
                     </el-table-column>
                 </el-table>
