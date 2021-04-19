@@ -120,27 +120,37 @@
                     </el-table-column>
                     <el-table-column label="操作" min-width="13%" align="center">
                         <template slot-scope="scope">
-                            <el-button size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 1">确认</el-button>
+                            <el-button size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 1">处理</el-button>
                             <span v-if="scope.row.status >= 2" style="font-size: 12px;">已确认</span>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
         </div>
+        <assignmentdialog :path="assignmentdialog.path" :dialogVisible="assignmentdialog.dialogVisible" :networks="assignmentdialog.networks" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></assignmentdialog>
     </div>
 </template>
 
 <script>
 
 import axios from 'axios'
+import assignmentdialog from "@/components/assignmentdialog"
 
 export default{
     name: 'orderprocessing',
     inject: ['reload'],
+    components: { 
+        assignmentdialog 
+    },
     data(){
         return{
             site_data: [],
             search_info: '',
+            assignmentdialog:{
+                dialogVisible: false,
+                networks: [],
+                path: '',
+            }
         }
     },
     created(){
@@ -152,6 +162,7 @@ export default{
             axios.get('/api/site/')
             .then((response)=>{
                 var res = response.data
+                console.log(res)
                 var i = 0
                 for(let item of res){
                     var item_demand = ''
@@ -203,20 +214,28 @@ export default{
             })
         },
         order_confirmation: function(row){
+            this.assignmentdialog.dialogVisible = true
             var pk = row.site_index
-            var path = "/api/site/" + pk + "/"
-            console.log("row", row)
-            axios.put(path)
+            this.assignmentdialog.path = "api/site/" + pk + "/"
+            axios.get(this.assignmentdialog.path)
             .then(response => {   
+                var res = response.data
                 console.log("response.status:", response)
                 if(response.status === 200){
-                    this.getdata()
+                    this.assignmentdialog.networks = res.networks
                 }
             }).catch(error => {
                 this.$message.error("处理订单失败！")
                 console.log(error)
             })
+        },
+        Dialog_submit:function(){
+            this.assignmentdialog.dialogVisible = false
+            this.getdata()
 
+        },
+        Dialog_cancel:function(){
+            this.assignmentdialog.dialogVisible = false
         },
     },
     computed: {

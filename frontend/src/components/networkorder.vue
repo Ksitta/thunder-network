@@ -122,7 +122,8 @@
                     </el-table-column> -->
                     <el-table-column label="操作" min-width="15%" align="center">
                         <template slot-scope="scope">
-                            <el-button size="mini" @click="order_confirmation(scope.row)">处理订单</el-button>
+                            <el-button size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 2">处理订单</el-button>
+                            <el-button size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 3">修改订单</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -162,9 +163,14 @@ export default{
             axios.get('/api/site/')
             .then((response)=>{
                 var res = response.data
+                console.log(res)
                 var i = 0
                 for(let item of res){
                     var item_demand = ''
+                    var eqs_list = []
+                    var item_eqs = false
+                    var manager = false
+                    var network = false
                     if(item.demand_num >= 1){
                         item_demand += item.demand_1
                     }
@@ -174,20 +180,36 @@ export default{
                     if(item.demand_num >= 3){
                         item.demand = item_demand + ',' + item.demand_3
                     }
-                    if(item.status == 2){
-                        this.site_data.push({
-                            site_index: i,
-                            site_name: item.site_name,
-                            site_address: item.site_address,
-                            billing_level: (item.billing_level == 1)? '包月' : '包年',
-                            demand: item_demand,
-                            status: (item.status == 0)? 3: item.status,
-                            user_name: item.user,
-                            create_time: item.create_time.substring(0,10),
-                            manager_name: item.manager_name,
-                            manager_time: item.manager_time.substring(0,10),
-                        })
+                    if(item.status == 0){
+                        item_eqs = true
+                        manager = true
+                        network = true
+                    }else if(item.status == 2){
+                        manager = true
                     }
+                    if(item_eqs){
+                        for(let it of item.eqs){
+                            eqs_list.push({
+                                eq_name: it.eq_name,
+                                eq_status: (it.eq_status == 1)? '开启' : '关闭'
+                            })
+                        }
+                    }
+                    this.site_data.push({
+                        site_index: i,
+                        site_name: item.site_name,
+                        site_address: item.site_address,
+                        billing_level: (item.billing_level == 1)? '包月' : '包年',
+                        demand: item_demand,
+                        status: (item.status == 0)? 3: item.status,
+                        user_name: item.user,
+                        create_time: item.create_time.substring(0,10),
+                        manager_name: (manager)? item.manager_name : '',
+                        manager_time: (manager)? item.manager_time.substring(0,10) : '',
+                        network_name: (network)? item.network_name : '',
+                        network_time: (network)? item.network_time.substring(0,10) : '',
+                        eqs: eqs_list
+                    })
                     i++                
                 }
             })
