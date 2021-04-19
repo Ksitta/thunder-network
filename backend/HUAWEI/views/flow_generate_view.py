@@ -70,9 +70,3 @@ class FlowGenerateView(APIView):
             up += new_flow.out_flow
             down += new_flow.in_flow
         return {'up': up, 'down': down}
-
-
-a = FlowGenerateView()
-scheduler = BackgroundScheduler()
-scheduler.add_job(a.inner_generate, 'interval', seconds=14400)
-scheduler.start()
