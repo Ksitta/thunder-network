@@ -85,6 +85,24 @@
 			"status": 2,
 			"create_time": "2021-04-06 15:49:49"
 		}
+	},
+		{
+		"model": "HUAWEI.site",
+		"pk": 4,
+		"fields": {
+			"site_id": "test_site3",
+			"user": 1,
+			"site_name": "site3",
+			"site_address": "清华大学",
+			"billing_level": 1,
+			"demand_num": 2,
+			"demand_1": "Guest",
+			"demand_2": "Management",
+			"demand_3": "",
+			"status": 2,
+			"create_time": "2021-04-06 15:49:49",
+			"network_name": "network1"
+		}
 	}
 
 ]
