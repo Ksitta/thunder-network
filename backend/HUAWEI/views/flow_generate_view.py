@@ -71,4 +71,4 @@ class FlowGenerateView(APIView):
             new_flow = self.queryset_flow.get(pk=k)
             up += new_flow.out_flow
             down += new_flow.in_flow
-        return {'up': up, 'down': down}
+        return {'up': up / 10000, 'down': down / 10000}

@@ -5,14 +5,16 @@ from HUAWEI.models import User
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets, status
-from HUAWEI.serializers import UserRegisterSerializers, TokenObtainSerializer, UserProfileSerializers
+from HUAWEI.serializers import UserRegisterSerializers, TokenObtainSerializer, UserProfileSerializers, PasswordEditSerializers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenViewBase
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework.decorators import action
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
+    lookup_field = 'username'
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -25,6 +27,13 @@ class UserProfileView(APIView):
     def get(self, request):
         serializer = UserProfileSerializers(request.user)
         return Response({'user': serializer.data}, 200)
+
+    def post(self, request):
+        user = request.user
+        serializer = PasswordEditSerializers(user, data=request.data)
+        serializer.is_valid(True)
+        serializer.save()
+        return Response('success', 201)
 
     def put(self, request):
         user = request.user

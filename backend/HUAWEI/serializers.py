@@ -30,12 +30,33 @@ class UserProfileSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = ['contact_details', 'contact_email', 'contact_address', 'username', 'user_type']
-        extra_kwargs = {'username': {'read_only': True}, 'user_type': {'read_only' : True}}
+        extra_kwargs = {'username': {'read_only': True}, 'user_type': {'read_only': True}}
 
     def update(self, instance: models.User, data):
         instance.contact_address = data['contact_address']
         instance.contact_email = data['contact_email']
         instance.contact_details = data['contact_details']
+        instance.save()
+        return instance
+
+
+class PasswordEditSerializers(serializers.ModelSerializer):
+    old_password = serializers.CharField()
+
+    class Meta:
+        model = models.User
+        fields = ['password', 'old_password']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def validate(self, attrs):
+        if self.instance.check_password(attrs['old_password'] + str(self.instance.user_type)):
+            return attrs
+        raise serializers.ValidationError('原密码错误')
+
+    def update(self, instance: models.User, data):
+        print(data)
+        new_pwd = data['password'] + str(instance.user_type)
+        instance.set_password(new_pwd)
         instance.save()
         return instance
 

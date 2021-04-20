@@ -5,7 +5,7 @@ from django.conf.urls import url
 from .views import site_views, user_views, eq_views, flow_views, flow_generate_view
 
 ROUTER = DefaultRouter()
-ROUTER.register('user/register', user_views.UserViewSet, basename='register')
+ROUTER.register('user/register', user_views.UserViewSet, basename='user')
 
 urlpatterns = [
     url('^user/profile/$', user_views.UserProfileView.as_view(), name='profile'),
