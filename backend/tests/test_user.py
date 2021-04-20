@@ -94,6 +94,22 @@ class UserModelTests(TestCase):
         self.assertEqual(info["contact_email"], "abc@qq.com")
         self.assertEqual(info["contact_address"], "thu")
 
+    def test_edit_pwd(self):
+        response = self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        data = {
+            "old_password": "client1",
+            "password": "123456"
+        }
+        responce = self.new_client.post(reverse('edit'), data=data, content_type="application/json")
+        self.assertEqual(responce.status_code, 201)
+        response = self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
+        self.assertEqual(response.status_code, 401)
+        new_user = self.user
+        new_user['password'] = "123456"
+        response = self.new_client.post(reverse('token'), data=new_user, content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+
     def test_delete(self):
         response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
         self.assertEqual(response.status_code, 201)

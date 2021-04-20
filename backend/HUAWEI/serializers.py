@@ -54,7 +54,6 @@ class PasswordEditSerializers(serializers.ModelSerializer):
         raise serializers.ValidationError('原密码错误')
 
     def update(self, instance: models.User, data):
-        print(data)
         new_pwd = data['password'] + str(instance.user_type)
         instance.set_password(new_pwd)
         instance.save()
