@@ -36,6 +36,18 @@
 		}
 	},
 	{
+		"model": "HUAWEI.user",
+		"pk": 4,
+		"fields": {
+			"username": "pwd_change",
+            "password": "pbkdf2_sha256$216000$1tX7UoHHza2R$W6obJ8f2jxifNITE3lY0jK5ugIHcQSDSoj/08qyst+M=",
+            "contact_details": "13900000000",
+            "contact_email": "123@163.com",
+            "contact_address": "2132131241234",
+			"user_type": 0
+		}
+	},
+	{
 		"model": "HUAWEI.site",
 		"pk": 1,
 		"fields": {

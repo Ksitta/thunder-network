@@ -14,6 +14,12 @@ class UserModelTests(TestCase):
         "user_type": 0
     }
 
+    pwd_change = {
+        'username': 'pwd_change',
+        'password': 'client1',
+        "user_type": 0
+    }
+
     wrong_pwd_user = {
         'username': 'client1',
         'password': 'error',
@@ -95,7 +101,7 @@ class UserModelTests(TestCase):
         self.assertEqual(info["contact_address"], "thu")
 
     def test_edit_pwd(self):
-        response = self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
+        response = self.new_client.post(reverse('token'), data=self.pwd_change, content_type="application/json")
         self.assertEqual(response.status_code, 200)
         data = {
             "old_password": "client1",
@@ -103,9 +109,9 @@ class UserModelTests(TestCase):
         }
         responce = self.new_client.post(reverse('edit'), data=data, content_type="application/json")
         self.assertEqual(responce.status_code, 201)
-        response = self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
+        response = self.new_client.post(reverse('token'), data=self.pwd_change, content_type="application/json")
         self.assertEqual(response.status_code, 401)
-        new_user = self.user
+        new_user = self.pwd_change
         new_user['password'] = "123456"
         response = self.new_client.post(reverse('token'), data=new_user, content_type="application/json")
         self.assertEqual(response.status_code, 200)
