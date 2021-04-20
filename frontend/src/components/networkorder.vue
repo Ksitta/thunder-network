@@ -122,8 +122,8 @@
                     </el-table-column> -->
                     <el-table-column label="操作" min-width="15%" align="center">
                         <template slot-scope="scope">
-                            <el-button size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 2">处理订单</el-button>
-                            <el-button size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 3">修改订单</el-button>
+                            <el-button type="primary" size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 2">处理订单</el-button>
+                            <el-button type="success" size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 3">修改订单</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -232,18 +232,32 @@ export default{
     computed: {
         sitedata(){
             const search_info = this.search_info
+            var sort_data_2 = []
+            var sort_data_3 = []
+            var sort_data = []
+            for(let item of this.site_data){
+                if (item.status == 2){
+                    sort_data_2.push(item)
+                }
+                if (item.status == 3){
+                    sort_data_3.push(item)
+                }
+            }
+            sort_data = sort_data.concat(sort_data_2)
+            sort_data = sort_data.concat(sort_data_3)
             if(search_info){
-                return this.site_data.filter(data => {
+                return sort_data.filter(data => {
                     let show = ["site_name","site_address", "billing_level", "demand"]
                     return show.some(key => {
                         return String(data[key]).toLowerCase().indexOf(search_info.toLowerCase()) > -1
                     })
                 })
             }
-            return this.site_data
+            return sort_data
         },
     }
 }
+
 
 </script>
 
