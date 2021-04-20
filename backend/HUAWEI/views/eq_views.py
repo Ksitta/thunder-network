@@ -11,21 +11,13 @@ class EquipmentView(APIView):
     # def get(self, request, pk):
     #     pass
 
-        # site = Site.objects.filter(user=request.user.pk)
-        # if(int(pk) >= len(site)):
-        #     return Response(status=status.HTTP_400_BAD_REQUEST)
-        # thesite = site[int(pk)]
-        # eqs = Equipment.objects.filter(site=thesite.pk)
-        # serializer = Equipment(instance=eqs, many=True)
-        # return Response(serializer.data, status=status.HTTP_200_OK)
-
     def post(self, request, pk):
         user = self.request.user
         eq_num = self.request.data['eq_num']
         eq_list = self.request.data['eq_list']
 
         if user.user_type == 2: # 运营&网络工程师
-            sites = Site.objects.all()
+            sites = Site.objects.filter(network_name=user.username)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
         thesite = sites[int(pk)]
