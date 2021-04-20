@@ -59,6 +59,12 @@ class TestSite(TestCase):
         assert client.get(reverse('site')).status_code == status.HTTP_401_UNAUTHORIZED
         client.login(**self.user[0])
         assert client.get(reverse('site')).status_code == status.HTTP_200_OK
+        client.logout()
+        client.login(**self.user[1])
+        assert client.get(reverse('site')).status_code == status.HTTP_200_OK
+        client.logout()
+        client.login(**self.user[2])
+        assert client.get(reverse('site')).status_code == status.HTTP_200_OK
     
     def test_post_site(self):
         client = Client()
@@ -99,5 +105,7 @@ class TestSite(TestCase):
                           args=[self.detail_pk])).status_code == status.HTTP_403_FORBIDDEN
         client.logout()
         client.login(**self.user[1])
+        assert client.delete(reverse('site_detail',
+                          args=[9])).status_code == status.HTTP_400_BAD_REQUEST
         assert client.delete(reverse('site_detail',
                           args=[self.detail_pk])).status_code == status.HTTP_204_NO_CONTENT

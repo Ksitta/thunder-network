@@ -44,6 +44,7 @@ class TestAssign(TestCase):
         client.logout()
         client.login(**self.user[1])
         assert client.get(reverse('assign', args=[self.bad_site_pk])).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.get(reverse('assign', args=[9])).status_code == status.HTTP_400_BAD_REQUEST
         assert client.get(reverse('assign', args=[self.site_pk])).status_code == status.HTTP_200_OK
 
     def test_post_assign(self):

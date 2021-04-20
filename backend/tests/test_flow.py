@@ -11,7 +11,7 @@ from HUAWEI.models import User, Site
 
 # Include an appropriate `Authorization:` header on all requests.
 
-class TestEquipment(TestCase):
+class TestFlow(TestCase):
     fixtures = ['test.json']
     user = [{
                 'username': 'client1',
@@ -32,9 +32,22 @@ class TestEquipment(TestCase):
     # 超出范围
     bad_site_pk = 1
 
+    def test_get_total_flow(self):
+        client = Client()
+        assert client.get(reverse('total_flow')).status_code == status.HTTP_401_UNAUTHORIZED
+        client.login(**self.user[0])
+        client.get(reverse('flow_generate'))
+        assert client.get(reverse('total_flow')).status_code == status.HTTP_200_OK
+        client.login(**self.user[2])
+        client.get(reverse('flow_generate'))
+        assert client.get(reverse('total_flow')).status_code == status.HTTP_200_OK
+
     def test_get_site_flow(self):
         client = Client()
         assert client.get(reverse('site_flow', args=[self.site_pk])).status_code == status.HTTP_401_UNAUTHORIZED
+        client.login(**self.user[0])
+        client.get(reverse('flow_generate'))
+        assert client.get(reverse('site_flow', args=[self.site_pk])).status_code == status.HTTP_200_OK
         client.login(**self.user[2])
         client.get(reverse('flow_generate'))
         assert client.get(reverse('site_flow', args=[self.site_pk])).status_code == status.HTTP_200_OK

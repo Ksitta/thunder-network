@@ -86,7 +86,7 @@
 			"create_time": "2021-04-06 15:49:49"
 		}
 	},
-		{
+	{
 		"model": "HUAWEI.site",
 		"pk": 4,
 		"fields": {
@@ -102,6 +102,16 @@
 			"status": 2,
 			"create_time": "2021-04-06 15:49:49",
 			"network_name": "network1"
+		}
+	},
+	{
+		"model": "HUAWEI.equipment",
+		"pk": 4,
+		"fields": {
+			"eq_id": "test_ap1",
+			"site": 1,
+			"eq_name": "ap1",
+			"eq_status": 2
 		}
 	}
 

@@ -43,7 +43,7 @@ class EquipmentView(APIView):
             eq_serializer = EquipmentSerializer(data=eq_data)
             if eq_serializer.is_valid():
                 eq_serializer.save()
-            else:
-                return Response(eq_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # else:
+            #     return Response(eq_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_201_CREATED)
 

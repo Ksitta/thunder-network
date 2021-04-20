@@ -52,7 +52,7 @@ class TestEquipment(TestCase):
     #         },
     #         {
     #             "eq_name": "ap2",
-    #             "eq_status": 1
+    #             "eq_status": "eq"
     #         }
     #     ]
     # }
