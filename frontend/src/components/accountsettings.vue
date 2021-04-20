@@ -81,6 +81,45 @@
               </div>
           </div>
         </div>
+        <div class="colwrapper1">
+          <div class="login_info" style=" margin-bottom:30px;">
+              <div class="login_title" style="padding:10px 15px;">
+                <div class="title" style="padding:0px 20px;">
+                  <h3 align=left style="color:black;">Password</h3>
+                  <!-- <span style="font-size: 24px;margin-left:-900px; font-weight:bold;color:black;">
+                    Login info
+                  </span> -->
+                <hr>
+                </div>
+                <div class="body" style="padding:24px 30px 30px;">
+                  <div class="info_detail" style="float:left">
+                    <div class="info_col">
+                      <el-form class="form" :rules="rules" ref="form" :model="user" label-width="120px">
+                          <el-form-item label="原密码:" class = "label_content">
+                              <el-input type="password" class="input_content" v-model="user.oldpswd" suffix-icon="el-icon-edit"></el-input>
+                          </el-form-item>
+                          <hr class="hr_style">
+                          <el-form-item label="新密码:" prop="newpswd" class = "label_content">
+                              <el-input type="password" class="input_content" v-model="user.newpswd" suffix-icon="el-icon-edit"></el-input>
+                          </el-form-item>
+                          <hr class="hr_style">
+                          <el-form-item label="确认新密码:" prop="cnewpswd" class = "label_content">
+                              <el-input type="password" class="input_content" v-model="user.cnewpswd" suffix-icon="el-icon-edit"></el-input>
+                          </el-form-item>
+                          <!-- <hr class="hr_style">
+                          <el-form-item label="密码:" class = "label_content">
+                              <el-input class="input_content" v-model="user.password" type="password"></el-input>
+                          </el-form-item> -->
+                        <el-form-item style="margin-left: 350px;">
+                            <el-button type="primary" @click="submit_pswd('form')">确认修改</el-button>                
+                        </el-form-item>
+                      </el-form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
   </div>
 </template>
 
@@ -93,6 +132,31 @@ import md5 from 'js-md5'
 export default{
     name: "accountsettings",
     data(){
+        var passReg = /^\w{6,18}$/
+        var validatePass = (rule, value, callback) => {
+            if(!value) {
+                return callback(new Error("密码不可为空！"))
+            }
+            else if(!passReg.test(value)) {
+                callback(new Error("密码长度在6~18之间,只能包含大小写字母、数字和下划线"))
+            }else{
+                if(this.cpassword !== "") {
+                    this.$refs.form.validateField("cpassword") 
+                }callback()
+            }
+        }
+
+        var validateCPass = (rule, value, callback) => {
+            if(!value) {
+                return callback(new Error("请输入确认密码！"))
+            }
+            else if(value !== this.user.newpswd) {
+                callback(new Error("两次输入密码不一致！"))
+            }else{
+                callback()
+            }
+        }
+
         return{
             user:{
               username: "",
@@ -100,7 +164,14 @@ export default{
               contact_email: "",
               contact_address: "",
               user_type: "",
-            }
+              oldpswd: "",
+              newpswd: "",
+              cnewpswd: "",
+            },
+            rules:{
+                newpswd: [{required: true, validator: validatePass, trigger: 'blur'}],
+                cnewpswd: [{required: true, validator: validateCPass, trigger: 'blur'}],
+            },
         }
     },
     created(){
@@ -128,24 +199,61 @@ export default{
         // console.log(this.user)
       },
       submit: function(){
-        this.$emit('userinfoEdited')
-        axios.put("api/user/edit/", 
-        {
-          username: this.user.username,
-          contact_details: this.user.contact_details,
-          contact_email: this.user.contact_email,
-          contact_address: this.user.contact_address,
-        })
-        .then(response => {   
-            console.log("response.status:", response)
-            if(response.status === 204){
-                this.getdata()
-            }
-        }).catch(error => {
-            this.$message.error("修改信息失败！")
-            console.log(error)
-        })
+        this.$confirm('确认修改信息?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$emit('userinfoEdited')
+          axios.put("api/user/edit/", 
+          {
+            username: this.user.username,
+            contact_details: this.user.contact_details,
+            contact_email: this.user.contact_email,
+            contact_address: this.user.contact_address,
+          })
+          .then(response => {   
+              console.log("response.status:", response)
+              if(response.status === 204){
+                  this.$message.success("信息修改成功！");
+                  this.getdata()
+              }
+          }).catch(error => {
+              this.$message.error("修改信息失败！")
+              console.log(error)
+          })
+        });
       },
+      submit_pswd: function(form) {
+        this.$refs[form].validate(valid => {
+          if (valid){
+            this.$confirm('确认修改密码?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$emit('userinfoEdited')
+              axios.post("api/user/edit/", {
+                old_password: md5(this.user.oldpswd),
+                password: md5(this.user.newpswd),
+              })
+              .then(response => {
+                console.log("response.status:", response)
+                  if(response.status === 201){
+                    this.$message.success("密码修改成功！");
+                  }
+              }).catch(error => {
+                if (error.response.status == 400) {
+                  this.$message.error("原密码错误！");
+                } else {
+                  this.$message.error("修改密码失败！");
+                }
+                console.log(error)
+              })
+            });
+          }
+        });
+      }
     },
     computed: {
       identity: function() {
