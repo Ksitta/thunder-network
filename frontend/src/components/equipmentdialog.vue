@@ -13,7 +13,8 @@
             <div class="submit_form">
                 <el-form class="form" ref="form" label-width="80px" label-position="left">
                     <el-form-item label="设备数量:" class = "label-style">
-                        <el-input placeholder="请输入设备数量" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;"></el-input>
+                        <el-input v-if="num_quantify == false" placeholder="请输入设备数量" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;" @input="quantify"></el-input>
+                        <el-input v-if="num_quantify == true" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;" disabled></el-input>
                     </el-form-item>
                 </el-form> 
                 <div v-for="(eq, index) in eqs.eq_list" :key="eq.key" class="add-row">
@@ -27,7 +28,7 @@
                     <el-button class="delete-btn" v-if="eqs.eq_list.length >= 1" size="mini" icon="el-icon-delete" type="danger" plain @click.prevent="removeRow(eq,index)" style="margin-right:20px;"></el-button>
                 </div>
                 <div class="footer-btn">
-                    <el-button type="warning" size="mini" @click="addRow" :disabled="fulleqs">增加设备</el-button>
+                    <el-button type="warning" size="mini" @click="addRow">增加设备</el-button>
                     <el-button type="danger" @click="cancel" size="mini">取消</el-button>
                     <el-button type="success" size="mini" @click="Submit">确定</el-button>
                 </div>
@@ -55,36 +56,21 @@ export default{
         return{
             eqs:{
                 eq_num: "",
-                eq_list: [{
-                    eq_name: "",
-                    eq_status: "",
-                }],
+                eq_list: [],
             },
-        }
-    },
-    computed: {
-        fulleqs: function() {
-            return this.eqs.eq_list.length >= parseInt(this.eqs.eq_num);
+            num_quantify: false
         }
     },
     methods:{
+        quantify: function(){
+            this.num_quantify = true
+            for(var i = 0; i < this.eqs.eq_num; i++){
+                this.pushdata()
+            }
+        },
         addRow: function(){
             this.pushdata()
-            // var eqslength = this.eqs.eq_list.length
-            // console.log(eqslength)
-            // // this.pushdata()
-            // if(eqslength != 0) {
-            //     if(
-            //         (this.eqs.eq_list[eqslength - 1].eq_name == "")|
-            //         (this.eqs.eq_list[eqslength - 1].eq_status == "")
-            //     ){
-            //         this.$message.warning("请填写完上一设备信息完整后再添加！");
-            //     } else{
-            //         this.pushdata()
-            //     }
-            // }else{
-            //     this.pushdata()
-            // }
+            this.eqs.eq_num++
         },
         pushdata: function(){
             this.eqs.eq_list.push({
@@ -98,6 +84,7 @@ export default{
             if (index !== -1) {
                 this.eqs.eq_list.splice(index, 1)
             }
+            this.eqs.eq_num--
         },
         Submit:function(){
             var correct = true

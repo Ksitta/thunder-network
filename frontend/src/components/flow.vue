@@ -69,8 +69,8 @@ export default {
       loading: false,
       chartSettings: {
         legendName: {
-          'up': "上行流量（byte）",
-          'down': "下行流量（byte）",
+          'up': "上行流量（Byte）",
+          'down': "下行流量（Byte）",
         }
       },
       chartData: {
