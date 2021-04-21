@@ -16,13 +16,13 @@ class EquipmentView(APIView):
         eq_num = self.request.data['eq_num']
         eq_list = self.request.data['eq_list']
 
-        if user.user_type == 2: # 运营&网络工程师
+        if user.user_type == 2: # 网络工程师
             sites = Site.objects.filter(network_name=user.username)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
         thesite = sites[int(pk)]
 
-        if thesite.status == 2 and user.user_type == 2:
+        if thesite.status == 2 or thesite.status == 0:
             thesite.status = 0
             thesite.network_name = user.username
             thesite.network_time = datetime.datetime.now()
@@ -31,7 +31,8 @@ class EquipmentView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # 在数据库中更新设备
-        new_site = Site.objects.get(site_id=thesite.site_id)
+        new_site = Site.objects.get(site_id = thesite.site_id)
+        Equipment.objects.filter(site = thesite.pk).delete()
         for i in range(0, eq_num):
             eq_data = {
                 'eq_id': str(new_site.pk) + str(i),
