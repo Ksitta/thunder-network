@@ -23,15 +23,12 @@ class FlowGenerateView(APIView):
         with open('./flow.log', mode='a+') as file:
             file.write(str(time.time()) + " generated flow info\n")
         now = int(time.time())
-        timeArray = time.localtime(now)
-        site_time = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+        time_array = time.localtime(now)
+        site_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
         for i in self.queryset_site:
             if not i.status == 0:
                 continue
-            try:
-                flow_list = json.loads(i.flow_data)
-            except:
-                flow_list = []
+            flow_list = json.loads(i.flow_data)
             if len(flow_list) >= 6:
                 del (flow_list[0])
             eq_set = self.queryset_eq.filter(site=i.pk)
@@ -40,10 +37,7 @@ class FlowGenerateView(APIView):
             for j in eq_set:
                 if not j.eq_status == 1:
                     continue
-                try:
-                    flow_list_eq = json.loads(j.flow_data)
-                except:
-                    flow_list_eq = []
+                flow_list_eq = json.loads(j.flow_data)
                 if len(flow_list_eq) >= 6:
                     del (flow_list_eq[0])
                 new_flow = self.generate_flow()

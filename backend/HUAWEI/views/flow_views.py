@@ -22,7 +22,7 @@ class TotalFlowView(APIView):
         return_data['rate_unit'] = 'byte'
         flow_data = []
         for i in sites:
-            list_info = json.loads(i.flow_data)[:-1:]
+            list_info = json.loads(i.flow_data)[::-1]
             for j in range(0, len(list_info)):
                 try:
                     flow_data[j]['up'] += list_info[j]['up']
@@ -33,7 +33,7 @@ class TotalFlowView(APIView):
                     flow_data.append(list_info[j])
                     return_data['total_up'] += list_info[j]['up']
                     return_data['total_down'] += list_info[j]['down']
-        return_data['flow_data'] = flow_data[:-1:]
+        return_data['flow_data'] = flow_data[::-1]
         return Response(return_data, status=status.HTTP_200_OK)
 
 class SiteFlowView(APIView):
@@ -61,7 +61,6 @@ class SiteFlowView(APIView):
         site_flow = copy(site_serializer.data)
         site_flow['flow_data'] = json.loads(site_flow['flow_data'])
         return_data['site_flow'] = site_flow
-
         eq_flows = []
         for eq in eqs_info:
             eq_serializer = EquipmentFlowSerializer(instance=eq)
