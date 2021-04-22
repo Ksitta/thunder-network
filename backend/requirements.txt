@@ -16,5 +16,6 @@ mysqlclient==2.0.3
 gunicorn==19.9.0
 apscheduler==3.7.0
 django-apscheduler==0.5.2
-
+pytz~=2021.1
 # pip install --user -e git+https://codehub.devcloud.cn-north-4.huaweicloud.com/campus00001/CloudCampusPythonSDK.git@master#egg=cloudcampusPythonSdk
+

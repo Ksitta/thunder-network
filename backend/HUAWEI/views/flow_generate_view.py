@@ -6,7 +6,9 @@ import random, json
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
+import pytz
 
+beijing = pytz.timezone("Asia/Shanghai")
 
 class FlowGenerateView(APIView):
     permission_classes = [AllowAny]
@@ -22,9 +24,12 @@ class FlowGenerateView(APIView):
     def inner_generate(self):
         with open('./flow.log', mode='a+') as file:
             file.write(str(time.time()) + " generated flow info\n")
-        now = int(time.time())
-        time_array = time.localtime(now)
-        site_time = time.strftime("%Y-%m-%d %H:%M:%S", time_array)
+        utc = pytz.utc
+        loc_timestamp = int(time.time())
+        utc_date = datetime.utcfromtimestamp(loc_timestamp)
+        fmt = '%Y-%m-%d %H:%M:%S'
+        utc_loc_time = utc.localize(utc_date)
+        site_time = utc_loc_time.astimezone(beijing).strftime(fmt)
         for i in self.queryset_site:
             if not i.status == 0:
                 continue
