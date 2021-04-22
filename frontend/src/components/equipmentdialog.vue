@@ -110,7 +110,7 @@ export default{
             if(correct){
                 this.$emit('Dialog_cancel')
                 let submiteqs = {
-                    eq_num : this.eqs.eq_num,
+                    eq_num : parseInt(this.eqs.eq_num),
                     eq_list: []
                 }
                 for (let eq of this.eqs.eq_list){

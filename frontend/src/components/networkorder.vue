@@ -239,7 +239,7 @@ export default{
                 eq_list: [],
             }
             if(row.status == 3){
-                console.log(row.eqs)
+                // console.log(row.eqs)
                 this.equipmentdialog.equipment.eq_list = row.eqs
                 this.equipmentdialog.equipment.eq_num = row.eqs.length
             }
