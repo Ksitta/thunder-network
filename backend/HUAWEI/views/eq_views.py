@@ -32,7 +32,9 @@ class EquipmentView(APIView):
 
         # 在数据库中更新设备
         new_site = Site.objects.get(site_id = thesite.site_id)
-        if Equipment.objects.filter(site = thesite.pk):
+        # print("hhhhhhhhhh: ", Equipment.objects.filter(site = thesite.pk))
+        if len(Equipment.objects.filter(site = thesite.pk)) > 0:
+        # if Equipment.objects.filter(site=thesite.pk):
             Equipment.objects.filter(site = thesite.pk).delete()
         for i in range(0, eq_num):
             eq_data = {
