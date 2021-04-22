@@ -48,13 +48,16 @@ export default{
             default: () => []
         },
         path: {
-            type: Text,
+            type: String,
             default: () => ''
-        }
+        },
+        network_selected: {
+            type: String,
+            default: () => ''
+        },
     },
     data(){
         return{
-            network_selected: '',
         }
     },
     methods:{

@@ -48,28 +48,33 @@ export default{
             default: () => false
         },
         path: {
-            type: Text,
+            type: String,
             default: () => ''
+        },
+        eqs: {
+            type: Object,
+        },
+        num_quantify: {
+            type: Boolean,
+            default: () => false
         }
     },
     data(){
         return{
-            eqs:{
-                eq_num: "",
-                eq_list: [],
-            },
-            num_quantify: false
         }
     },
     methods:{
         quantify: function(){
-            this.num_quantify = true
+            if(this.eqs.eq_num != 0){
+                this.num_quantify = true
+            }
             for(var i = 0; i < this.eqs.eq_num; i++){
                 this.pushdata()
             }
         },
         addRow: function(){
             this.pushdata()
+            this.num_quantify = true
             this.eqs.eq_num++
         },
         pushdata: function(){
@@ -105,7 +110,7 @@ export default{
             if(correct){
                 this.$emit('Dialog_cancel')
                 let submiteqs = {
-                    eq_num : parseInt(this.eqs.eq_num),
+                    eq_num : this.eqs.eq_num,
                     eq_list: []
                 }
                 for (let eq of this.eqs.eq_list){
@@ -114,7 +119,7 @@ export default{
                         eq_status: (eq.eq_status == "开启")? 1 : 2,
                     })
                 }
-                console.log(submiteqs)
+                console.log('1',submiteqs)
                 axios.post(this.path, submiteqs)
                 .then(response => {
                     console.log("response:",response)

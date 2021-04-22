@@ -123,13 +123,13 @@
                     <el-table-column label="操作" min-width="15%" align="center">
                         <template slot-scope="scope">
                             <el-button type="primary" size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 2">处理订单</el-button>
-                            <el-button type="success" size="mini" @click="order_confirmation(scope.row)" v-if="scope.row.status == 3">修改订单</el-button>
+                            <el-button type="success" size="mini" @click="order_confirmation1(scope.row)" v-if="scope.row.status == 3">修改订单</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
             </div>
         </div>
-        <equipmentdialog :dialogVisible="equipmentdialog.dialogVisible" :path="equipmentdialog.path" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></equipmentdialog>
+        <equipmentdialog :num_quantify="equipmentdialog.num_quantify" :eqs="equipmentdialog.equipment" :dialogVisible="equipmentdialog.dialogVisible" :path="equipmentdialog.path" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></equipmentdialog>
     </div>
 </template>
 
@@ -151,7 +151,12 @@ export default{
             equipmentdialog:{
                 dialogVisible: false,
                 path: '',
-            }
+                equipment: {
+                    eq_num: '',
+                    eq_list: [],
+                },
+                num_quantify: false,
+            },
         }
     },
     created(){
@@ -191,7 +196,7 @@ export default{
                         for(let it of item.eqs){
                             eqs_list.push({
                                 eq_name: it.eq_name,
-                                eq_status: (it.eq_status == 1)? '开启' : '关闭'
+                                eq_status: (it.eq_status == 1)? "开启" : "关闭"
                             })
                         }
                     }
@@ -216,9 +221,28 @@ export default{
         },
         order_confirmation: function(row){
             this.equipmentdialog.dialogVisible = true
+            this.equipmentdialog.num_quantify = false
             var pk = row.site_index
             this.equipmentdialog.path = "api/equipment/" + pk + "/"
-
+            this.equipmentdialog.equipment = {
+                eq_num: '',
+                eq_list: [],
+            }
+        },
+        order_confirmation1: function(row){
+            this.equipmentdialog.dialogVisible = true
+            this.equipmentdialog.num_quantify = true
+            var pk = row.site_index
+            this.equipmentdialog.path = "api/equipment/" + pk + "/"
+            this.equipmentdialog.equipment = {
+                eq_num: '',
+                eq_list: [],
+            }
+            if(row.status == 3){
+                console.log(row.eqs)
+                this.equipmentdialog.equipment.eq_list = row.eqs
+                this.equipmentdialog.equipment.eq_num = row.eqs.length
+            }
         },
         Dialog_submit:function(){
             this.equipmentdialog.dialogVisible = false

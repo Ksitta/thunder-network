@@ -61,18 +61,21 @@ export default{
             type: Boolean,
             default: () => false
         },
+        info: {
+            type: Object,
+        }
     },
     data(){
         return{
-            info:{
-                site_name: "",
-                site_address: "",
-                billing_level: "",
-                // demand_num: 0,
-                demands: [{
-                    value: ""
-                }],
-            },
+            // info:{
+            //     site_name: "",
+            //     site_address: "",
+            //     billing_level: "",
+            //     // demand_num: 0,
+            //     demands: [{
+            //         value: ""
+            //     }],
+            // },
         }
     },
     methods:{

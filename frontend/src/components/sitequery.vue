@@ -121,7 +121,7 @@
                     </el-table-column>
                 </el-table>
             </div>
-            <orderDialog :dialogVisible="orderDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></orderDialog>
+            <orderDialog :info="orderDialog.info" :dialogVisible="orderDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></orderDialog>
         </div>
     </div>
 </template>
@@ -142,7 +142,16 @@ export default{
             search_info: '',
             // siteinfo:{site_address:""},
             orderDialog:{
-                dialogVisible: false
+                dialogVisible: false,
+                info:{
+                    site_name: "",
+                    site_address: "",
+                    billing_level: "",
+                    // demand_num: 0,
+                    demands: [{
+                        value: ""
+                    }],
+                },
             }
         }
     },
@@ -242,6 +251,15 @@ export default{
         },
         orderrequest: function(){
             this.orderDialog.dialogVisible = true
+            this.orderDialog.info = {
+                site_name: "",
+                site_address: "",
+                billing_level: "",
+                // demand_num: 0,
+                demands: [{
+                    value: ""
+                }],
+            }
         },
     },
     computed: {

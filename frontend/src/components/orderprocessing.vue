@@ -127,7 +127,7 @@
                 </el-table>
             </div>
         </div>
-        <assignmentdialog :path="assignmentdialog.path" :dialogVisible="assignmentdialog.dialogVisible" :networks="assignmentdialog.networks" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></assignmentdialog>
+        <assignmentdialog :network_selected="assignmentdialog.network_selected" :path="assignmentdialog.path" :dialogVisible="assignmentdialog.dialogVisible" :networks="assignmentdialog.networks" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></assignmentdialog>
     </div>
 </template>
 
@@ -150,6 +150,7 @@ export default{
                 dialogVisible: false,
                 networks: [],
                 path: '',
+                network_selected: '',
             }
         }
     },
@@ -215,6 +216,7 @@ export default{
         },
         order_confirmation: function(row){
             this.assignmentdialog.dialogVisible = true
+            this.assignmentdialog.network_selected = ''
             var pk = row.site_index
             this.assignmentdialog.path = "api/assign/" + pk + "/"
             axios.get(this.assignmentdialog.path)
