@@ -81,7 +81,7 @@
                                                             <br v-if="props.row.status == 1">
                                                             <tr v-if="props.row.status >= 2">
                                                                 <td style="color:#98A6BE">
-                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status == 2"><span>网络工程师正在处理订单……</span></div>
+                                                                    <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status == 2"><span>网络工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.network_name}}</span>&nbsp;&nbsp;正在处理订单……</span></div>
                                                                     <div class="processing_content_detail" style="float:left;width:70%" v-if="props.row.status >= 3"><span>网络工程师&nbsp;&nbsp;<span style="color:#219AFF">{{props.row.network_name}}</span>&nbsp;&nbsp;处理了订单</span></div>
                                                                     <div class="processing_content_detail" style="float:right;" v-if="props.row.status >= 3"><span ><i class="el-icon-time"></i>&nbsp;&nbsp;{{props.row.network_time}}</span> </div>
                                                                 </td>
@@ -211,7 +211,7 @@ export default{
                         create_time: item.create_time.substring(0,10),
                         manager_name: (manager)? item.manager_name : '',
                         manager_time: (manager)? item.manager_time.substring(0,10) : '',
-                        network_name: (network)? item.network_name : '',
+                        network_name: (manager)? item.network_name : '',
                         network_time: (network)? item.network_time.substring(0,10) : '',
                         eqs: eqs_list
                     })
