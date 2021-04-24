@@ -5,10 +5,10 @@ from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
 import random, json
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
-from datetime import datetime
 import pytz
 
 beijing = pytz.timezone("Asia/Shanghai")
+
 
 class FlowGenerateView(APIView):
     permission_classes = [AllowAny]
@@ -19,6 +19,7 @@ class FlowGenerateView(APIView):
     flow_nums = len(queryset_flow)
 
     create_list = []
+
     def get(self, request):
         self.inner_generate()
         return Response("", 200)
@@ -48,3 +49,8 @@ class FlowGenerateView(APIView):
                                 out_flow=raw_flow.out_flow, in_flow=raw_flow.in_flow,
                                 site=site, user=user, eq=eq, generate_time=now_time)
             self.create_list.append(new_flow)
+
+a = FlowGenerateView()
+scheduler = BackgroundScheduler()
+scheduler.add_job(a.inner_generate, 'interval', seconds=3600)
+scheduler.start()
