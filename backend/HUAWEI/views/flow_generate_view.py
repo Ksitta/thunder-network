@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
 import random, json
 import time
-from apscheduler.schedulers.background import BackgroundScheduler
+
 import pytz
 
 beijing = pytz.timezone("Asia/Shanghai")
@@ -17,7 +17,6 @@ class FlowGenerateView(APIView):
     queryset_eq = Equipment.objects.all()
     queryset_flow = RawFlowData.objects.all()
     flow_nums = len(queryset_flow)
-
     create_list = []
 
     def get(self, request):
@@ -41,16 +40,11 @@ class FlowGenerateView(APIView):
         self.create_list.clear()
 
     def generate_flow(self, user, site, eq, now_time):
-        newnums = random.randint(0, 100)
-        for i in range(0, newnums):
+        new_nums = random.randint(0, 100)
+        for i in range(0, new_nums):
             k = random.randint(1, self.flow_nums)
             raw_flow = self.queryset_flow.get(pk=k)
             new_flow = FlowData(dest_ip=raw_flow.dest_ip, source_ip=raw_flow.source_ip,
                                 out_flow=raw_flow.out_flow, in_flow=raw_flow.in_flow,
                                 site=site, user=user, eq=eq, generate_time=now_time)
             self.create_list.append(new_flow)
-
-a = FlowGenerateView()
-scheduler = BackgroundScheduler()
-scheduler.add_job(a.inner_generate, 'interval', seconds=3600)
-scheduler.start()

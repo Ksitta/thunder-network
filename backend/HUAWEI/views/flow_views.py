@@ -93,7 +93,8 @@ class SiteFlowView(APIView):
         site_total_up = 0
         site_total_down = 0
         for i in range(0, 6):
-            single = {'up': 0, 'down': 0, 'time': trans_time(from_time + (i + 1) * div)}
+            single = {'up': 0, 'down': 0, 'time': trans_time(from_time + (i + 1) * div),
+                      'start_time': trans_time(from_time + i * div)}
             site_flow_data.append(single)
         for eq in eqs_info:
             eq_data = {"eq_name": eq.eq_name, "rate_unit": "byte"}
