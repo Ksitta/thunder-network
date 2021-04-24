@@ -117,17 +117,26 @@ class SiteDetailSerializer(serializers.ModelSerializer):
         fields = ['site_name', 'site_address', 'billing_level', 'demand_num', 'demand_1',
                   'demand_2', 'demand_3', 'status', 'user', 'create_time']
 
+
+class FlowDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FlowData
+
+        fields = ['eq', 'user', 'site', 'in_flow', 'out_flow', 'generate_time']
+
+
 class EquipmentDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Equipment
         fields = ['eq_name', 'eq_status']
 
+
 class SiteFlowSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
-        fields = ['site_name', 'total_up', 'total_down', 'rate_unit', 'flow_data']
+        fields = ['site_name', 'rate_unit']
 
 class EquipmentFlowSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Equipment
-        fields = ['eq_name', 'total_up', 'total_down', 'rate_unit', 'flow_data']
+        fields = ['eq_name', 'rate_unit']

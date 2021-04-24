@@ -27,9 +27,6 @@ class Site(models.Model):
     network_name = models.CharField('网络工程师', max_length=50, default="", blank=True)
     network_time = models.DateTimeField(null=True, default=None, blank=True)
 
-    total_up = models.IntegerField('上行总流量', default=0)
-    total_down = models.IntegerField('下行总流量', default=0)
-    flow_data = models.CharField('流量数据', max_length=1000, default="[]")
     rate_unit = models.CharField('速率单位', max_length=10, default='byte')
 
 
@@ -38,10 +35,18 @@ class Equipment(models.Model):
     site = models.ForeignKey('Site', on_delete=models.CASCADE)
     eq_name = models.CharField('设备名称', max_length=20)
     eq_status = models.IntegerField('设备状态')
-    total_up = models.IntegerField('上行总流量', default=0)
-    total_down = models.IntegerField('下行总流量', default=0)
-    flow_data = models.CharField('流量数据', max_length=1000, default="[]")
     rate_unit = models.CharField('速率单位', max_length=10, default='byte')
+
+
+class FlowData(models.Model):
+    source_ip = models.GenericIPAddressField('源ip地址')
+    dest_ip = models.GenericIPAddressField('目标ip地址')
+    out_flow = models.IntegerField('出口流量')
+    in_flow = models.IntegerField('入口流量')
+    eq = models.ForeignKey('Equipment', on_delete=models.CASCADE)
+    site = models.ForeignKey('Site', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('User', on_delete=models.DO_NOTHING)
+    generate_time = models.IntegerField('时间戳')
 
 
 class RawFlowData(models.Model):
