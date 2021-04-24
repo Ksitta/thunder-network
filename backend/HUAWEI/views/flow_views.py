@@ -42,7 +42,7 @@ class TotalFlowView(APIView):
         all_data = FlowData.objects.filter(user=user, generate_time__gte=from_time, generate_time__lte=to_time)
         serializers = FlowDataSerializer(instance=all_data, many=True)
         div = (to_time - from_time) / 6
-        for i in range(1, 7):
+        for i in range(0, 6):
             single = {'up': 0, 'down': 0, 'time': trans_time(from_time + (i + 1) * div)}
             flow_data.append(single)
         for flow in serializers.data:
@@ -92,7 +92,7 @@ class SiteFlowView(APIView):
         site_flow_data = []
         site_total_up = 0
         site_total_down = 0
-        for i in range(1, 7):
+        for i in range(0, 6):
             single = {'up': 0, 'down': 0, 'time': trans_time(from_time + (i + 1) * div)}
             site_flow_data.append(single)
         for eq in eqs_info:
