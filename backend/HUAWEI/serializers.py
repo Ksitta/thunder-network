@@ -121,7 +121,6 @@ class SiteDetailSerializer(serializers.ModelSerializer):
 class FlowDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.FlowData
-
         fields = ['eq', 'user', 'site', 'in_flow', 'out_flow', 'generate_time']
 
 
@@ -140,3 +139,17 @@ class EquipmentFlowSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Equipment
         fields = ['eq_name', 'rate_unit']
+
+class SSIDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SSID
+        fields = ['SSID_id', 'site', 'name', 'enable', 'maxUserNumber', 'relativeRadios', 'userSeparation']
+    def create(self, validated_data):
+        return models.SSID.objects.create(**validated_data)
+
+class SSIDAuthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SSIDAuth
+        fields = ['SSID', 'mode', 'pskEncryptType', 'securityKey', 'securityKeyType']
+    def create(self, validated_data):
+        return models.SSIDAuth.objects.create(**validated_data)

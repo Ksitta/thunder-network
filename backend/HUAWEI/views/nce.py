@@ -3,10 +3,12 @@ import configparser
 import os
 import json
 from backend.settings import nbi_name, nbi_pwd, nbi_host, nbi_port
+from copy import deepcopy
+import json
 
 HTTPS = "https://"
 APPJSON = "application/json"
-APSSI = "/apssi"
+APSSI = "/apssid"
 
 # 定义接口的URI
 POST_TOKEN_URL = "/controller/v2/tokens"
@@ -171,35 +173,50 @@ def create_site(name):
 """
 
 # # 参数仍存疑
-# def create_ssid(site_id, name):
-#     # 配置URL和Headers
-#     post_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
-#     # 发起请求
-#     data = {
-#         "name": name,
-#         "enable": True,
-#         "connectionMode": "bridge",
-#         "hidedEnable": False,
-#         "maxUserNumber": 10,
-#         "relativeRadios": 3,
-#         "userSeparation": False,
-#         "ssidAuth": {
-#             "mode": "ppsk",
-#             "pskEncryptType": "wpa2",
-#             "securityKeyType": "AES",
-#             "portal": {"mode": "portalDisable"	},
-#             "macAutoBinding": True
-#         },
-#         "ssidPolicy": {}
-#     }
-#     headers = base_headers
-#     headers['X-AUTH-TOKEN'] = get_token()
-#     r = requests.post(post_ssid_url, headers=headers, json=data, verify=False)
-#     # 解析站点信息
-#     print("8.【Post SSID】")
-#     print("【post_ssid_url】：" + post_ssid_url)
-#     print(r.text)
-#     # 返回 SSID 的 id
+def create_ssid(site_id, ssid_data):
+    # 配置URL和Headers
+    post_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
+    # 发起请求
+    data = deepcopy(ssid_data)
+    item = {'connectionMode': "bridge",
+            'hidedEnable': False,
+            'ssidPolicy': {}
+            }
+    data['ssidAuth']['portal'] = {'mode': "portalDisable"}
+    data.update(item)
+    # data = {
+    #     "name": data['name'],
+    #     "enable": data['enable'],
+    #     "connectionMode": "bridge",
+    #     "hidedEnable": False,
+    #     "maxUserNumber": data['maxUserNumber'],
+    #     "relativeRadios": data['relativeRadios'],
+    #     "userSeparation": data['userSeparation'],
+    #     "ssidAuth": {
+    #         "mode": "ppsk",
+    #         "pskEncryptType": "wpa2",
+    #         "securityKeyType": "AES",
+    #         "portal": {"mode": "portalDisable"	},
+    #         "macAutoBinding": True
+    #     },
+    #     "ssidPolicy": {}
+    # }
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
+    print("hhhhhh:", data)
+    print("json: ", json.dumps(data))
+    r = requests.post(post_ssid_url, headers=headers, json=json.dumps(data), verify=False)
+    # 解析站点信息
+    print("8.【Post SSID】")
+    print(r.text)
+    try:
+        body = r.json()["data"]
+        SSID_id = body['id']
+    except IndexError:
+        return IndexError
+    # print("【success】：" + str(site_id))
+    return SSID_id
+    # 返回 SSID 的 id
 #
 # # siteId查找
 # def get_ssid(site_id):

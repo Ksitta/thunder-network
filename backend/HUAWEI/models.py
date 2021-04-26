@@ -54,3 +54,19 @@ class RawFlowData(models.Model):
     dest_ip = models.GenericIPAddressField('目标ip地址')
     out_flow = models.IntegerField('出口流量')
     in_flow = models.IntegerField('入口流量')
+
+class SSID(models.Model):
+    SSID_id = models.CharField('SSID_id', max_length=50, unique=True)
+    site = models.ForeignKey('Site', on_delete=models.CASCADE)
+    name = models.CharField('SSID名称', max_length=20)
+    enable = models.BooleanField('开启状态', default=True)
+    maxUserNumber = models.IntegerField('最大用户数')
+    relativeRadios = models.IntegerField('射频类型')
+    userSeparation = models.BooleanField('用户隔离', default=False)
+
+class SSIDAuth(models.Model):
+    SSID = models.ForeignKey('SSID', on_delete=models.CASCADE)
+    mode = models.CharField('认证模式', max_length=10)
+    pskEncryptType = models.CharField('安全模式', max_length=20)
+    securityKey = models.CharField('psk秘钥', max_length=64)
+    securityKeyType = models.CharField('加密方法', max_length=10)
