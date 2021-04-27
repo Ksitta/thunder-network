@@ -31,12 +31,12 @@ class SSIDView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # 与NCE通信
-        # create_ssid_response = create_ssid(thesite.site_id, self.request.data)  #避免不同客户有相同的站点名
-        # if create_ssid_response == IndexError:
-        #     return Response("SSID重复！", status=status.HTTP_400_BAD_REQUEST)
+        create_ssid_response = create_ssid(thesite.site_id, self.request.data)  #避免不同客户有相同的站点名
+        if create_ssid_response == IndexError:
+            return Response("SSID重复！", status=status.HTTP_400_BAD_REQUEST)
 
         # 测试用
-        create_ssid_response = str(pk) + user.username
+        # create_ssid_response = str(pk) + user.username
         ssid_id = create_ssid_response
 
         # 在数据库中更新
