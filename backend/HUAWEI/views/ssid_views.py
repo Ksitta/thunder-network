@@ -32,7 +32,7 @@ class SSIDView(APIView):
 
         # 与NCE通信
         create_ssid_response = create_ssid(thesite.site_id, self.request.data)  #避免不同客户有相同的站点名
-        if create_ssid_response == IndexError:
+        if create_ssid_response == KeyError:
             return Response("SSID重复！", status=status.HTTP_400_BAD_REQUEST)
 
         # 测试用

@@ -51,7 +51,7 @@
 		"model": "HUAWEI.site",
 		"pk": 1,
 		"fields": {
-			"site_id": "test_site0",
+			"site_id": "cdb22ac8-d605-4f52-a862-be7c29bbe438",
 			"user": 1,
 			"site_name": "site0",
 			"site_address": "清华大学",

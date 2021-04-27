@@ -127,8 +127,8 @@ def create_ssid(site_id, ssid_data):
     try:
         body = r.json()["data"]
         SSID_id = body['id']
-    except IndexError:
-        return IndexError
+    except KeyError:
+        return KeyError
     # print("【success】：" + str(site_id))
     return SSID_id
     # 返回 SSID 的 id
