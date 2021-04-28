@@ -2,7 +2,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from HUAWEI.models import Site, Equipment, User
+from HUAWEI.models import Site, Equipment, User, SSID
 from HUAWEI.serializers import SiteSerializer, SiteDetailSerializer, EquipmentDetailSerializer, EquipmentSerializer
 from rest_framework.permissions import IsAuthenticated
 from HUAWEI.views.nce import create_site
@@ -39,6 +39,10 @@ class SiteView(APIView):
                 data['manager_time'] = sites[i].manager_time
                 data['network_name'] = sites[i].network_name
                 data['network_time'] = sites[i].network_time
+                if len(SSID.objects.filter(site=sites[i].pk)) == 0:
+                    data['SSID_status'] = 0
+                else:
+                    data['SSID_status'] = 1
 
             return_data.append(data)
         return Response(return_data, status=status.HTTP_200_OK)
