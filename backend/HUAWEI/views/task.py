@@ -7,7 +7,7 @@ import time, random, pytz, datetime
 
 beijing = pytz.timezone("Asia/Shanghai")
 def trans_time(timestamp):
-    utc_date = datetime.utcfromtimestamp(timestamp)
+    utc_date = datetime.datetime.utcfromtimestamp(timestamp)
     fmt = '%Y-%m-%d %H:%M:%S'
     utc = pytz.utc
     utc_loc_time = utc.localize(utc_date)

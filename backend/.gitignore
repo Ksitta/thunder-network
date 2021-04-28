@@ -9,3 +9,4 @@ generateflow.py
 flow.log
 *.log
 /frontend
+log.txt
