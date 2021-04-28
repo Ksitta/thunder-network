@@ -5,7 +5,6 @@ from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
 import time, random
 
 
-
 def generate_flow(user, site, eq, now_time, create_list, queryset_flow, flow_nums):
     new_nums = random.randint(0, 100)
     for i in range(0, new_nums):
@@ -21,6 +20,7 @@ def flow_info():
     queryset_flow = RawFlowData.objects.all()
     queryset_eq = Equipment.objects.all()
     flow_nums = len(queryset_flow)
+    print('succ')
     with open('./flow.log', mode='a+') as file:
         file.write(str(time.time()) + " generated flow info\n")
     now_time = time.time()
@@ -35,7 +35,3 @@ def flow_info():
             generate_flow(site.user, site, eq, now_time, create_list, queryset_flow, flow_nums)
     FlowData.objects.bulk_create(create_list)
 
-
-# scheduler = BackgroundScheduler()
-# scheduler.add_job(flow_info, 'interval', seconds=60)
-# scheduler.start()
