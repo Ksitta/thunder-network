@@ -2,7 +2,16 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from django.test.client import Client
 from django.urls import reverse
 from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
-import time, random
+import time, random, pytz, datetime
+
+
+beijing = pytz.timezone("Asia/Shanghai")
+def trans_time(timestamp):
+    utc_date = datetime.utcfromtimestamp(timestamp)
+    fmt = '%Y-%m-%d %H:%M:%S'
+    utc = pytz.utc
+    utc_loc_time = utc.localize(utc_date)
+    return utc_loc_time.astimezone(beijing).strftime(fmt)
 
 
 def generate_flow(user, site, eq, now_time, create_list, queryset_flow, flow_nums):
@@ -22,7 +31,7 @@ def flow_info():
     flow_nums = len(queryset_flow)
     print('succ')
     with open('./flow.log', mode='a+') as file:
-        file.write(str(time.time()) + " generated flow info\n")
+        file.write(trans_time(time.time()) + " generated flow info\n")
     now_time = time.time()
     create_list = []
     for site in queryset_site:
