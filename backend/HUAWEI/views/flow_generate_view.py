@@ -4,14 +4,17 @@ from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
 import random, json
 import time
-
+try:
+    from config.local_settings import interval_time
+except:
+    interval_time = 3600
 import pytz
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from .task import flow_info
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(flow_info, 'interval', seconds=60)
+scheduler.add_job(flow_info, 'interval', seconds=interval_time)
 with open('./log.txt', mode='a+') as file:
     file.write("successfully added task\n")
 print("successfully added task\n")
