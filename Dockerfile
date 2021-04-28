@@ -15,6 +15,11 @@ RUN npm run build
 
 FROM python:3.8.5
 
+RUN rm -r /etc/apt/sources.list
+COPY sources.list /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y redis-server cron
+
 ENV HOME=/opt/app
 WORKDIR $HOME
 
