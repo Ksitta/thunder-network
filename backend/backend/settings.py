@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_apscheduler',
+    'django_crontab',
 ]
 
 REST_FRAMEWORK = {
@@ -175,3 +176,8 @@ except:
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATICFILES_DIR = os.path.join(BASE_DIR, 'frontend', 'dist')
+
+CRONJOBS = [
+    ('0 */1 * * *', 'HUAWEI.cron.flow_info', '>>/flow.log'),
+    ('1 * * * *', 'HUAWEI.cron.test_con', '>>/123.log')
+]
