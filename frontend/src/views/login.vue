@@ -20,7 +20,7 @@
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item style="margin-left: -60px;">
-                            <el-button type="register" disabled="true" @click="Register">注册</el-button>                
+                            <el-button type="register" disabled @click="Register">注册</el-button>                
                             <el-button type="login" @click="Login">登录</el-button>
                         </el-form-item>
                     </el-form>

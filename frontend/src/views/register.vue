@@ -42,6 +42,13 @@
                                 </el-col>
                             </el-row>
                         </el-form-item>
+                        <el-form-item prop="checked">
+                            <el-row style="margin-right: 100px;">
+                                <el-checkbox v-model="user.checked" style="color: white;"></el-checkbox>
+                                <span style="color: white;"> 我已阅读并理解</span>
+                                <el-button type="text" @click="openagreement">用户协议</el-button>
+                            </el-row>
+                        </el-form-item>
                         <el-form-item>
                             <el-button type="return" @click="Login">返回</el-button>                
                             <el-button type="submit" @click="Submit('form')">提交</el-button>                
@@ -122,6 +129,14 @@ export default{
             }
         }
 
+        var validatechecked = (rule, value, callback) => {
+            if (value != true) {
+                return callback(new Error("请同意用户协议！"))
+            } else {
+                callback()
+            }
+        }
+
         return{
             user:{
                 username: '',
@@ -131,6 +146,7 @@ export default{
                 password: '',
                 cpassword: '',
                 user_type: '',
+                checked: false,
             },
             msgText: '',
             
@@ -142,6 +158,7 @@ export default{
                 password: [{required: true, validator: validatePass, trigger: 'blur'}],
                 cpassword: [{required: true, validator: validateCPass, trigger: 'blur'}],
                 user_type: [{required: true, message: "请选择您的身份！", trigger: 'change'}],
+                checked: [{required: true, validator: validatechecked, trigger: 'change'}],
             },
 
         }
@@ -197,6 +214,11 @@ export default{
                 }
             })
         },
+        openagreement: function() {
+            this.$alert('我永远喜欢雷雷老师', '用户协议', {
+                confirmButtonText: '确定',
+            });
+        }
     },
     mounted: function(){
         document.getElementById("one").style.background = "#F6F6FA"
