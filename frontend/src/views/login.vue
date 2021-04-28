@@ -72,7 +72,7 @@ export default{
                             access: response.data.access,
                             refresh: response.data.refresh,
                         })
-                        this.$router.push({path: "/index"})
+                        this.$router.push({path: "/"})
                     }
                 }).catch(error => {
                     this.$message.error("您输入的用户名或密码错误！")
