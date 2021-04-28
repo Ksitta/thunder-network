@@ -147,6 +147,13 @@ class SSIDSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return models.SSID.objects.create(**validated_data)
 
+class getSSIDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.SSID
+        fields = ['site', 'name', 'enable', 'maxUserNumber', 'relativeRadios', 'userSeparation']
+    def create(self, validated_data):
+        return models.SSID.objects.create(**validated_data)
+
 class SSIDAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SSIDAuth

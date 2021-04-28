@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, SSID, SSIDAuth
-from HUAWEI.serializers import SSIDSerializer, SSIDAuthSerializer
+from HUAWEI.serializers import SSIDSerializer, getSSIDSerializer, SSIDAuthSerializer
 from rest_framework.permissions import IsAuthenticated
 from .nce import create_ssid
 import datetime
@@ -10,8 +10,27 @@ from copy import deepcopy
 
 class SSIDView(APIView):
     permission_classes = [IsAuthenticated]
-    # def get(self, request, pk):
-    #     pass
+    def get(self, request, pk):
+        user = self.request.user
+        if user.user_type == 1:  # 运营工程师
+            sites = Site.objects.all()
+        elif user.user_type == 2:  # 网络工程师
+            sites = Site.objects.filter(network_name=user.username)
+        else:
+            sites = Site.objects.filter(user=user)
+        thesite = sites[int(pk)]
+
+        if thesite.status == 1 or thesite.status == 2:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        theSSID = SSID.objects.get(site=thesite.pk)
+        SSID_serializer = SSIDSerializer(instance=theSSID)
+        theSSIDAuth = SSIDAuth.objects.get(SSID=theSSID.pk)
+        SSIDAuth_serializer = SSIDAuthSerializer(instance=theSSIDAuth)
+        return_data = SSID_serializer.data
+        return_data['ssidAuth'] = SSIDAuth_serializer.data
+
+        return Response(return_data, status=status.HTTP_200_OK)
 
     def post(self, request, pk):
         user = self.request.user
@@ -29,6 +48,9 @@ class SSIDView(APIView):
 
         if thesite.status == 1 or thesite.status == 2:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+        if len(SSID.objects.filter(site=thesite.pk)) > 0:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
         # 与NCE通信
         create_ssid_response = create_ssid(thesite.site_id, self.request.data)  #避免不同客户有相同的站点名
