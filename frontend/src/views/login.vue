@@ -27,6 +27,9 @@
                 </div>
             </el-main>
         </el-container>
+        <footer>
+            Copyright © 2021 Thunder. All rights reserved.
+        </footer>
     </div>
 </template>
 
@@ -151,6 +154,13 @@ h3{
     left: 35px;
     top: -5px;
     background: transparent;
+    color: white;
+}
+
+footer{
+    position: absolute;
+    bottom: 3%;
+    width: 100%;
     color: white;
 }
 
