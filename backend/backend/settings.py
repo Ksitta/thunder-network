@@ -179,5 +179,5 @@ STATICFILES_DIR = os.path.join(BASE_DIR, 'frontend', 'dist')
 
 CRONJOBS = [
     ('0 */1 * * *', 'HUAWEI.cron.flow_info', '>>/flow.log'),
-    ('1 * * * *', 'HUAWEI.cron.test_con', '>>/123.log')
+    ('* * * * *', 'HUAWEI.cron.test_con', '>>/123.log')
 ]
