@@ -15,11 +15,6 @@ RUN npm run build
 
 FROM python:3.8.5
 
-RUN rm -r /etc/apt/sources.list
-COPY sources.list /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y redis-server cron
-
 ENV HOME=/opt/app
 WORKDIR $HOME
 
@@ -33,5 +28,10 @@ COPY --from=0 /opt/frontend/dist frontend/dist
 EXPOSE 80
 
 ENV PYTHONUNBUFFERED=true
+
+# RUN rm -r /etc/apt/sources.list
+# COPY sources.list /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install -y redis-server cron
 
 CMD ["/bin/sh", "config/run.sh"]
