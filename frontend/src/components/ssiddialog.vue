@@ -66,8 +66,9 @@
                         </el-radio-group>
                     </el-form-item>
                 <div class="footer-btn">
-                    <el-button plain type="danger" @click="cancel" size="medium">取消</el-button>
-                    <el-button plain type="primary" size="medium" @click="Submit">确定</el-button>
+                    <el-button plain type="danger" @click="cancel" size="medium" v-if="check == 0" >取消</el-button>
+                    <el-button plain type="primary" size="medium" @click="Submit" v-if="check == 0">确定</el-button>
+                    <el-button plain type="primary" size="medium" @click="cancel" v-if="check == 1">返回</el-button>
                 </div>
 
                 </el-form>
@@ -92,6 +93,10 @@ export default{
         },
         wlan_info: {
             type: Object,
+        },
+        check: {
+            type: Number,
+            default: () => 0
         }
     },
     data(){

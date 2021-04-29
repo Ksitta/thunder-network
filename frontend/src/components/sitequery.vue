@@ -230,7 +230,8 @@
                             <el-table-column prop= "demand" label="虚拟网络需求" min-width="20%" align="center"></el-table-column>
                             <el-table-column label="WLAN设置" min-width="15%" align="center">
                                 <template slot-scope="scope">
-                                    <el-button  size="mini" @click="setwlan(scope.row)">设置</el-button>
+                                    <el-button size="mini" type ="primary" plain v-if="scope.row.SSID_status == 0" @click="setwlan(scope.row)">配置</el-button>
+                                    <el-button size="mini" type ="success" plain v-if="scope.row.SSID_status == 1" @click="checkwlan(scope.row)">查看</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -239,7 +240,7 @@
             </el-tabs>
             <orderDialog :info="orderDialog.info" :dialogVisible="orderDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></orderDialog>
         </div>
-        <ssiddialog :dialogVisible="ssiddialog.dialogVisible" :path="ssiddialog.path" :wlan_info="ssiddialog.wlan_info" @ssiddialog_cancel='ssiddialog_cancel' @ssiddialog_submit="ssiddialog_submit"></ssiddialog>
+        <ssiddialog :dialogVisible="ssiddialog.dialogVisible" :path="ssiddialog.path" :wlan_info="ssiddialog.wlan_info" :check="ssiddialog.check" @ssiddialog_cancel='ssiddialog_cancel' @ssiddialog_submit="ssiddialog_submit"></ssiddialog>
     </div>
 </template>
 
@@ -273,6 +274,7 @@ export default{
                 },
             },
             ssiddialog:{
+                check: 1,
                 dialogVisible: false,
                 path: '',
                 wlan_info: {
@@ -344,8 +346,10 @@ export default{
                         manager_time: (manager)? item.manager_time.substring(0,10) : '',
                         network_name: (manager)? item.network_name : '',
                         network_time: (network)? item.network_time.substring(0,10) : '',
-                        eqs: eqs_list
+                        eqs: eqs_list,
+                        SSID_status: item.SSID_status,
                     })
+                    i++;
                 }
             })
         },
@@ -359,12 +363,13 @@ export default{
         },
         ssiddialog_submit:function(){
             this.ssiddialog.dialogVisible = false
-
+            this.getdata()
         },
         ssiddialog_cancel:function(){
             this.ssiddialog.dialogVisible = false
         },
         setwlan: function(row){
+            this.ssiddialog.check = row.SSID_status;
             this.ssiddialog.dialogVisible = true
             var pk = row.site_index
             this.ssiddialog.path = "api/ssid/" + pk + "/"
@@ -381,6 +386,31 @@ export default{
                     securityKeyType: '',
                 },
             }
+        },
+        checkwlan: function(row){
+            this.ssiddialog.check = row.SSID_status;
+            this.ssiddialog.dialogVisible = true
+            var pk = row.site_index
+            this.ssiddialog.path = "api/ssid/" + pk + "/"
+            axios.get(this.ssiddialog.path)
+            .then((response)=>{
+                var res = response.data
+                console.log(1, res)
+                this.ssiddialog.wlan_info = {
+                    enable: res.enable,
+                    name: res.name,
+                    maxUserNumber: res.maxUserNumber,
+                    relativeRadios: res.relativeRadios,
+                    userSeparation: res.userSeparation,
+                    ssidAuth:{
+                        mode: res.ssidAuth.mode,
+                        pskEncryptType: res.ssidAuth.pskEncryptType,
+                        securityKey: res.ssidAuth.securityKey,
+                        securityKeyType: res.ssidAuth.securityKeyType,
+                    },
+                }
+
+            })
         },
         orderrequest: function(){
             this.orderDialog.dialogVisible = true
