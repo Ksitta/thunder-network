@@ -29,9 +29,4 @@ EXPOSE 80
 
 ENV PYTHONUNBUFFERED=true
 
-# RUN rm -r /etc/apt/sources.list
-# COPY sources.list /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get install -y redis-server cron
-
 CMD ["/bin/sh", "config/run.sh"]
