@@ -5,8 +5,12 @@ try:
 except:
     interval_time = 3600
 
-a = FlowGenerateView()
+
+def generate_flow():
+    a = FlowGenerateView()
+    a.inner_generate()
+
 
 scheduler = BackgroundScheduler()
-scheduler.add_job(a.inner_generate, 'interval', seconds=interval_time)
+scheduler.add_job(generate_flow, 'interval', seconds=interval_time)
 scheduler.start()
