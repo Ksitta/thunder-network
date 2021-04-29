@@ -26,23 +26,27 @@ class FlowGenerateView(APIView):
         return Response("", 200)
 
     def inner_generate(self):
-        with open('./flow.log', mode='a+') as file:
-            file.write(str(time.time()) + " generated flow info\n")
-        now_time = time.time()
-        self.create_list.clear()
-        for site in self.queryset_site:
-            if not site.status == 0:
-                continue
-            eq_set = self.queryset_eq.filter(site=site.pk)
-            for eq in eq_set:
-                if not eq.eq_status == 1:
+        try:
+            now_time = time.time()
+            self.create_list.clear()
+            for site in self.queryset_site:
+                if not site.status == 0:
                     continue
-                self.generate_flow(site.user, site, eq, now_time)
-        FlowData.objects.bulk_create(self.create_list)
-        self.create_list.clear()
+                eq_set = self.queryset_eq.filter(site=site.pk)
+                for eq in eq_set:
+                    if not eq.eq_status == 1:
+                        continue
+                    self.generate_flow(site.user, site, eq, now_time)
+            FlowData.objects.bulk_create(self.create_list)
+            self.create_list.clear()
+            with open('./flow.log', mode='a+') as file:
+                file.write(str(time.time()) + " generated flow info\n")
+        except:
+            with open('./error.log', mode='a+') as file:
+                file.write('runtime error\n')
 
     def generate_flow(self, user, site, eq, now_time):
-        new_nums = random.randint(0, 100)
+        new_nums = random.randint(5, 30)
         for i in range(0, new_nums):
             k = random.randint(1, self.flow_nums)
             raw_flow = self.queryset_flow.get(pk=k)
