@@ -181,14 +181,14 @@ export default {
           this.totalFlow += parseInt(item.up) + parseInt(item.down)
           this.linechartData.rows.push({
             time: item.time,
-            charge: 0.08 * (parseInt(item.up) + parseInt(item.down)),
+            charge: 0.8 * (parseInt(item.up) + parseInt(item.down)) / 1024 / 1024 / 1024,
           });
         }
         let sites_flow = response.data.sites_flow;
         for (let item of sites_flow) {
           this.piechartData.rows.push({
             site: item.site_name,
-            charge: 0.8 * (item.total_up + item.total_down),
+            charge: (0.8 * (item.total_up + item.total_down)  / 1024 / 1024 / 1024).toFixed(2),
           });
         }
         this.chartLoading = false;
@@ -207,7 +207,7 @@ export default {
       return this.linechartData.rows.length == 0;
     },
     totalCharge: function() {
-      return (0.08 * this.totalFlow).toFixed(2);
+      return (0.8 * this.totalFlow / 1024 / 1024 / 1024).toFixed(2);
     }
   },
 

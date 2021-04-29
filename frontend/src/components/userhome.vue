@@ -38,7 +38,7 @@
             <div style="color: #7792b1;">
               <p>
                 <span style="font-size: 32px; line-height: 26px;">{{totalFlow}}</span>
-                <span> KB</span>
+                <span> GB</span>
               </p>
               <p>
                 今日流量
@@ -140,7 +140,7 @@ export default {
     this.loading = true;
     axios.get("/api/flow/").then((response) => {
       let res = response.data;
-      this.totalFlow = ((parseInt(res.total_up) + parseInt(res.total_down)) / 1024).toFixed(2);
+      this.totalFlow = ((parseInt(res.total_up) + parseInt(res.total_down)) / 1024 / 1024 / 1024).toFixed(2);
       let flow_data = res.flow_data;
       for (let item of flow_data) {
         this.chartData.rows.push({
