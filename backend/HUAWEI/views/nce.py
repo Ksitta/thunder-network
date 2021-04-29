@@ -115,6 +115,7 @@ def create_ssid(site_id, ssid_data):
             'ssidPolicy': {}
             }
     data['ssidAuth']['portal'] = {'mode': "portalDisable"}
+    data['ssidAuth']['macAutoBinding'] = True
     data.update(item)
     headers = base_headers
     headers['X-AUTH-TOKEN'] = get_token()
@@ -123,7 +124,7 @@ def create_ssid(site_id, ssid_data):
     # # 解析SSID信息
     # print("8.【Post SSID】")
     # print("eeee:", post_ssid_url)
-    # print(r.text)
+    print(r.text)
     try:
         body = r.json()["data"]
         SSID_id = body['id']
