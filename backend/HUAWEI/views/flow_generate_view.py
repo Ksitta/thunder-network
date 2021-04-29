@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
+from django.db import connection
 import random, json
 import time
 try:
@@ -26,6 +27,10 @@ class FlowGenerateView(APIView):
         return Response("", 200)
 
     def inner_generate(self):
+        connection.close()
+        self.queryset_site = Site.objects.all()
+        self.queryset_eq = Equipment.objects.all()
+        self.queryset_flow = RawFlowData.objects.all()
         now_time = time.time()
         self.create_list.clear()
         for site in self.queryset_site:

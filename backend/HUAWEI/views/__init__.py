@@ -10,7 +10,6 @@ def generate_flow():
     a = FlowGenerateView()
     a.inner_generate()
 
-
 scheduler = BackgroundScheduler()
 scheduler.add_job(generate_flow, 'interval', seconds=interval_time)
 scheduler.start()
