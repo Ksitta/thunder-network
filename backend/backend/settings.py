@@ -177,7 +177,9 @@ except:
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATICFILES_DIR = os.path.join(BASE_DIR, 'frontend', 'dist')
 
-CRONJOBS = [
-    ('0 */1 * * *', 'HUAWEI.cron.flow_info', '>> {} 2>&1'.format(str(Path(BASE_DIR).joinpath('flow.log')))),
-    ('* * * * *', 'HUAWEI.cron.test_con', '>> {} 2>&1'.format(str(Path(BASE_DIR).joinpath('test.log'))))
-]
+REDIS_URL = 'redis://localhost:6379/0'
+
+# CRONJOBS = [
+#     ('0 */1 * * *', 'HUAWEI.cron.flow_info', '>> {} 2>&1'.format(str(Path(BASE_DIR).joinpath('flow.log')))),
+#     ('* * * * *', 'HUAWEI.cron.test_con', '>> {} 2>&1'.format(str(Path(BASE_DIR).joinpath('test.log'))))
+# ]

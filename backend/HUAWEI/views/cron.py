@@ -3,6 +3,7 @@ from django.test.client import Client
 from django.urls import reverse
 from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
 import time, random, pytz, datetime
+from django.core.cache import cache
 
 
 beijing = pytz.timezone("Asia/Shanghai")
@@ -48,4 +49,5 @@ def flow_info():
                 continue
             generate_flow(site.user, site, eq, now_time, create_list, queryset_flow, flow_nums)
     FlowData.objects.bulk_create(create_list)
+
 
