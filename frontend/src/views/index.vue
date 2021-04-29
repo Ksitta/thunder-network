@@ -52,6 +52,11 @@
               <span>流量查询</span>
             </el-menu-item>
 
+            <el-menu-item index="8">
+              <i class="el-icon-bank-card"></i>
+              <span>费用查询</span>
+            </el-menu-item>
+
             <!-- <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-message"></i>
@@ -132,6 +137,7 @@
           <flow ref="flow" v-bind:show="showpage.flow" v-if="showpage.flow"></flow>
           <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
           <networkorder ref="networkorder" v-bind:show="showpage.networkorder" v-if="showpage.networkorder"></networkorder>
+          <charges ref="charges" v-bind:show="showpage.charges" v-if="showpage.charges"></charges>
         </el-main>
       </el-container>
     </el-container>
@@ -145,6 +151,7 @@ import accountsettings from '@/components/accountsettings'
 import orderprocessing from '@/components/orderprocessing'
 import networkorder from '@/components/networkorder'
 import flow from '@/components/flow'
+import charges from '@/components/charges'
 
 export default {
   name: 'index',
@@ -156,6 +163,7 @@ export default {
     orderprocessing,
     networkorder,
     flow,
+    charges,
   },
 
   data: function() {
@@ -167,6 +175,7 @@ export default {
         orderprocessing: false,
         networkorder: false,
         flow: false,
+        charges: false,
       }
     }
   },
@@ -180,6 +189,7 @@ export default {
       this.showpage.sitequery = false
       this.showpage.orderprocessing = false
       this.showpage.networkorder = false
+      this.showpage.charges = false
       if (idx === "1") {
         this.showpage.home = true
       }
@@ -200,6 +210,9 @@ export default {
       }
       if (idx === "7") {
         0;
+      }
+      if (idx === "8") {
+        this.showpage.charges = true
       }
     },
     userCommand: function(command) {

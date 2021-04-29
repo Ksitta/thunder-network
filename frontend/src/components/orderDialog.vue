@@ -85,7 +85,7 @@ export default{
                 site_name: this.info.site_name,
                 site_address: this.info.site_address,
                 billing_level: parseInt(this.info.billing_level),
-                demand_num: this.info.demands.length,
+                demand_num: parseInt(this.info.demands.length),
                 demand_1: "",
                 demand_2: "",
                 demand_3: "",

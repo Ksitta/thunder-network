@@ -20,13 +20,16 @@
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item style="margin-left: -60px;">
-                            <el-button type="register" @click="Register">注册</el-button>                
+                            <el-button type="register" disabled @click="Register">注册</el-button>                
                             <el-button type="login" @click="Login">登录</el-button>
                         </el-form-item>
                     </el-form>
                 </div>
             </el-main>
         </el-container>
+        <footer>
+            Copyright © 2021 Thunder. All rights reserved.
+        </footer>
     </div>
 </template>
 
@@ -72,7 +75,7 @@ export default{
                             access: response.data.access,
                             refresh: response.data.refresh,
                         })
-                        this.$router.push({path: "/index"})
+                        this.$router.push({path: "/"})
                     }
                 }).catch(error => {
                     this.$message.error("您输入的用户名或密码错误！")
@@ -151,6 +154,13 @@ h3{
     left: 35px;
     top: -5px;
     background: transparent;
+    color: white;
+}
+
+footer{
+    position: absolute;
+    bottom: 3%;
+    width: 100%;
     color: white;
 }
 
