@@ -6,7 +6,7 @@ from tests.utils import TestClient as Client
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIClient
-from HUAWEI.models import User, Site
+from HUAWEI.models import Site, SSID
 import time
 
 
@@ -29,6 +29,16 @@ class TestSSID(TestCase):
                 'password': 'network1',
                 'user_type': 2
             }]
+
+    site = {
+        'site_name': str(time.time()),
+        'site_address': '清华大学',
+        'billing_level': 1,
+        'demand_num': 2,
+        'demand_1': 'Guest',
+        'demand_2': 'Management',
+        'demand_3': '',
+    }
 
     ssid = {
         "name": str(time.time()),
@@ -57,7 +67,7 @@ class TestSSID(TestCase):
         }
     }
 
-    site_pk = 0
+    site_pk = 4
     # 超出范围
     bad_site_pk = 1
 
@@ -66,7 +76,9 @@ class TestSSID(TestCase):
         assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_401_UNAUTHORIZED
         client.login(**self.user[0])
         assert client.post(reverse('ssid', args=[self.bad_site_pk]), data=self.ssid).status_code == status.HTTP_400_BAD_REQUEST
-        # print("hhhhhhhhhhhhhh: ", client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code)
-        # assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_201_CREATED
+        client.post(reverse('site'), data=self.site)
+        the_site = Site.objects.get(id=6)
+        the_site.status = 0
+        the_site.save()
+        assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_201_CREATED
         assert client.post(reverse('ssid', args=[self.site_pk]), data=self.bad_ssid).status_code == status.HTTP_400_BAD_REQUEST
-        
