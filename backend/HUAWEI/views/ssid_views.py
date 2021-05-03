@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, SSID, SSIDAuth
 from HUAWEI.serializers import SSIDSerializer, getSSIDSerializer, SSIDAuthSerializer
 from rest_framework.permissions import IsAuthenticated
-from .nce import create_ssid
+from .nce import create_ssid, delete_ssid
 import datetime
 from copy import deepcopy
 
@@ -48,9 +48,17 @@ class SSIDView(APIView):
 
         if thesite.status == 1 or thesite.status == 2:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        if len(SSID.objects.filter(site=thesite.pk)) > 0:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        if len(SSID.objects.filter(site=thesite.pk)) > 0: # 若已有SSID则先删掉（即进行修改）
+            before_ssid = SSID.objects.get(site=thesite.pk)
 
+            # 与NCE通信删除ssid
+            delete_ssid_response = delete_ssid(thesite.site_id, before_ssid.SSID_id)
+            if delete_ssid_response == KeyError:
+                return Response("SSID重复！", status=status.HTTP_400_BAD_REQUEST)
+            elif delete_ssid_response == before_ssid.SSID_id:
+                SSID.objects.filter(site=thesite.pk).delete()
+            else:
+                return Response("?！", status=status.HTTP_400_BAD_REQUEST)
 
         # 与NCE通信
         create_ssid_response = create_ssid(thesite.site_id, self.request.data)  #避免不同客户有相同的站点名

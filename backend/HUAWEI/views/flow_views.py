@@ -25,10 +25,7 @@ class TotalFlowView(APIView):
 
     def get(self, request):
         user = self.request.user
-        if user.user_type == 1 or user.user_type == 2:  # 运营&网络工程师
-            sites = Site.objects.all()
-        else:
-            sites = Site.objects.filter(user=user)
+
         return_data = {'rate_unit': 'byte'}
         total_up = 0
         total_down = 0
@@ -39,7 +36,11 @@ class TotalFlowView(APIView):
         except:
             to_time = time.time()
             from_time = to_time - 86400
-        all_data = FlowData.objects.filter(user=user, generate_time__gte=from_time, generate_time__lte=to_time)
+        all_data = FlowData.objects.filter(generate_time__gte=from_time, generate_time__lte=to_time)
+        if user.user_type == 1 or user.user_type == 2:  # 运营&网络工程师
+            pass
+        else:
+            all_data = FlowData.objects.filter(user=user, generate_time__gte=from_time, generate_time__lte=to_time)
         serializers = FlowDataSerializer(instance=all_data, many=True)
         div = (to_time - from_time) / 6
         for i in range(0, 6):

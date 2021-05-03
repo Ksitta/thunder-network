@@ -124,7 +124,7 @@ def create_ssid(site_id, ssid_data):
     # # 解析SSID信息
     # print("8.【Post SSID】")
     # print("eeee:", post_ssid_url)
-    print(r.text)
+    # print(r.text)
     try:
         body = r.json()["data"]
         SSID_id = body['id']
@@ -135,21 +135,26 @@ def create_ssid(site_id, ssid_data):
     # 返回 SSID 的 id
 #
 
-#
-# # 限定为删除单个SSID
-# def delete_ssid(site_id, ssid_id):
-#     # 配置URL和Headers
-#     delete_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
-#     # 发起请求
-#     data = {
-#         "ids": [ssid_id]
-#         #"reset": "true"
-#     }
-#     headers = base_headers
-#     headers['X-AUTH-TOKEN'] = get_token()
-#     r = requests.delete(delete_ssid_url, headers=headers, json=data, verify=False)
-#     # 解析站点信息
-#     print("10.【Delete SSID】")
-#     print("【delete_ssid_url】：" + delete_ssid_url)
-#     print(r.text)
+# 限定为删除单个SSID
+def delete_ssid(site_id, ssid_id):
+    # 配置URL和Headers
+    delete_ssid_url = HTTPS + nbi_host + ":" + nbi_port + SSID_URL + site_id + APSSI
+    # 发起请求
+    data = {
+        "ids": [ssid_id]
+    }
+    headers = base_headers
+    headers['X-AUTH-TOKEN'] = get_token()
+    r = requests.delete(delete_ssid_url, headers=headers, json=data, verify=False)
+    # 解析站点信息
+    print("10.【Delete SSID】")
+    print("【delete_ssid_url】：" + ssid_id)
+    # print(r.text)
+    try:
+        body = r.json()["success"]
+        # SSID_id = body['id']
+    except KeyError:
+        return KeyError
+    # print("【success】：" + str(site_id))
+    return body[0]
     # 未写返回值
