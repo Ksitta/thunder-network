@@ -28,17 +28,11 @@ class SiteView(APIView):
             data = data_list[i]
             data['user'] = User.objects.get(pk=data['user']).username
             if data['status'] == 2:
-                data['manager_name'] = sites[i].manager_name
-                data['manager_time'] = sites[i].manager_time
-                data['network_name'] = sites[i].network_name
-            if data['status'] == 0:  # 已完成订单 返回设备详细状态 未完成订单，不返回设备信息
+                pass
+            elif data['status'] == 0:  # 已完成订单 返回设备详细状态 未完成订单，不返回设备信息
                 eqs = Equipment.objects.filter(site=sites[i].pk)
                 eqs_serializer = EquipmentDetailSerializer(instance=eqs, many=True)
                 data['eqs'] = eqs_serializer.data
-                data['manager_name'] = sites[i].manager_name
-                data['manager_time'] = sites[i].manager_time
-                data['network_name'] = sites[i].network_name
-                data['network_time'] = sites[i].network_time
                 if len(SSID.objects.filter(site=sites[i].pk)) == 0:
                     data['SSID_status'] = 0
                 else:

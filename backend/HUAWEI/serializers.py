@@ -115,7 +115,8 @@ class SiteDetailSerializer(serializers.ModelSerializer):
         model = models.Site
 
         fields = ['site_name', 'site_address', 'billing_level', 'demand_num', 'demand_1',
-                  'demand_2', 'demand_3', 'status', 'user', 'create_time']
+                  'demand_2', 'demand_3', 'status', 'user', 'create_time', 'manager_name',
+                  'manager_time', 'network_name', 'network_time']
 
 
 class FlowDataSerializer(serializers.ModelSerializer):
