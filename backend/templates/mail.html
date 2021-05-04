@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <body>
+    {{ total_flow }}
+    {{ total_money }}
+    {% for each in flow_list %}
+        {{ each.site_name }}
+        {{ each.site_flow }}
+        {{ each.site_money }}
+    {% endfor %}
+    </body>
+</html>
