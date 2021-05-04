@@ -63,9 +63,6 @@ class SiteView(APIView):
         # create_site_response = str(self.request.user.pk) + "-" + data['site_name']
         new_site_id = create_site_response
 
-          ### 创建站点ssid 待完成 华为交互？？？
-
-
         # 在数据库中更新Site表
         item = {'status': 1,
                 'user': self.request.user.pk,

@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, SSID, SSIDAuth
-from HUAWEI.serializers import SSIDSerializer, getSSIDSerializer, SSIDAuthSerializer
+from HUAWEI.serializers import SSIDSerializer, SSIDAuthSerializer
 from rest_framework.permissions import IsAuthenticated
 from .nce import create_ssid, delete_ssid
 import datetime

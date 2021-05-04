@@ -70,3 +70,14 @@ class SSIDAuth(models.Model):
     pskEncryptType = models.CharField('安全模式', max_length=20)
     securityKey = models.CharField('psk秘钥', max_length=64)
     securityKeyType = models.CharField('加密方法', max_length=10)
+
+class Ticket(models.Model):
+    question = models.CharField('问题描述', max_length=500, default="")
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    site_name = models.CharField('站点名', max_length=50, default="")
+    status = models.IntegerField('处理状态')
+    create_time = models.DateTimeField(auto_now_add=True)
+    answer = models.CharField('解答反馈', max_length=500, default="", blank=True)
+    network_name = models.CharField('网络工程师', max_length=50, default="", blank=True)
+    network_time = models.DateTimeField(null=True, default=None, blank=True)
+    close_time = models.DateTimeField(null=True, default=None, blank=True)

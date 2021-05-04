@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf.urls import url
-from .views import site_views, user_views, eq_views, flow_views, assign_views, flow_generate_view, ssid_views, mail_views
+from .views import site_views, user_views, eq_views, flow_views, assign_views, flow_generate_view, ssid_views, mail_views, ticket_views
 
 ROUTER = DefaultRouter()
 ROUTER.register('user/register', user_views.UserViewSet, basename='user')
@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^flow/(?P<pk>[0-9]+)/$', flow_views.SiteFlowView.as_view(), name='site_flow'),
     url(r'^flowgenerate/$', flow_generate_view.FlowGenerateView.as_view(), name='flow_generate'),
     url(r'^ssid/(?P<pk>[0-9]+)/$', ssid_views.SSIDView.as_view(), name='ssid'),
+    url(r'^ticket/$', ticket_views.TicketView.as_view(), name='ticket'),
 ] + ROUTER.urls

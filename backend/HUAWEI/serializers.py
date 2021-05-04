@@ -147,16 +147,17 @@ class SSIDSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return models.SSID.objects.create(**validated_data)
 
-class getSSIDSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.SSID
-        fields = ['site', 'name', 'enable', 'maxUserNumber', 'relativeRadios', 'userSeparation']
-    def create(self, validated_data):
-        return models.SSID.objects.create(**validated_data)
-
 class SSIDAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SSIDAuth
         fields = ['SSID', 'mode', 'pskEncryptType', 'securityKey', 'securityKeyType']
     def create(self, validated_data):
         return models.SSIDAuth.objects.create(**validated_data)
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Ticket
+        fields = ['question', 'id', 'user', 'site_name', 'status', 'create_time', 'answer',
+                  "network_name", "network_time", "close_time"]
+    def create(self, validated_data):
+        return models.Ticket.objects.create(**validated_data)
