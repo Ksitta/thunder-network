@@ -61,7 +61,11 @@
 			"demand_2": "Management",
 			"demand_3": "",
 			"status": 0,
-			"create_time": "2021-04-06 15:49:49"
+			"create_time": "2021-04-06 15:49:49",
+			"manager_name": "manage1",
+			"manager_time": "2021-05-04T15:02:00.731807Z",
+			"network_name": "network1",
+			"network_time": "2021-05-04T15:05:10.850461Z"
 		}
 	},
 	{
@@ -124,6 +128,53 @@
 			"site": 1,
 			"eq_name": "ap1",
 			"eq_status": 2
+		}
+	},
+	{
+		"model": "HUAWEI.ticket",
+		"pk": 1,
+		"fields": {
+			"question": "这里是测试问题1",
+			"user": 1,
+			"site_name": "site0",
+			"status": 0,
+			"create_time": "2021-05-04T06:26:43.331792Z",
+			"answer": "这里是测试回答1",
+			"network_name": "network1",
+			"network_time": "2021-05-04T14:33:14.914471Z",
+			"close_time": "2021-05-04T14:34:41.897257Z"
+
+		}
+	},
+	{
+		"model": "HUAWEI.ticket",
+		"pk": 2,
+		"fields": {
+			"question": "这里是测试问题2",
+			"user": 1,
+			"site_name": "site0",
+			"status": 1,
+			"create_time": "2021-05-04T06:26:43.331792Z",
+			"answer": "",
+			"network_name": "network1",
+			"network_time": null,
+			"close_time": null
+
+		}
+	},
+	{
+		"model": "HUAWEI.ticket",
+		"pk": 3,
+		"fields": {
+			"question": "这里是测试问题3",
+			"user": 1,
+			"site_name": "site0",
+			"status": 2,
+			"create_time": "2021-05-04T06:26:43.331792Z",
+			"answer": "这里是测试回答3",
+			"network_name": "network1",
+			"network_time": "2021-05-04T14:33:14.914471Z",
+			"close_time": null
 		}
 	}
 

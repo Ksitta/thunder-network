@@ -19,7 +19,7 @@ class TicketView(APIView):
         elif user.user_type == 2:  # 网络工程师
             tickets = Ticket.objects.filter(network_name=user.username)
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         serializer = TicketSerializer(instance=tickets, many=True)
 
@@ -36,10 +36,13 @@ class TicketView(APIView):
         user = self.request.user
 
         if user.user_type != 0:  # 身份不是用户
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
-        site = Site.objects.filter(user=user, site_name=data['site_name'])[0]
+        sites = Site.objects.filter(user=user, site_name=data['site_name'])
+        if len(sites) == 0:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        site = sites[0]
         item = {'status': 1,
                 'user': self.request.user.pk,
                 'network_name': site.network_name}
@@ -69,7 +72,7 @@ class TicketView(APIView):
             ticket.answer = data['answer']
             ticket.network_time = datetime.datetime.now()
         else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         ticket.save()
         return Response(status=status.HTTP_200_OK)
