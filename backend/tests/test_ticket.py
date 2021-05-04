@@ -79,7 +79,9 @@ class TicketSite(TestCase):
         client.logout()
         client.login(**self.user[0])
         assert client.put(reverse('ticket'), data=self.user_put).status_code == status.HTTP_200_OK
+        assert client.put(reverse('ticket'), data=self.network_put).status_code == status.HTTP_400_BAD_REQUEST
         client.logout()
         client.login(**self.user[2])
         assert client.put(reverse('ticket'), data=self.network_put).status_code == status.HTTP_200_OK
+        assert client.put(reverse('ticket'), data=self.user_put).status_code == status.HTTP_400_BAD_REQUEST
         client.logout()

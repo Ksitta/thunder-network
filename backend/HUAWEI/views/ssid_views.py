@@ -58,7 +58,7 @@ class SSIDView(APIView):
             elif delete_ssid_response == before_ssid.SSID_id:
                 SSID.objects.filter(site=thesite.pk).delete()
             else:
-                return Response("?！", status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # 与NCE通信
         create_ssid_response = create_ssid(thesite.site_id, self.request.data)  #避免不同客户有相同的站点名
