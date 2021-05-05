@@ -57,36 +57,6 @@
               <span>费用查询</span>
             </el-menu-item>
 
-            <!-- <el-submenu index="2">
-              <template slot="title">
-                <i class="el-icon-message"></i>
-                <span>订单</span>
-              </template>
-              <el-menu-item index="2-1">
-                <i class="el-icon-document"></i>
-                <span>新建订单</span>
-              </el-menu-item>
-              <el-menu-item index="2-2">
-                <i class="el-icon-setting"></i>
-                <span>订单查询</span>
-              </el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="3">
-              <template slot="title">
-                <i class="el-icon-s-platform"></i>
-                <span>网络</span>
-              </template>
-              <el-menu-item index="3-1">
-                <i class="el-icon-data-analysis"></i>
-                <span>业务查询</span>
-              </el-menu-item>
-              <el-menu-item index="3-2">
-                <i class="el-icon-data-analysis"></i>
-                <span>设备查询</span>
-              </el-menu-item>
-            </el-submenu> -->
-
           </el-menu>
 
           <el-menu v-if="getIdentity == 1" background-color="#131720" style="height:100%" @select="menunav">
@@ -131,7 +101,9 @@
 
         <el-main>
           <!-- Main -->
-          <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
+          <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home && getIdentity == 0"></userhome>
+          <managerhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home && getIdentity == 1"></managerhome>
+          <engineerhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home && getIdentity == 2"></engineerhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
           <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings" @userinfoEdited="userinfoEdited"></accountsettings>
           <flow ref="flow" v-bind:show="showpage.flow" v-if="showpage.flow"></flow>
@@ -147,6 +119,8 @@
 
 <script>
 import userhome from '@/components/userhome'
+import managerhome from '@/components/managerhome'
+import engineerhome from '@/components/engineerhome'
 import sitequery from '@/components/sitequery'
 import accountsettings from '@/components/accountsettings'
 import orderprocessing from '@/components/orderprocessing'
@@ -159,6 +133,8 @@ export default {
 
   components: {
     userhome,
+    managerhome,
+    engineerhome,
     sitequery,
     accountsettings,
     orderprocessing,
