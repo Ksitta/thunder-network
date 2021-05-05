@@ -26,7 +26,6 @@ class Site(models.Model):
     manager_time = models.DateTimeField(null=True, default=None, blank=True)
     network_name = models.CharField('网络工程师', max_length=50, default="", blank=True)
     network_time = models.DateTimeField(null=True, default=None, blank=True)
-
     rate_unit = models.CharField('速率单位', max_length=10, default='byte')
 
 
@@ -55,6 +54,7 @@ class RawFlowData(models.Model):
     out_flow = models.IntegerField('出口流量')
     in_flow = models.IntegerField('入口流量')
 
+
 class SSID(models.Model):
     SSID_id = models.CharField('SSID_id', max_length=50, unique=True)
     site = models.ForeignKey('Site', on_delete=models.CASCADE)
@@ -64,12 +64,14 @@ class SSID(models.Model):
     relativeRadios = models.IntegerField('射频类型')
     userSeparation = models.BooleanField('用户隔离', default=False)
 
+
 class SSIDAuth(models.Model):
     SSID = models.ForeignKey('SSID', on_delete=models.CASCADE)
     mode = models.CharField('认证模式', max_length=10)
     pskEncryptType = models.CharField('安全模式', max_length=20)
     securityKey = models.CharField('psk秘钥', max_length=64)
     securityKeyType = models.CharField('加密方法', max_length=10)
+
 
 class Ticket(models.Model):
     question = models.CharField('问题描述', max_length=500, default="")

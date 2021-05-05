@@ -3,12 +3,14 @@ from .flow_generate_view import FlowGenerateView
 
 try:
     from config.local_settings import interval_time
-
-    test_mode = False
 except:
     interval_time = 3600
-    test_mode = True
 
+
+try:
+    from config.local_settings import test_mode
+except:
+    test_mode = True
 
 def generate_flow():
     a = FlowGenerateView()
