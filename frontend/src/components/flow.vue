@@ -30,6 +30,21 @@
 
       <el-button v-on:click="query()" :disabled="site_selected.length == 0">查询</el-button>
 
+      <div class="block" style="padding-top: 20px; padding-bottom: 5px">
+        <el-date-picker
+          v-model="query_interval"
+          type="daterange"
+          align="center"
+          unlink-panels
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          :picker-options="pickerOptions"
+          value-format="timestamp"
+        >
+        </el-date-picker>
+      </div>
+
       <el-divider content-position="center">请选择查询站点和设备，设备项留空以查询站点总流量</el-divider>
       
       <h1>流量使用数据</h1>
@@ -80,6 +95,35 @@ export default {
       site_list: [],
       site_selected: "",
       device_selected: "",
+
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
+      query_interval: "",
     };
   },
   computed: {
@@ -124,9 +168,24 @@ export default {
   },
   methods: {
     query: function () {
+      if (this.query_interval == "") {
+        this.$message.warning("请选择查询的日期范围");
+        return;
+      }
+
+      let startdate = this.query_interval[0] / 1000;
+      let enddate = this.query_interval[1] / 1000 + 86399;
+      console.log(startdate);
+      console.log(enddate);
+
       this.loading = true;
       this.chartData.rows = []
-      axios.get("/api/flow/" + this.site_selected + "/").then((response) => {
+      axios.get("/api/flow/" + this.site_selected + "/", {
+        params: {
+          from_time: startdate,
+          to_time: enddate,
+        },
+      }).then((response) => {
         let flow_data;
         if (this.device_selected.length == 0) {
           flow_data = response.data.site_flow.flow_data;
