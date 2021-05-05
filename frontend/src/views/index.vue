@@ -257,8 +257,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
 /* 滚动条样式修改 */
 ::-webkit-scrollbar {
   width: 7px;
@@ -283,6 +282,9 @@ export default {
   border-radius:  15px;  
   -webkit-border-radius: 15px;
 }
+</style>
+
+<style scoped>
 
 .wrapper {
   position: absolute;
