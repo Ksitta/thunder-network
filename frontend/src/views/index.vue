@@ -101,9 +101,9 @@
 
         <el-main>
           <!-- Main -->
-          <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home && getIdentity == 0"></userhome>
-          <managerhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home && getIdentity == 1"></managerhome>
-          <engineerhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home && getIdentity == 2"></engineerhome>
+          <userhome ref="userhome" v-bind:show="showpage.home" v-if="showHome == 0"></userhome>
+          <managerhome ref="userhome" v-bind:show="showpage.home" v-if="showHome == 1"></managerhome>
+          <engineerhome ref="userhome" v-bind:show="showpage.home" v-if="showHome == 2"></engineerhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
           <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings" @userinfoEdited="userinfoEdited"></accountsettings>
           <flow ref="flow" v-bind:show="showpage.flow" v-if="showpage.flow"></flow>
@@ -127,6 +127,8 @@ import orderprocessing from '@/components/orderprocessing'
 import networkorder from '@/components/networkorder'
 import flow from '@/components/flow'
 import charges from '@/components/charges'
+
+import axios from 'axios'
 
 export default {
   name: 'index',
@@ -216,6 +218,14 @@ export default {
       this.showpage.sitequery = false
       this.showpage.orderprocessing = false
       this.showpage.networkorder = false
+    },
+    getUsertype: function() {
+      axios.get('/api/user/profile/')
+      .then((response) => {
+        this.$store.commit('newtype', {
+            type: response.data.user.user_type
+        })
+      })
     }
   },
 
@@ -227,7 +237,14 @@ export default {
     getIdentity: function() {
       let user_type = this.$store.state.user_type;
       return user_type;
-    }
+    },
+    showHome: function() {
+      if (!this.showpage.home) return -1;
+      if (this.$store.state.user_type == null) {
+        this.getUsertype();
+      }
+      return this.$store.state.user_type == null ? -1 : this.$store.state.user_type;
+    },
   }
 
 }
