@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     <body>
-    {{ total_flow }}
-    {{ total_money }}
+    <p>总流量：{{ total_flow }}</p>
+    <p>总金额：{{ total_money }}</p>
     {% for each in flow_list %}
-        {{ each.site_name }}
-        {{ each.site_flow }}
-        {{ each.site_money }}
+        <p>站点名称：{{ each.site_name }}
+        站点流量：{{ each.site_flow }}
+        站点金额：{{ each.site_money }}</p>
     {% endfor %}
     </body>
 </html>

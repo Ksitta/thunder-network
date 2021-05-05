@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 from http import HTTPStatus
 from django.urls import reverse
 from tests.utils import TestClient as Client
@@ -11,7 +11,7 @@ from HUAWEI.models import User, Site
 
 # Include an appropriate `Authorization:` header on all requests.
 
-class TestFlow(TestCase):
+class TestFlow(TransactionTestCase):
     fixtures = ['test.json']
     user = [{
                 'username': 'client1',
