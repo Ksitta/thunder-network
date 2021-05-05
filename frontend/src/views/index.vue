@@ -129,7 +129,7 @@
 
         </el-aside>
 
-        <el-main class="loading-area">
+        <el-main>
           <!-- Main -->
           <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
@@ -139,6 +139,7 @@
           <networkorder ref="networkorder" v-bind:show="showpage.networkorder" v-if="showpage.networkorder"></networkorder>
           <charges ref="charges" v-bind:show="showpage.charges" v-if="showpage.charges"></charges>
         </el-main>
+        <el-main class="loading-area" />
       </el-container>
     </el-container>
   </div>
@@ -359,6 +360,16 @@ export default {
   color: black;
   cursor: pointer;
   font-weight: bold;
+}
+
+.loading-area {
+  background: rgb(255, 255, 255, 0);
+  pointer-events: none;
+  top: 48px;
+  left: 228px;
+  right: 0px;
+  bottom: 0px;
+  position: absolute;
 }
 
 </style>
