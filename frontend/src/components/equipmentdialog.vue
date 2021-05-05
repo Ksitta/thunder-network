@@ -13,8 +13,8 @@
             <div class="submit_form">
                 <el-form class="form" ref="form" label-width="80px" label-position="left">
                     <el-form-item label="设备数量:" class = "label-style">
-                        <el-input v-if="num_quantify == false" placeholder="请输入设备数量" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;" @input="quantify"></el-input>
-                        <el-input v-if="num_quantify == true" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;" disabled></el-input>
+                        <el-input type="number" v-if="num_quantify == false" placeholder="请输入设备数量" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;" @input="quantify"></el-input>
+                        <el-input type="number" v-if="num_quantify == true" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;" disabled></el-input>
                     </el-form-item>
                 </el-form> 
                 <div v-for="(eq, index) in eqs.eq_list" :key="eq.key" class="add-row">
