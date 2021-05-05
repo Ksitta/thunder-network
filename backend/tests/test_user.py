@@ -45,16 +45,16 @@ class UserModelTests(TestCase):
 
         self.new_client = TestClient()
 
-    def test_register(self):
-
-        response = self.new_client.post(reverse('token'), data=self.new_user, content_type="application/json")
-        self.assertEqual(response.status_code, 401)
-
-        response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
-        self.assertEqual(response.status_code, 201)
-
-        response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
-        self.assertEqual(response.status_code, 400)
+    # def test_register(self):
+    #
+    #     response = self.new_client.post(reverse('token'), data=self.new_user, content_type="application/json")
+    #     self.assertEqual(response.status_code, 401)
+    #
+    #     response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
+    #     self.assertEqual(response.status_code, 201)
+    #
+    #     response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
+    #     self.assertEqual(response.status_code, 400)
 
     def test_login(self):
 
@@ -116,12 +116,12 @@ class UserModelTests(TestCase):
         response = self.new_client.post(reverse('token'), data=new_user, content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
-    def test_delete(self):
-        response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
-        self.assertEqual(response.status_code, 201)
-        self.new_client.post(reverse('token'), data=self.new_user, content_type="application/json")
-        response = self.new_client.delete(reverse('edit'), data=self.new_user, content_type="application/json")
-        self.assertEqual(response.status_code, 204)
+    # def test_delete(self):
+    #     response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
+    #     self.assertEqual(response.status_code, 201)
+    #     self.new_client.post(reverse('token'), data=self.new_user, content_type="application/json")
+    #     response = self.new_client.delete(reverse('edit'), data=self.new_user, content_type="application/json")
+    #     self.assertEqual(response.status_code, 204)
 
 
 class ViewTests(TestCase):

@@ -90,7 +90,7 @@ class TestSSID(TestCase):
         client.login(**self.user[0])
         assert client.post(reverse('ssid', args=[self.bad_site_pk]), data=self.ssid).status_code == status.HTTP_400_BAD_REQUEST
         client.post(reverse('site'), data=self.site)
-        the_site = Site.objects.filter(id=5)[0]
+        the_site = Site.objects.filter(id=Site.objects.last().id)[0]
         the_site.status = 0
         the_site.save()
         assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_201_CREATED
