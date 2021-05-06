@@ -50,5 +50,5 @@ class MailSendView(APIView):
             email_address = data['email']
         except:
             email_address = None
-        send_email(data["user"], email_address)
+        send_email(data["username"], email_address)
         return Response("Success", 200)
