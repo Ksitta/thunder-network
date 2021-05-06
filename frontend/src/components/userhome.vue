@@ -47,6 +47,13 @@
             </div>
 
           </div>
+
+          <div class="colwrapper">
+
+            <h1>站点数据雷达图</h1>
+            <ve-radar :data="radarChartData" :settings="radarChartSettings"></ve-radar>
+
+          </div>
         </el-col>
 
       </el-row>
@@ -73,6 +80,14 @@ export default {
             'up': "上行流量（Byte）",
             'down': "下行流量（Byte）",
             'total': "总流量（Byte）",
+          },
+        },
+        radarChartSettings : {
+          labelMap: {
+            'site': '站点',
+            'views': '访问量',
+            'up': '上行流量',
+            'down': '下行流量'
           }
         },
         chartData: {
@@ -85,6 +100,10 @@ export default {
           contact_email: "",
           contact_address: "",
           user_type: "",
+        },
+        radarChartData: {
+          columns: ['site', 'views', 'up', 'down'],
+          rows: [],
         }
       }
   },
@@ -148,6 +167,16 @@ export default {
           up: item.up,
           down: item.down,
           total: item.up + item.down,
+        });
+      }
+      let sites_flow = res.sites_flow;
+      this.radarChartData.rows = []
+      for (let item of sites_flow) {
+        this.radarChartData.rows.push({
+          site: item.site_name,
+          up: item.total_up,
+          down: item.total_down,
+          views: item.view_counts,
         });
       }
       this.loading = false;
