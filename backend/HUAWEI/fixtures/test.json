@@ -131,6 +131,30 @@
 		}
 	},
 	{
+		"model": "HUAWEI.SSID",
+		"pk": 1,
+		"fields": {
+			"SSID_id": "test_ssid1",
+			"site": 1,
+			"name": "test_ssid1",
+			"enable" : true,
+			"maxUserNumber" : 20,
+			"relativeRadios" : 7,
+			"userSeparation" : false
+		}
+	},
+	{
+		"model": "HUAWEI.SSIDAuth",
+		"pk": 1,
+		"fields": {
+			"SSID": 1,
+			"mode": "psk",
+			"pskEncryptType": "wpa2",
+			"securityKey": "12345678",
+			"securityKeyType": "AES"
+		}
+	},
+	{
 		"model": "HUAWEI.ticket",
 		"pk": 1,
 		"fields": {

@@ -80,9 +80,17 @@ class TestSSID(TestCase):
         }
     }
 
+    get_pk = 0
     site_pk = 4
     # 超出范围
     bad_site_pk = 1
+
+    def test_get_SSID(self):
+        client = Client()
+        assert client.get(reverse('ssid', args=[self.get_pk])).status_code == status.HTTP_401_UNAUTHORIZED
+        client.login(**self.user[0])
+        assert client.get(reverse('ssid', args=[self.bad_site_pk])).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.get(reverse('ssid', args=[self.get_pk])).status_code == status.HTTP_200_OK
 
     def test_post_SSID(self):
         client = Client()
