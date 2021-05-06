@@ -5,7 +5,17 @@ from HUAWEI.models import User, Site, FlowData
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 import time
+from datetime import datetime
+import pytz
 
+beijing = pytz.timezone("Asia/Shanghai")
+
+def trans_time(timestamp):
+    utc_date = datetime.utcfromtimestamp(timestamp)
+    fmt = '%Y-%m-%d'
+    utc = pytz.utc
+    utc_loc_time = utc.localize(utc_date)
+    return utc_loc_time.astimezone(beijing).strftime(fmt)
 
 def send_email(user_name, email_address):
     from_email = "thunder_network@126.com"
@@ -21,9 +31,10 @@ def send_email(user_name, email_address):
             one_site_flow += each.in_flow + each.out_flow
         one_site_flow /= (1024 * 1024 * 1024)
         total_flow += one_site_flow
-        flow_list.append({'site_name': i.site_name, 'site_flow': one_site_flow, 'site_money': one_site_flow * 0.8})
-    total_money = total_flow * 0.8
-    if(email_address):
+        flow_list.append({'site_name': i.site_name, 'site_flow': '%.2f' % one_site_flow,
+                          'site_money': '%.2f' % (one_site_flow * 0.8)})
+    total_money = '%.2f' % (total_flow * 0.8)
+    if email_address:
         to_list = [
             email_address
         ]
@@ -31,7 +42,8 @@ def send_email(user_name, email_address):
         to_list = [
             user.contact_email
         ]
-    mail_data = {'flow_list': flow_list, 'total_flow': total_flow, 'total_money': total_money}
+    mail_data = {'flow_list': flow_list, 'total_flow': total_flow, 'total_money': total_money, 'username': user_name,
+                 'date': trans_time(int(time.time()))}
     html_body = render_to_string('mail.html', mail_data)
 
     text_content = ''  # 对方不支持多媒体邮件的话显示这里的内容
