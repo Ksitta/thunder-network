@@ -27,7 +27,7 @@ class TestSite(TestCase):
             }]
     
     site = {
-        'site_name': str(time.time()),
+        'site_name': str(int(time.time())),
         'site_address': '清华大学',
         'billing_level': 1,
         'demand_num': 2,
