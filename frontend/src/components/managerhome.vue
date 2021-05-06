@@ -24,11 +24,10 @@
           </div>
 
           <div class="colwrapper">
-            <!-- <h1>流量使用信息</h1>
-            <ve-histogram
-              :data="chartData"
-              :settings="chartSettings">
-            </ve-histogram> -->
+            <h1>流量用量 TOP5站点</h1>
+            <div>
+              <ve-bar height="300px" :data="chartData" :settings="chartSettings"></ve-bar>
+            </div>
           </div>
         </el-col>
 
@@ -71,6 +70,23 @@ export default {
           contact_email: "",
           contact_address: "",
           user_type: "",
+        },
+        chartSettings: {
+          labelMap: {
+            'sitename': '站点名称',
+            'flow': '流量用量（GB）'
+          },
+          dataOrder: {
+            label: 'flow',
+            order: 'desc'
+          },
+          itemStyle: {
+            color: "rgb(175, 215, 237)",
+          }
+        },
+        chartData: {
+          columns: ['sitename', 'flow'],
+          rows: []
         }
       }
   },
@@ -132,6 +148,18 @@ export default {
           if(item.status == 1) {
             this.ordercount += 1;
           }
+      }
+    })
+    axios.get('/api/topflow/')
+    .then((response) => {
+      let res = response.data;
+      console.log(res);
+      this.chartData.rows = []
+      for (let item of res) {
+        this.chartData.rows.push({
+          sitename: item.site_name,
+          flow: item.total / 1024 / 1024 / 1024,
+        });
       }
     })
   }
