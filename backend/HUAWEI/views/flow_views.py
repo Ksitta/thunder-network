@@ -69,6 +69,7 @@ class TotalFlowView(APIView):
             site_flow_data = []
             site_total_up = 0
             site_total_down = 0
+            site_view_counts = 0
             for i in range(0, 6):
                 single = {'up': 0, 'down': 0, 'time': trans_time(from_time + (i + 1) * div),
                           'start_time': trans_time(from_time + i * div)}
@@ -86,9 +87,12 @@ class TotalFlowView(APIView):
                     site_flow_data[k]['up'] += flow['out_flow']
                     site_total_up += flow['out_flow']
                     site_total_down += flow['in_flow']
+                    site_view_counts += 1
+
 
             thesite_flow['total_up'] = site_total_up
             thesite_flow['total_down'] = site_total_down
+            thesite_flow['view_counts'] = site_view_counts
             # thesite_flow['flow_data'] = site_flow_data
 
             sites_flow.append(thesite_flow)

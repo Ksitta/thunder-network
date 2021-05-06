@@ -158,7 +158,7 @@ class SSIDAuthSerializer(serializers.ModelSerializer):
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Ticket
-        fields = ['question', 'id', 'user', 'site_name', 'status', 'create_time', 'answer',
-                  "network_name", "network_time", "close_time"]
+        fields = ['question', 'id', 'user', 'question_type', 'site_name', 'eq_name', 'status',
+                  'create_time', 'answer', "network_name", "network_time", "close_time"]
     def create(self, validated_data):
         return models.Ticket.objects.create(**validated_data)

@@ -29,12 +29,16 @@ class TicketSite(TestCase):
 
     ticket = {
         "question": "这是一个新的测试提问",
-        "site_name": "site0"
+        "question_type": 0,
+        "site_name": "site0",
+        "eq_name": ""
     }
 
     bad_ticket = {
         "question": "这是一个新的测试提问",
-        "site_name": "wrong_site"
+        "question_type": 0,
+        "site_name": "wrong_site",
+        "eq_name": ""
     }
 
     user_put = {
