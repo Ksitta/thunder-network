@@ -22,5 +22,7 @@ urlpatterns = [
     path('', view.serve_static),
     path('admin/', admin.site.urls),
     path('api/', include('HUAWEI.urls')),
-    re_path(r'(?P<path>.+)', view.serve_static),
+    re_path(r'', view.serve_static),
+    path('register', view.serve_static),
+    path('login', view.serve_static),
 ]
