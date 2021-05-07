@@ -61,7 +61,7 @@ def send_email(user_name, email_address, mory):
         flow_list.append({'site_name': '基础月费(不包含年费订单)', 'site_money': month * 10})
     else:
         flow_list.append({'site_name': '基础月费(包含年费和月费)', 'site_money': month * 10 + year * 50})
-    total_money_num += month * 10
+    total_money_num += month * 10 + year * 50
     total_money = '%.2f' % total_money_num
     if email_address:
         to_list = [
