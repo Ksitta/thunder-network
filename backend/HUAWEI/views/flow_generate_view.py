@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
 from django.db import connection
-import random, json
+import random, json, secrets
 import time
 try:
     from config.local_settings import interval_time
@@ -47,8 +47,9 @@ class FlowGenerateView(APIView):
             file.write(str(time.time()) + " generated flow info\n")
 
     def generate_flow(self, user, site, eq, now_time):
-        for i in range(0, random.randint(3, 100)):
-            raw_flow = self.queryset_flow.get(pk=random.randint(1, self.flow_nums))
+        k = secrets.randbelow(100)
+        for i in range(0, k):
+            raw_flow = self.queryset_flow.get(pk=secrets.randbelow(self.flow_nums))
             new_flow = FlowData(dest_ip=raw_flow.dest_ip, source_ip=raw_flow.source_ip,
                                 out_flow=raw_flow.out_flow, in_flow=raw_flow.in_flow,
                                 site=site, user=user, eq=eq, generate_time=now_time)

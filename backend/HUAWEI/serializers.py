@@ -3,13 +3,18 @@ from . import models
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
-
+try:
+    from config.local_settings import register_number
+except:
+    pass
 
 class UserRegisterSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = ['username', 'password', 'contact_details', 'contact_email', 'contact_address', 'user_type']
+
+        fields = ['username', 'password', 'contact_details', 'contact_email', 'contact_address',
+                  'user_type']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, data):
