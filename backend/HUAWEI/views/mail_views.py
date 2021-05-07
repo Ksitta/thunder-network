@@ -23,6 +23,12 @@ def trans_cacul(a:int):
     else:
         return 0.7
 
+def trans_mory(a:int):
+    if a == 1:
+        return '(monthly)'
+    else:
+        return '(annual)'
+
 def send_email(user_name, email_address, mory):
     if mory == 1:
         time_dec = 2626560
@@ -48,7 +54,7 @@ def send_email(user_name, email_address, mory):
         one_site_flow /= (1024 * 1024 * 1024)
         total_flow += one_site_flow
         site_money = one_site_flow * trans_cacul(i.billing_level)
-        flow_list.append({'site_name': i.site_name, 'site_flow': '%.2f' % one_site_flow,
+        flow_list.append({'site_name': i.site_name+trans_mory(i.billing_level), 'site_flow': '%.2f' % one_site_flow,
                           'site_money': '%.2f' % site_money})
         total_money_num += site_money
         if i.billing_level == 1:
@@ -58,9 +64,9 @@ def send_email(user_name, email_address, mory):
         else:
             year += 1
     if mory == 1:
-        flow_list.append({'site_name': '基础月费(不包含年费订单)', 'site_money': month * 10})
+        flow_list.append({'site_name': 'Basic fee (not including annual fee orders)', 'site_money': month * 10})
     else:
-        flow_list.append({'site_name': '基础月费(包含年费和月费)', 'site_money': month * 10 + year * 50})
+        flow_list.append({'site_name': 'Basic fee (including annual and monthly fees)', 'site_money': month * 10 + year * 50})
     total_money_num += month * 10 + year * 50
     total_money = '%.2f' % total_money_num
     if email_address:
