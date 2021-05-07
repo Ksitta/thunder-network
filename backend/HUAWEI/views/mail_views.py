@@ -76,7 +76,7 @@ def send_email(user_name, email_address, mory):
     html_body = render_to_string('mail.html', mail_data)
 
     text_content = ''  # 对方不支持多媒体邮件的话显示这里的内容
-    subject = '您的本'+time_p+'的账单，请您查收 Thunder-network'  # 邮件标题
+    subject = '您本'+time_p+'的账单，请您查收 Thunder-network'  # 邮件标题
     msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
     # 邮件显示html_body的内容，html编码
     msg.attach_alternative(html_body, "text/html")
