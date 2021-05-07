@@ -1,9 +1,10 @@
 from django.test import TestCase
 from django.urls import reverse
 from tests.utils import TestClient
-
+from HUAWEI.models import User
 
 class MailTests(TestCase):
+    fixtures = ['test.json']
 
     new_client: TestClient
     user = {
@@ -19,5 +20,5 @@ class MailTests(TestCase):
         data = {}
         data['username'] = 'client1'
         data['email'] = 'thunder_network@126.com'
-        responce = self.new_client.post(reverse('edit'), data=data, content_type="application/json")
-        self.assertEqual(responce.status_code, 401)
+        responce = self.new_client.post(reverse('mail'), data=data, content_type="application/json")
+        self.assertEqual(responce.status_code, 200)
