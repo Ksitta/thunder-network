@@ -26,7 +26,7 @@
 
           <div class="colwrapper">
             <div class="block">
-              <h1>费用信息</h1>
+              <h1>流量费用信息</h1>
               <ve-line
                 :data="linechartData"
                 :data-empty="dataEmpty"
@@ -68,15 +68,17 @@
                 <span> 元</span>
               </p>
               <p>
-                总费用
+                流量费用
                 <i class="el-icon-coin"></i>
               </p>
+              <el-button type="text" @click="mail(1)">寄送月度账单</el-button>
+              <el-button type="text" @click="mail(2)">寄送年度账单</el-button>
             </div>
 
           </div>
 
           <div class="colwrapper">
-            <h1>各站点费用占比</h1>
+            <h1>各站点流量费用占比</h1>
             <ve-pie
               :data="piechartData"
               :data-empty="dataEmpty"
@@ -192,6 +194,37 @@ export default {
           });
         }
         this.chartLoading = false;
+      });
+    },
+    mail(mory) {
+      let hintmsg = "";
+      if (mory == 1) {
+        hintmsg = "将向您的邮箱寄送月度账单邮件，是否继续？";
+      } else {
+        hintmsg = "将向您的邮箱寄送年度账单邮件，是否继续？";
+      }
+      this.$confirm(hintmsg, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        axios.post('/api/mail/', {
+          mory: parseInt(mory)
+        })
+        .then((response) => {
+          console.log(response);
+          this.$message({
+            type: 'success',
+            message: '发送成功!'
+          });
+        })
+        .catch((error) => {
+          this.$message({
+            type: 'error',
+            message: '发送失败!'
+          });
+          console.log(error)
+        });
       });
     },
   },

@@ -11,7 +11,7 @@
                 <el-tab-pane label="未完成订单">
                     <div class="SiteData">
                         <el-table :data="unfinished_sitedata" style="width: 100%" maxheight="500px" height="530px" :header-cell-style="{'text-align':'center',fontSize: '15px'}" :cell-style="{fontSize:'15px'}" >
-                        <el-table-column type="expand">
+                            <el-table-column type="expand">
                             <template slot-scope="props">
                                 <el-row>
                                     <el-col :span="12">
@@ -127,7 +127,7 @@
                 <el-tab-pane label="已完成订单">
                     <div class="SiteData">
                         <el-table :data="finished_sitedata" style="width: 100%" maxheight="500px" height="530px" :header-cell-style="{'text-align':'center',fontSize: '15px'}" :cell-style="{fontSize:'15px'}" >
-                        <el-table-column type="expand">
+                            <el-table-column type="expand">
                             <template slot-scope="props">
                                 <el-row>
                                     <el-col :span="12">
@@ -231,7 +231,7 @@
                             <el-table-column label="WLAN设置" min-width="15%" align="center">
                                 <template slot-scope="scope">
                                     <el-button size="mini" type ="primary" plain v-if="scope.row.SSID_status == 0" @click="setwlan(scope.row)">配置</el-button>
-                                    <el-button size="mini" type ="success" plain v-if="scope.row.SSID_status == 1" @click="checkwlan(scope.row)">查看</el-button>
+                                    <el-button size="mini" type ="success" plain v-if="scope.row.SSID_status == 1" @click="checkwlan(scope.row)">修改</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -240,7 +240,7 @@
             </el-tabs>
             <orderDialog :info="orderDialog.info" :dialogVisible="orderDialog.dialogVisible" @Dialog_cancel='Dialog_cancel' @Dialog_submit="Dialog_submit"></orderDialog>
         </div>
-        <ssiddialog :dialogVisible="ssiddialog.dialogVisible" :path="ssiddialog.path" :wlan_info="ssiddialog.wlan_info" :check="ssiddialog.check" @ssiddialog_cancel='ssiddialog_cancel' @ssiddialog_submit="ssiddialog_submit"></ssiddialog>
+        <ssiddialog ref="ssiddialog" :dialogVisible="ssiddialog.dialogVisible" :path="ssiddialog.path" :wlan_info="ssiddialog.wlan_info" :check="ssiddialog.check" @ssiddialog_cancel='ssiddialog_cancel' @ssiddialog_submit="ssiddialog_submit"></ssiddialog>
     </div>
 </template>
 
@@ -369,6 +369,9 @@ export default{
             this.ssiddialog.dialogVisible = false
         },
         setwlan: function(row){
+            if (this.$refs.ssiddialog.$refs.form) {
+                this.$refs.ssiddialog.$refs.form.clearValidate();
+            }
             this.ssiddialog.check = row.SSID_status;
             this.ssiddialog.dialogVisible = true
             var pk = row.site_index

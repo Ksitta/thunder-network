@@ -2,6 +2,9 @@
     <div class="login">
         <el-container style="height:100%">
             <el-main>
+                <div class="login_form" style="position: absolute; left: 60px; color: white; font-size: 30px; bottom: 310px; ">
+                    <img src="web-logo.png" height="90px"/>
+                </div>
                 <div class="login_form">
                     <el-form class="form" ref="form" :model="form" label-width="70px">
                         <h3>登录</h3>
@@ -20,7 +23,7 @@
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item style="margin-left: -60px;">
-                            <el-button type="register" disabled @click="Register">注册</el-button>                
+                            <el-button type="register" @click="Register">注册</el-button>                
                             <el-button type="login" @click="Login">登录</el-button>
                         </el-form-item>
                     </el-form>
@@ -78,7 +81,13 @@ export default{
                         this.$router.push({path: "/"})
                     }
                 }).catch(error => {
-                    this.$message.error("您输入的用户名或密码错误！")
+                    if (error.response.status == 500) {
+                        this.$message.error("服务器出错！")
+                    } else if (error.response.status == 401) {
+                        this.$message.error("您输入的用户名或密码错误！")
+                    } else {
+                        this.$message.error("其他错误！");
+                    }
                     console.log(error)
                 })
             }
