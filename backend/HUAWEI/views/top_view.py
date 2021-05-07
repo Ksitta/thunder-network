@@ -43,6 +43,5 @@ class TopSiteView(APIView):
 
             sites_flow.append(thesite_flow)
         li = sorted(sites_flow, key=lambda x: x['total'], reverse=True)
-        if len(li) > 5:
-            li = li[:5:]
+        li = li[:5:]
         return Response(li, status=status.HTTP_200_OK)
