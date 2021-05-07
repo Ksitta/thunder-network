@@ -1,16 +1,9 @@
 from django.test import TestCase
-from http import HTTPStatus
 from django.urls import reverse
 from tests.utils import TestClient as Client
-# from rest_framework.test import APIClient as Client
 from rest_framework import status
-from rest_framework.authtoken.models import Token
-from rest_framework.test import APIClient
 from HUAWEI.models import Site, SSID
 import time
-
-
-# Include an appropriate `Authorization:` header on all requests.
 
 class TestSSID(TestCase):
     fixtures = ['test.json']
@@ -96,6 +89,7 @@ class TestSSID(TestCase):
         client = Client()
         assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_401_UNAUTHORIZED
         client.login(**self.user[0])
+        assert client.post(reverse('ssid', args=[self.get_pk]), data=self.ssid).status_code == status.HTTP_400_BAD_REQUEST
         assert client.post(reverse('ssid', args=[self.bad_site_pk]), data=self.ssid).status_code == status.HTTP_400_BAD_REQUEST
         client.post(reverse('site'), data=self.site)
         the_site = Site.objects.filter(id=Site.objects.last().id)[0]

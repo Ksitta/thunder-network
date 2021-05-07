@@ -5,7 +5,6 @@ from HUAWEI.models import Site, Equipment, SSID, SSIDAuth
 from HUAWEI.serializers import SSIDSerializer, SSIDAuthSerializer
 from rest_framework.permissions import IsAuthenticated
 from .nce import create_ssid, delete_ssid
-import datetime
 from copy import deepcopy
 
 class SSIDView(APIView):

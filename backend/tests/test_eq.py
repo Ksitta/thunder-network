@@ -69,4 +69,3 @@ class TestEquipment(TestCase):
         client.logout()
         client.login(**self.user[2])
         assert client.post(reverse('equipment', args=[self.site_pk]), data=self.eq).status_code == status.HTTP_201_CREATED
-        # assert client.post(reverse('equipment', args=[self.site_pk]), data=self.eq).status_code == status.HTTP_400_BAD_REQUEST

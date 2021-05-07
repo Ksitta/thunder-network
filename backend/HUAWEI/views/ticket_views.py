@@ -7,7 +7,7 @@ from HUAWEI.serializers import TicketSerializer
 from rest_framework.permissions import IsAuthenticated
 # from HUAWEI.views.nce import delete_site
 from copy import copy, deepcopy
-import time, datetime
+import datetime
 
 class TicketView(APIView):
     queryset = Site.objects.all()

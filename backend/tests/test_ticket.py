@@ -1,10 +1,7 @@
 from django.test import TestCase
-from http import HTTPStatus
 from django.urls import reverse
 from tests.utils import TestClient as Client
 from rest_framework import status
-import time
-from HUAWEI.models import User, Site
 
 
 # Include an appropriate `Authorization:` header on all requests.
