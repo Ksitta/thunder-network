@@ -23,7 +23,9 @@
                             <el-table-column prop= "create_time" label="创建时间" min-width="10%" align="center"></el-table-column>
                             <el-table-column label="详情" min-width="10%" align="center">
                                 <template slot-scope="scope">
-                                    <el-button size="mini" @click="order_confirmation(scope.row)">查看</el-button>
+                                    <el-button size="mini" type="primary" @click="order_confirmation(scope.row)" v-if="scope.row.status == '处理中'">查看</el-button>
+                                    <el-button size="mini" type="success" @click="order_confirmation(scope.row)" v-if="scope.row.status == '已完成'">查看</el-button>
+                                    <el-button size="mini" type="danger" @click="order_confirmation(scope.row)" v-if="scope.row.status == '待确认'">确认</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -56,17 +58,19 @@
                             </el-col>
                         </el-row>
                     </div>
-                    <div class="TicketData" style="margin-top:-20px">
+                    <div class="TicketData">
                         <el-table :data="selected_data" style="width: 100%" maxheight="500px" height="530px" :header-cell-style="{'text-align':'center',fontSize: '15px',background:'#eef1f6',color:'#606266'}" :cell-style="{fontSize:'15px'}" >
-                            <el-table-column prop= "id" label="工单编号" min-width="10%" align="center"></el-table-column>
-                            <el-table-column prop= "site_name" label="问题站点" min-width="13%" align="center"></el-table-column>
-                            <el-table-column prop= "question_type" label="问题类型" min-width="13%" align="center"></el-table-column>
-                            <el-table-column prop= "create_time" label="创建时间" min-width="13%" align="center"></el-table-column>
                             <el-table-column prop= "question" label="问题描述" min-width="41%" align="center"></el-table-column>
-                            <el-table-column label="确认" min-width="10%" align="center">
+                            <el-table-column prop= "id" label="工单编号" min-width="8%" align="center"></el-table-column>
+                            <el-table-column prop= "site_name" label="问题站点" min-width="10%" align="center"></el-table-column>
+                            <el-table-column prop= "question_type" label="问题类型" min-width="10%" align="center"></el-table-column>
+                            <el-table-column prop= "status" label="状态" min-width="11%" align="center"></el-table-column>
+                            <el-table-column prop= "create_time" label="创建时间" min-width="10%" align="center"></el-table-column>
+                            <el-table-column label="详情" min-width="10%" align="center">
                                 <template slot-scope="scope">
-                                    <el-button size="mini" @click="order_confirmation(scope.row)" v-if="ticket_info.status != '待确认'">查看</el-button>
-                                    <el-button size="mini" @click="order_confirmation(scope.row)" v-if="ticket_info.status == '待确认'">确认</el-button>
+                                    <el-button size="mini" type="primary" @click="order_confirmation(scope.row)" v-if="scope.row.status == '处理中'">查看</el-button>
+                                    <el-button size="mini" type="success" @click="order_confirmation(scope.row)" v-if="scope.row.status == '已完成'">查看</el-button>
+                                    <el-button size="mini" type="danger" @click="order_confirmation(scope.row)" v-if="scope.row.status == '待确认'">确认</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -113,6 +117,8 @@ export default{
                     network_name: "",
                     network_time: "",
                     close_time: "",
+                    telephone: "",
+                    email: "",
                 },
                 user: true
             },
@@ -165,12 +171,15 @@ export default{
                         network_name: item.network_name,
                         network_time: (answer)? item.network_time.substring(0,10) : '',
                         close_time: (finish)? item.close_time.substring(0,10) : '',
+                        telephone: item.contact_details,
+                        email: item.contact_email,
                     })
                 }
             })
         },
         submit:function(){
             this.ssiddialog.dialogVisible = false
+            this.getdata()
         },
         cancel:function(){
             this.ticketdialog.dialogVisible = false
@@ -189,6 +198,8 @@ export default{
                 this.ticketdialog.ticket_info.network_name= row.network_name;
                 this.ticketdialog.ticket_info.network_time= row.network_time;
                 this.ticketdialog.ticket_info.close_time= row.close_time;
+                this.ticketdialog.ticket_info.telephone= row.telephone;
+                this.ticketdialog.ticket_info.email= row.email;
             console.log(ticketdialog.ticket_info);
         },
     },
@@ -247,7 +258,7 @@ export default{
             var siteselected_data = []
             var selected_data = []
             for(let item of this.tickets_data){
-                if (item.status == "已关闭" && status_0 == true){
+                if (item.status == "已完成" && status_0 == true){
                     status_data_0.push(item)
                 }
                 if (item.status == "处理中" && status_1 == true){

@@ -39,12 +39,12 @@
                             </el-select>
                           </el-form-item>
                           <el-form-item label="问题设备:" class = "label_content" v-if="ticket.question_type == '2'">
-                                <el-select class="ticket_input" v-model="ticket.eq_pk" placeholder="请选择问题设备" clearable>
+                                <el-select class="ticket_input" v-model="ticket.eq_name" placeholder="请选择问题设备" clearable>
                                     <el-option
                                     v-for="item in device_list"
-                                    :key="item.pk"
+                                    :key="item.eq_name"
                                     :label="item.eq_name"
-                                    :value="item.pk">
+                                    :value="item.eq_name">
                                     </el-option>
                                 </el-select>
                           </el-form-item>
@@ -103,7 +103,7 @@ export default {
                 site_pk: '',
                 question: '',
                 question_type: '',
-                eq_pk: '',
+                eq_name: '',
                 telephone: '',
                 email: '',
             }
@@ -175,7 +175,9 @@ export default {
                 question: this.ticket.question,
                 question_type: (parseInt(this.ticket.question_type) - 1),
                 site_name: this.site_list[this.ticket.site_pk].site_name,
-                eq_name: this.site_list[this.ticket.site_pk].eqs.eq_name,
+                eq_name: this.ticket.eq_name,
+                contact_details: this.ticket.telephone,
+                contact_email: this.ticket.contact_email,
             }
             console.log(submitinfo)
             axios.post("/api/ticket/", submitinfo)
