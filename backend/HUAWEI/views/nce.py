@@ -130,7 +130,6 @@ def delete_ssid(site_id, ssid_id):
     # print(r.text)
     try:
         body = r.json()["success"][0]
-        # SSID_id = body['id']
-    except IndexError or KeyError:
+    except (IndexError, KeyError):
         return KeyError
     return body

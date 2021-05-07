@@ -84,6 +84,13 @@ class TestSSID(TestCase):
         client.login(**self.user[0])
         assert client.get(reverse('ssid', args=[self.bad_site_pk])).status_code == status.HTTP_400_BAD_REQUEST
         assert client.get(reverse('ssid', args=[self.get_pk])).status_code == status.HTTP_200_OK
+        client.logout()
+        client.login(**self.user[1])
+        assert client.get(reverse('ssid', args=[self.get_pk])).status_code == status.HTTP_200_OK
+        client.logout()
+        client.login(**self.user[2])
+        assert client.get(reverse('ssid', args=[self.get_pk])).status_code == status.HTTP_200_OK
+        client.logout()
 
     def test_post_SSID(self):
         client = Client()
@@ -98,3 +105,7 @@ class TestSSID(TestCase):
         assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_201_CREATED
         assert client.post(reverse('ssid', args=[self.site_pk]), data=self.bad_ssid).status_code == status.HTTP_400_BAD_REQUEST
         assert client.post(reverse('ssid', args=[self.site_pk]), data=self.long_ssid).status_code == status.HTTP_400_BAD_REQUEST
+        client.logout()
+        client.login(**self.user[1])
+        assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_403_FORBIDDEN
+        client.logout()

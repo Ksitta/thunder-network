@@ -37,10 +37,8 @@ class SSIDView(APIView):
         ssidAuth = self.request.data['ssidAuth']
         ssid_data.pop('ssidAuth', None)
 
-        if user.user_type == 1:  # 运营工程师
-            sites = Site.objects.all()
-        elif user.user_type == 2:  # 网络工程师
-            sites = Site.objects.filter(network_name=user.username)
+        if user.user_type == 1 or user.user_type == 2:  # 运营工程师/网络工程师
+            return Response(status=status.HTTP_403_FORBIDDEN)
         else:
             sites = Site.objects.filter(user=user)
         thesite = sites[int(pk)]

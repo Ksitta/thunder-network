@@ -38,6 +38,14 @@ class TicketSite(TestCase):
         "eq_name": ""
     }
 
+    bad_serializer_ticket = {
+        "question": "这是一个新的测试提问",
+        "question_type": 0,
+        "site_name": "wrong_site",
+        "eq_name": "",
+        "bad_field": 2
+    }
+
     user_put = {
         "id": 3
     }
@@ -71,6 +79,7 @@ class TicketSite(TestCase):
         client.login(**self.user[0])
         assert client.post(reverse('ticket'), data=self.ticket).status_code == status.HTTP_201_CREATED
         assert client.post(reverse('ticket'), data=self.bad_ticket).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.post(reverse('ticket'), data=self.bad_serializer_ticket).status_code == status.HTTP_400_BAD_REQUEST
 
     def test_put_ticket(self):
         client = Client()
