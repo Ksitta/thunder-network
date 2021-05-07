@@ -1,10 +1,7 @@
 import requests
 import configparser
-import os
-import json
 from backend.settings import nbi_name, nbi_pwd, nbi_host, nbi_port
 from copy import deepcopy
-import json
 
 HTTPS = "https://"
 APPJSON = "application/json"
@@ -50,31 +47,12 @@ def create_site(name):
     headers['X-AUTH-TOKEN'] = get_token()
     r = requests.post(post_sites_url, headers=headers, json=data, verify=False)
     # 解析站点信息
-    # print("【Post Sites】")
     try:
         body = r.json()["success"]
         site_id = body[0]['id']
     except IndexError:
         return IndexError
-    # print("【success】：" + str(site_id))
     return site_id
-
-# 限定为id精准查找
-# def get_site(id):
-#     # 配置URL和Headers
-#     get_sites_url = HTTPS + nbi_host + ":" + nbi_port + GET_SITES_URL
-#     # 发起请求
-#     data = {
-#         "id": id
-#     }
-#     headers = base_headers
-#     headers['X-AUTH-TOKEN'] = get_token()
-#     r = requests.get(get_sites_url, headers=headers, json=data, verify=False)
-#     # 解析站点信息
-#     print("3.【Get Sites Info】")
-#     print("【get_sites_url】：" + get_sites_url)
-#     print(r.text)
-#     # 未写返回值
 
 # 限定为删除单个站点
 # def delete_site(id):
@@ -147,14 +125,11 @@ def delete_ssid(site_id, ssid_id):
     headers['X-AUTH-TOKEN'] = get_token()
     r = requests.delete(delete_ssid_url, headers=headers, json=data, verify=False)
     # 解析站点信息
-    print("10.【Delete SSID】")
-    print("【delete_ssid_url】：" + ssid_id)
+    # print("10.【Delete SSID】")
+    # print("【delete_ssid_url】：" + ssid_id)
     # print(r.text)
     try:
-        body = r.json()["success"]
-        # SSID_id = body['id']
-    except KeyError:
+        body = r.json()["success"][0]
+    except (IndexError, KeyError):
         return KeyError
-    # print("【success】：" + str(site_id))
-    return body[0]
-    # 未写返回值
+    return body

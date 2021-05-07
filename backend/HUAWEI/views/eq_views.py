@@ -27,8 +27,6 @@ class EquipmentView(APIView):
             thesite.network_name = user.username
             thesite.network_time = datetime.datetime.now()
             thesite.save()
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         # 在数据库中更新设备
         new_site = Site.objects.get(site_id = thesite.site_id)
