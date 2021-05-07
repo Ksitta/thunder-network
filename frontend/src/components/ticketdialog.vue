@@ -27,14 +27,14 @@
                     <el-form-item label="问题类型:" class = "label_content1">
                         <span class="form_span">{{ticket_info.question_type}}</span>
                     </el-form-item>
+                    <el-form-item label="问题设备:" class = "label_content1" v-if="ticket_info.question_type == '设备'" >
+                        <span class="form_span">{{ticket_info.eq_name}}</span>
+                    </el-form-item>
                     <el-form-item label="联系电话:" class = "label_content1" v-if="ticket_info.telephone.length > 0">
                         <span class="form_span">{{ticket_info.telephone}}</span>
                     </el-form-item>
                     <el-form-item label="联系邮箱:" class = "label_content1" v-if="ticket_info.email.length > 0">
-                        <span class="form_span" style="margin-right: 300px">{{ticket_info.email}}</span>
-                    </el-form-item>
-                    <el-form-item label="问题设备:" class = "label_content1" v-if="ticket_info.question_type == '设备'" >
-                        <span class="form_span">{{ticket_info.eq_name}}</span>
+                        <span class="form_span">{{ticket_info.email}}</span>
                     </el-form-item>
                     <el-form-item label="问题描述：" class="label_content1" style="margin-top:10px;">
                         <!-- <span>{{ticket_info.question}}</span> -->
@@ -218,7 +218,7 @@ export default{
 .form_span{
     font-size: 16px;
     font-weight: bold;
-    margin-right: 350px;
+    /* margin-right: 350px; */
 }
 .hr_style{
   border: none; 
