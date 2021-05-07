@@ -177,8 +177,7 @@ export default {
   },
 
   methods: {
-    menunav: function(idx) { // menu-item 的点击事件
-      console.log(idx);
+    allclear: function() {
       this.showpage.home = false
       this.showpage.accountsettings = false
       this.showpage.flow = false
@@ -188,6 +187,10 @@ export default {
       this.showpage.charges = false
       this.showpage.newtickets = false
       this.showpage.mytickets = false
+    },
+    menunav: function(idx) { // menu-item 的点击事件
+      console.log(idx);
+      this.allclear();
       if (idx === "1") {
         this.showpage.home = true
       }
@@ -222,12 +225,7 @@ export default {
     userCommand: function(command) {
       console.log(command);
       if (command == "edit") {
-        this.showpage.home = false
-        this.showpage.accountsettings = false
-        this.showpage.flow = false
-        this.showpage.sitequery = false
-        this.showpage.orderprocessing = false
-        this.showpage.networkorder = false
+        this.allclear();
         this.showpage.accountsettings = true
       }
       if (command == "quit") {

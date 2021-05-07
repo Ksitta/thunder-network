@@ -3,6 +3,7 @@
         <div class="head" style=" margin-bottom:-60px">
             <div class="head-title" style=" margin-bottom:-10px;margin-top:-35px;margin-left:20px">
               <h1 align="left" style="font-size:30px; margin-left:15px;">我的工单</h1>
+            <!-- <el-button siicon="el-icon-circle-plus" style="float: right; width:200px" @click="orderrequest">新增订单</el-button> -->
             </div>
         </div>
 
@@ -54,7 +55,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <div></div>
-                                <el-input v-model="search_info" style="display: inline-block; margin-top: 40px; margin-left: 150px; width: 400px; height: 40px" placeholder="默认按照问题描述搜索" suffix-icon="el-icon-search"></el-input>
+                                <el-input v-model="search_info" style="display: inline-block; margin-top: 40px; margin-left: 110px; width: 400px; height: 40px" placeholder="默认按照问题描述搜索" suffix-icon="el-icon-search"></el-input>
                             </el-col>
                         </el-row>
                     </div>

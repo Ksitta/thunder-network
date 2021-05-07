@@ -198,10 +198,10 @@ export default{
                             this.$message.success("提交成功！")
                             this.$emit('ssiddialog_submit')
                         }else{
-                            alert(response.status)
+                            console.log(response.status)
                         }
                     }).catch (error => {
-                        alert('error！')
+                        this.$message.error("出错了！")
                         console.log(error)
                     })
                 }else{

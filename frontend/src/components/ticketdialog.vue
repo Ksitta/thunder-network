@@ -161,10 +161,10 @@ export default{
                     this.$message.success("确认成功！")
                     this.$emit('submit')
                 }else{
-                    alert(response.status)
+                    console.log(response.status)
                 }
             }).catch (error => {
-                alert('error！')
+                this.$message.error("出错了！")
                 console.log(error)
             })
         },
@@ -181,10 +181,10 @@ export default{
                     this.$message.success("反馈成功！")
                     this.$emit('submit')
                 }else{
-                    alert(response.status)
+                    console.log(response.status)
                 }
             }).catch (error => {
-                alert('error！')
+                this.$message.error("出错了！")
                 console.log(error)
             })
         },

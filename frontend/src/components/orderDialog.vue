@@ -20,8 +20,12 @@
                     </el-form-item>
                     <el-form-item label="计费方式">
                         <div style="padding-left: 20px; padding-right: 20px;">
+                            <el-tooltip class="hint" effect="dark" content="0.8元/GB + 10元/月" placement="top">
                             <el-radio v-model="info.billing_level" label="1" border size="medium">按月计费</el-radio>
+                            </el-tooltip>
+                            <el-tooltip class="hint" effect="dark" content="0.7元/GB + 50元/年" placement="top">
                             <el-radio v-model="info.billing_level" label="2" border size="medium">按年计费</el-radio>
+                            </el-tooltip>
                         </div>
                     </el-form-item>
 
@@ -108,10 +112,10 @@ export default{
                     this.retinfo = response.data
                     this.$emit('Dialog_submit')
                 }else{
-                    alert(response.status)
+                    console.log(response.status)
                 }
             }).catch (error => {
-                alert('error！')
+                this.$message.error("出错了！")
                 console.log(error)
             })
         },

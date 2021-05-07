@@ -2,6 +2,9 @@
     <div class="login">
         <el-container style="height:100%">
             <el-main>
+                <div class="login_form" style="position: absolute; left: 60px; color: white; font-size: 30px; bottom: 310px; ">
+                    <img src="web-logo.png" height="90px"/>
+                </div>
                 <div class="login_form">
                     <el-form class="form" ref="form" :model="form" label-width="70px">
                         <h3>登录</h3>
@@ -20,7 +23,7 @@
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item style="margin-left: -60px;">
-                            <el-button type="register" disabled @click="Register">注册</el-button>                
+                            <el-button type="register" @click="Register">注册</el-button>                
                             <el-button type="login" @click="Login">登录</el-button>
                         </el-form-item>
                     </el-form>

@@ -72,10 +72,10 @@ export default{
                     this.$message.success("处理成功！")
                     this.$emit('Dialog_submit')
                 }else{
-                    alert(response.status)
+                    console.log(response.status)
                 }
             }).catch (error => {
-                alert('error！')
+                this.$message.error("出错了！")
                 console.log(error)
             })
         },

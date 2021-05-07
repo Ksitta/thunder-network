@@ -192,10 +192,10 @@ export default {
                 if(response.status === 201){
                     this.$message.success("提交成功！")
                 }else{
-                    alert(response.status)
+                    console.log(response.status)
                 }
             }).catch (error => {
-                alert('error！')
+                this.$message.error("出错了！")
                 console.log(error)
             })
         },
