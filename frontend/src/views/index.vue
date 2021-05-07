@@ -57,6 +57,14 @@
               <span>费用查询</span>
             </el-menu-item>
 
+            <el-menu-item index="9">
+              <i class="el-icon-message"></i>
+              <span>新建工单</span>
+            </el-menu-item>
+            <el-menu-item index="10">
+              <i class="el-icon-message"></i>
+              <span>我的工单</span>
+            </el-menu-item>
             <!-- <el-submenu index="2">
               <template slot="title">
                 <i class="el-icon-message"></i>
@@ -138,6 +146,8 @@
           <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
           <networkorder ref="networkorder" v-bind:show="showpage.networkorder" v-if="showpage.networkorder"></networkorder>
           <charges ref="charges" v-bind:show="showpage.charges" v-if="showpage.charges"></charges>
+          <newtickets ref="newtickets" v-bind:show="showpage.newtickets" v-if="showpage.newtickets"></newtickets>
+          <mytickets ref="mytickets" v-bind:show="showpage.mytickets" v-if="showpage.mytickets"></mytickets>
         </el-main>
       </el-container>
     </el-container>
@@ -152,6 +162,8 @@ import orderprocessing from '@/components/orderprocessing'
 import networkorder from '@/components/networkorder'
 import flow from '@/components/flow'
 import charges from '@/components/charges'
+import newtickets from '@/components/newtickets'
+import mytickets from '@/components/mytickets'
 
 export default {
   name: 'index',
@@ -164,6 +176,8 @@ export default {
     networkorder,
     flow,
     charges,
+    newtickets,
+    mytickets,
   },
 
   data: function() {
@@ -176,6 +190,8 @@ export default {
         networkorder: false,
         flow: false,
         charges: false,
+        newtickets:false,
+        mytickets:false,
       }
     }
   },
@@ -190,6 +206,8 @@ export default {
       this.showpage.orderprocessing = false
       this.showpage.networkorder = false
       this.showpage.charges = false
+      this.showpage.newtickets = false
+      this.showpage.mytickets = false
       if (idx === "1") {
         this.showpage.home = true
       }
@@ -213,6 +231,12 @@ export default {
       }
       if (idx === "8") {
         this.showpage.charges = true
+      }
+      if (idx === "9") {
+        this.showpage.newtickets = true
+      }
+      if (idx === "10") {
+        this.showpage.mytickets = true
       }
     },
     userCommand: function(command) {
