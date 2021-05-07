@@ -47,9 +47,9 @@
         </el-col>
 
         <el-col :span="8" class="right_col">
-          <div class="colwrapper">
+          <div class="colwrapper" style="display: flex;">
 
-            <div style="color: #7792b1;">
+            <div class="numberblock" style="color: #7792b1;">
               <p>
                 <span style="font-size: 32px; line-height: 26px;">{{ordercount}}</span>
               </p>
@@ -59,8 +59,19 @@
               </p>
             </div>
 
+            <div class="numberblock" style="color: #7792b1;">
+              <p>
+                <span style="font-size: 32px; line-height: 26px;">{{ticketcount}}</span>
+              </p>
+              <p>
+                待处理工单数
+                <i class="el-icon-s-order"></i>
+              </p>
+            </div>
+
           </div>
         </el-col>
+
 
       </el-row>
     </el-container>
@@ -83,6 +94,7 @@ export default {
   data() {
       return {
         ordercount: 0,
+        ticketcount: 0,
         info: {
           username: "",
           contact_details: "",
@@ -106,6 +118,8 @@ export default {
                 network_name: "",
                 network_time: "",
                 close_time: "",
+                telephone: "",
+                email: "",
             },
             user: false
         },
@@ -136,7 +150,8 @@ export default {
       })
     },
     getdata: function(){
-        this.tickets_data= [],
+      this.ticketcount = 0;
+        this.tickets_data = [];
         axios.get('/api/ticket/')
         .then((response)=>{
             var res = response.data
@@ -154,6 +169,7 @@ export default {
                     answer = true
                     status_string = "待确认"
                 }else{
+                    this.ticketcount += 1;
                     status_string = "处理中"
                 }
                 if(item.question_type == 0){
@@ -178,12 +194,14 @@ export default {
                     network_name: item.network_name,
                     network_time: (answer)? item.network_time.substring(0,10) : '',
                     close_time: (finish)? item.close_time.substring(0,10) : '',
+                    telephone: item.contact_details,
+                    email: item.contact_email,
                 })
             }
         })
     },
     submit:function(){
-        this.ssiddialog.dialogVisible = false
+        this.ticketdialog.dialogVisible = false
         this.getdata()
     },
     cancel:function(){
@@ -203,6 +221,8 @@ export default {
             this.ticketdialog.ticket_info.network_name= row.network_name;
             this.ticketdialog.ticket_info.network_time= row.network_time;
             this.ticketdialog.ticket_info.close_time= row.close_time;
+            this.ticketdialog.ticket_info.telephone = row.telephone;
+            this.ticketdialog.ticket_info.email = row.email;
         console.log(ticketdialog.ticket_info);
     },
   },
@@ -317,6 +337,10 @@ export default {
 .el-tag {
   font-size: 12px;
   font-weight: bold;
+}
+
+.numberblock {
+  width: 50%;
 }
 
 </style>

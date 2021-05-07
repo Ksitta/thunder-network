@@ -78,7 +78,13 @@ export default{
                         this.$router.push({path: "/"})
                     }
                 }).catch(error => {
-                    this.$message.error("您输入的用户名或密码错误！")
+                    if (error.response.status == 500) {
+                        this.$message.error("服务器出错！")
+                    } else if (error.response.status == 401) {
+                        this.$message.error("您输入的用户名或密码错误！")
+                    } else {
+                        this.$message.error("其他错误！");
+                    }
                     console.log(error)
                 })
             }

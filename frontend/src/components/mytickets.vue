@@ -1,7 +1,7 @@
 <template>
     <div id = "wrapper_mytickets">
         <div class="head" style=" margin-bottom:-60px">
-            <div class="head-title" style=" margin-bottom:-10px;margin-top:-35px;margin-left:-30px">
+            <div class="head-title" style=" margin-bottom:-10px;margin-top:-35px;margin-left:20px">
               <h1 align="left" style="font-size:30px; margin-left:15px;">我的工单</h1>
             </div>
         </div>
@@ -178,7 +178,7 @@ export default{
             })
         },
         submit:function(){
-            this.ssiddialog.dialogVisible = false
+            this.ticketdialog.dialogVisible = false
             this.getdata()
         },
         cancel:function(){
@@ -293,14 +293,15 @@ export default{
 
 <style scoped>
 .head{
-  padding: 0px 16px 10px 20px;
-  margin: 5px;
+  padding: 0px 0px 10px 0px;
 }
 .colwrapper {
   background-color: #ffffff;
   border-radius: 10px;
   padding: 16px;
   margin-top: 50px;
+  margin-left: 20px;
+  margin-right: 30px;
 }
 .propTicket {
     margin-top: 10px;

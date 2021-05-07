@@ -23,6 +23,7 @@
                             :key="item.pk"
                             :label="item.site_name"
                             :value="item.pk"
+                            :disabled="item.disabled"
                             >
                             </el-option>
                             </el-select>
@@ -34,7 +35,9 @@
                                     v-for="item in question_list"
                                     :key="item.value" 
                                     :label="item.label" 
-                                    :value="item.value">
+                                    :value="item.value"
+                                    :disabled="item.disabled"
+                                    >
                                 </el-option>
                             </el-select>
                           </el-form-item>
@@ -135,17 +138,20 @@ export default {
                 eqs.push({
                 eq_name: item.eqs[idx].eq_name,
                 pk: idx,
+                disabled: item.eqs[idx].eq_status != 1,
                 });
             }
             this.site_list.push({
                 site_name: item.site_name,
                 pk: index,
                 eqs: eqs,
+                disabled: false,
             });
             } else {
             this.site_list.push({
                 site_name: item.site_name,
                 pk: index,
+                disabled: true,
             });
             }
         }
@@ -176,8 +182,8 @@ export default {
                 question_type: (parseInt(this.ticket.question_type) - 1),
                 site_name: this.site_list[this.ticket.site_pk].site_name,
                 eq_name: this.ticket.eq_name,
-                contact_details: this.ticket.telephone,
-                contact_email: this.ticket.contact_email,
+                contact_details: ((this.relationlist.length == 1 && this.relationlist[0] == '电话') || (this.relationlist.length == 2))? this.ticket.telephone : '',
+                contact_email: ((this.relationlist.length == 1 && this.relationlist[0] == '邮箱') || (this.relationlist.length == 2))? this.ticket.email : '',
             }
             console.log(submitinfo)
             axios.post("/api/ticket/", submitinfo)

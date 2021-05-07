@@ -24,11 +24,10 @@
           </div>
 
           <div class="colwrapper">
-            <h1>流量使用信息</h1>
-            <ve-histogram
-              :data="chartData"
-              :settings="chartSettings">
-            </ve-histogram>
+            <h1>流量用量 TOP5站点</h1>
+            <div>
+              <ve-bar height="300px" :data="chartData" :settings="chartSettings"></ve-bar>
+            </div>
           </div>
         </el-col>
 
@@ -37,21 +36,13 @@
 
             <div style="color: #7792b1;">
               <p>
-                <span style="font-size: 32px; line-height: 26px;">{{totalFlow}}</span>
-                <span> GB</span>
+                <span style="font-size: 32px; line-height: 26px;">{{ordercount}}</span>
               </p>
               <p>
-                今日流量
-                <i class="el-icon-odometer"></i>
+                待分配订单数
+                <i class="el-icon-s-order"></i>
               </p>
             </div>
-
-          </div>
-
-          <div class="colwrapper">
-
-            <h1>站点数据雷达图</h1>
-            <ve-radar :data="radarChartData" :settings="radarChartSettings"></ve-radar>
 
           </div>
         </el-col>
@@ -69,31 +60,10 @@ import md5 from 'js-md5'
 
 
 export default {
-  name: 'user_home',
+  name: 'managerhome',
   data() {
       return {
-        totalFlow: "/",
-        chartLoading: false,
-        chartSettings : {
-          showLine: ['time', 'total'],
-          legendName: {
-            'up': "上行流量（Byte）",
-            'down': "下行流量（Byte）",
-            'total': "总流量（Byte）",
-          },
-        },
-        radarChartSettings : {
-          labelMap: {
-            'site': '站点',
-            'views': '访问量',
-            'up': '上行流量',
-            'down': '下行流量'
-          }
-        },
-        chartData: {
-          columns: ['time', 'up', 'down', 'total'],
-          rows: [],
-        },
+        ordercount: 0,
         info: {
           username: "",
           contact_details: "",
@@ -101,9 +71,22 @@ export default {
           contact_address: "",
           user_type: "",
         },
-        radarChartData: {
-          columns: ['site', 'views', 'up', 'down'],
-          rows: [],
+        chartSettings: {
+          labelMap: {
+            'sitename': '站点名称',
+            'flow': '流量用量（GB）'
+          },
+          dataOrder: {
+            label: 'flow',
+            order: 'desc'
+          },
+          itemStyle: {
+            color: "rgb(175, 215, 237)",
+          }
+        },
+        chartData: {
+          columns: ['sitename', 'flow'],
+          rows: []
         }
       }
   },
@@ -156,31 +139,29 @@ export default {
   },
 
   created() {
-    this.loading = true;
-    axios.get("/api/flow/").then((response) => {
+    this.ordercount = 0;
+    axios.get('/api/site/')
+    .then((response)=>{
+      var res = response.data
+      console.log(res)
+      for(let item of res){
+          if(item.status == 1) {
+            this.ordercount += 1;
+          }
+      }
+    })
+    axios.get('/api/topflow/')
+    .then((response) => {
       let res = response.data;
-      this.totalFlow = ((parseInt(res.total_up) + parseInt(res.total_down)) / 1024 / 1024 / 1024).toFixed(2);
-      let flow_data = res.flow_data;
-      for (let item of flow_data) {
+      console.log(res);
+      this.chartData.rows = []
+      for (let item of res) {
         this.chartData.rows.push({
-          time: item.time,
-          up: item.up,
-          down: item.down,
-          total: item.up + item.down,
+          sitename: item.site_name,
+          flow: item.total / 1024 / 1024 / 1024,
         });
       }
-      let sites_flow = res.sites_flow;
-      this.radarChartData.rows = []
-      for (let item of sites_flow) {
-        this.radarChartData.rows.push({
-          site: item.site_name,
-          up: item.total_up,
-          down: item.total_down,
-          views: item.view_counts,
-        });
-      }
-      this.loading = false;
-    });
+    })
   }
 }
 </script>

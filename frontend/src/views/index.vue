@@ -58,42 +58,13 @@
             </el-menu-item>
 
             <el-menu-item index="9">
-              <i class="el-icon-message"></i>
+              <i class="el-icon-edit-outline"></i>
               <span>新建工单</span>
             </el-menu-item>
             <el-menu-item index="10">
               <i class="el-icon-message"></i>
               <span>我的工单</span>
             </el-menu-item>
-            <!-- <el-submenu index="2">
-              <template slot="title">
-                <i class="el-icon-message"></i>
-                <span>订单</span>
-              </template>
-              <el-menu-item index="2-1">
-                <i class="el-icon-document"></i>
-                <span>新建订单</span>
-              </el-menu-item>
-              <el-menu-item index="2-2">
-                <i class="el-icon-setting"></i>
-                <span>订单查询</span>
-              </el-menu-item>
-            </el-submenu>
-
-            <el-submenu index="3">
-              <template slot="title">
-                <i class="el-icon-s-platform"></i>
-                <span>网络</span>
-              </template>
-              <el-menu-item index="3-1">
-                <i class="el-icon-data-analysis"></i>
-                <span>业务查询</span>
-              </el-menu-item>
-              <el-menu-item index="3-2">
-                <i class="el-icon-data-analysis"></i>
-                <span>设备查询</span>
-              </el-menu-item>
-            </el-submenu> -->
 
           </el-menu>
 
@@ -137,9 +108,11 @@
 
         </el-aside>
 
-        <el-main class="loading-area">
+        <el-main>
           <!-- Main -->
-          <userhome ref="userhome" v-bind:show="showpage.home" v-if="showpage.home"></userhome>
+          <userhome ref="userhome" v-bind:show="showpage.home" v-if="showHome == 0"></userhome>
+          <managerhome ref="userhome" v-bind:show="showpage.home" v-if="showHome == 1"></managerhome>
+          <engineerhome ref="userhome" v-bind:show="showpage.home" v-if="showHome == 2"></engineerhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
           <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings" @userinfoEdited="userinfoEdited"></accountsettings>
           <flow ref="flow" v-bind:show="showpage.flow" v-if="showpage.flow"></flow>
@@ -149,6 +122,7 @@
           <newtickets ref="newtickets" v-bind:show="showpage.newtickets" v-if="showpage.newtickets"></newtickets>
           <mytickets ref="mytickets" v-bind:show="showpage.mytickets" v-if="showpage.mytickets"></mytickets>
         </el-main>
+        <el-main class="loading-area" />
       </el-container>
     </el-container>
   </div>
@@ -156,6 +130,8 @@
 
 <script>
 import userhome from '@/components/userhome'
+import managerhome from '@/components/managerhome'
+import engineerhome from '@/components/engineerhome'
 import sitequery from '@/components/sitequery'
 import accountsettings from '@/components/accountsettings'
 import orderprocessing from '@/components/orderprocessing'
@@ -165,11 +141,15 @@ import charges from '@/components/charges'
 import newtickets from '@/components/newtickets'
 import mytickets from '@/components/mytickets'
 
+import axios from 'axios'
+
 export default {
   name: 'index',
 
   components: {
     userhome,
+    managerhome,
+    engineerhome,
     sitequery,
     accountsettings,
     orderprocessing,
@@ -263,6 +243,14 @@ export default {
       this.showpage.sitequery = false
       this.showpage.orderprocessing = false
       this.showpage.networkorder = false
+    },
+    getUsertype: function() {
+      axios.get('/api/user/profile/')
+      .then((response) => {
+        this.$store.commit('newtype', {
+            type: response.data.user.user_type
+        })
+      })
     }
   },
 
@@ -274,14 +262,20 @@ export default {
     getIdentity: function() {
       let user_type = this.$store.state.user_type;
       return user_type;
-    }
+    },
+    showHome: function() {
+      if (!this.showpage.home) return -1;
+      if (this.$store.state.user_type == null) {
+        this.getUsertype();
+      }
+      return this.$store.state.user_type == null ? -1 : this.$store.state.user_type;
+    },
   }
 
 }
 </script>
 
-<style scoped>
-
+<style>
 /* 滚动条样式修改 */
 ::-webkit-scrollbar {
   width: 7px;
@@ -306,6 +300,9 @@ export default {
   border-radius:  15px;  
   -webkit-border-radius: 15px;
 }
+</style>
+
+<style scoped>
 
 .wrapper {
   position: absolute;
@@ -383,6 +380,16 @@ export default {
   color: black;
   cursor: pointer;
   font-weight: bold;
+}
+
+.loading-area {
+  background: rgb(255, 255, 255, 0);
+  pointer-events: none;
+  top: 48px;
+  left: 228px;
+  right: 0px;
+  bottom: 0px;
+  position: absolute;
 }
 
 </style>
