@@ -160,6 +160,8 @@
 		"fields": {
 			"question": "这里是测试问题1",
 			"user": 1,
+			"contact_details": "13312341234",
+			"contact_email": "123@qq.com",
 			"site_name": "site0",
 			"status": 0,
 			"create_time": "2021-05-04T06:26:43.331792Z",
@@ -176,6 +178,8 @@
 		"fields": {
 			"question": "这里是测试问题2",
 			"user": 1,
+			"contact_details": "13312341234",
+			"contact_email": "123@qq.com",
 			"site_name": "site0",
 			"status": 1,
 			"create_time": "2021-05-04T06:26:43.331792Z",
@@ -192,6 +196,8 @@
 		"fields": {
 			"question": "这里是测试问题3",
 			"user": 1,
+			"contact_details": "13312341234",
+			"contact_email": "123@qq.com",
 			"site_name": "site0",
 			"status": 2,
 			"create_time": "2021-05-04T06:26:43.331792Z",

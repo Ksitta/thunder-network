@@ -76,6 +76,8 @@ class SSIDAuth(models.Model):
 class Ticket(models.Model):
     question = models.CharField('问题描述', max_length=500, default="")
     user = models.ForeignKey('User', on_delete=models.CASCADE)
+    contact_details = models.CharField('联系方式', max_length=12, default="", blank=True)
+    contact_email = models.CharField('邮箱', max_length=20, default="", blank=True)
     question_type = models.IntegerField('问题类型', default=0)
     site_name = models.CharField('站点名', max_length=50, default="")
     eq_name = models.CharField('设备名', max_length=50, default="", blank=True)
