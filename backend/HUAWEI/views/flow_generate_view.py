@@ -47,10 +47,8 @@ class FlowGenerateView(APIView):
             file.write(str(time.time()) + " generated flow info\n")
 
     def generate_flow(self, user, site, eq, now_time):
-        new_nums = random.randint(3, 100)
-        for i in range(0, new_nums):
-            k = random.randint(1, self.flow_nums)
-            raw_flow = self.queryset_flow.get(pk=k)
+        for i in range(0, random.randint(3, 100)):
+            raw_flow = self.queryset_flow.get(pk=random.randint(1, self.flow_nums))
             new_flow = FlowData(dest_ip=raw_flow.dest_ip, source_ip=raw_flow.source_ip,
                                 out_flow=raw_flow.out_flow, in_flow=raw_flow.in_flow,
                                 site=site, user=user, eq=eq, generate_time=now_time)

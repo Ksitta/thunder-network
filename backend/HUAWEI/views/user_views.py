@@ -54,10 +54,5 @@ class TokenObtainView(TokenViewBase):
     def post(self, request, *args, **kwargs):
         request.data['password'] += str(request.data['user_type'])
         serializer = self.get_serializer(data=request.data)
-
-        try:
-            serializer.is_valid(raise_exception=True)
-        except TokenError as e:
-            raise InvalidToken(e.args[0])
-
+        serializer.is_valid(raise_exception=True)
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
