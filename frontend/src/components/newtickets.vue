@@ -101,7 +101,7 @@ export default {
                     label: 'WLAN相关问题',
                 },
             ],
-            relationlist:[],
+            relationlist:['工单留言'],
             ticket:{
                 site_pk: '',
                 question: '',
