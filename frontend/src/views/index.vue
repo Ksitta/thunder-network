@@ -114,12 +114,12 @@
           <managerhome ref="userhome" v-bind:show="showpage.home" v-if="showHome == 1"></managerhome>
           <engineerhome ref="userhome" v-bind:show="showpage.home" v-if="showHome == 2"></engineerhome>
           <sitequery ref="sitequery" v-bind:show="showpage.sitequery" v-if="showpage.sitequery"></sitequery>
-          <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings" @userinfoEdited="userinfoEdited"></accountsettings>
+          <accountsettings ref="accountsettings" v-bind:show="showpage.accountsettings" v-if="showpage.accountsettings"></accountsettings>
           <flow ref="flow" v-bind:show="showpage.flow" v-if="showpage.flow"></flow>
           <orderprocessing ref="orderprocessing" v-bind:show="showpage.orderprocessing" v-if="showpage.orderprocessing"></orderprocessing>
           <networkorder ref="networkorder" v-bind:show="showpage.networkorder" v-if="showpage.networkorder"></networkorder>
           <charges ref="charges" v-bind:show="showpage.charges" v-if="showpage.charges"></charges>
-          <newtickets ref="newtickets" v-bind:show="showpage.newtickets" v-if="showpage.newtickets"></newtickets>
+          <newtickets ref="newtickets" v-bind:show="showpage.newtickets" v-if="showpage.newtickets" @userinfoEdited="userinfoEdited"></newtickets>
           <mytickets ref="mytickets" v-bind:show="showpage.mytickets" v-if="showpage.mytickets"></mytickets>
         </el-main>
         <el-main class="loading-area" />
@@ -236,11 +236,8 @@ export default {
       }
     },
     userinfoEdited: function(){
-      this.showpage.home = true
-      this.showpage.accountsettings = false
-      this.showpage.sitequery = false
-      this.showpage.orderprocessing = false
-      this.showpage.networkorder = false
+      this.allclear();
+      this.showpage.mytickets = true
     },
     getUsertype: function() {
       axios.get('/api/user/profile/')
