@@ -47,6 +47,8 @@ def send_email(user_name, email_address, mory):
     year = 0
     time_now = time.time()
     for i in site:
+        if i.status != 0:
+            continue
         site_flow = FlowData.objects.filter(site=i, generate_time__gte=start_time)
         one_site_flow = 0
         for each in site_flow:
