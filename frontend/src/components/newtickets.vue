@@ -63,10 +63,10 @@
                                 <el-checkbox label="邮箱"></el-checkbox>
                             </el-checkbox-group>
                         </el-form-item>
-                        <el-form-item label="电话：" class="label_content" v-if="(relationlist.length == 1 && relationlist[0] == '电话') || (relationlist.length == 2)">
+                        <el-form-item label="电话：" class="label_content" v-if="(relationlist.length == 2 && relationlist[1] == '电话') || (relationlist.length == 3)">
                             <el-input class="ticket_input" placeholder="请输入联系电话" v-model="ticket.telephone"></el-input>
                         </el-form-item>
-                        <el-form-item label="邮箱：" class="label_content" v-if="(relationlist.length == 1 && relationlist[0] == '邮箱') || (relationlist.length == 2)">
+                        <el-form-item label="邮箱：" class="label_content" v-if="(relationlist.length == 2 && relationlist[1] == '邮箱') || (relationlist.length == 3)">
                             <el-input class="ticket_input" placeholder="请输入联系邮箱" v-model="ticket.email"></el-input>
                         </el-form-item>
                         <el-form-item style="margin-left: 150px;">
@@ -182,8 +182,8 @@ export default {
                 question_type: (parseInt(this.ticket.question_type) - 1),
                 site_name: this.site_list[this.ticket.site_pk].site_name,
                 eq_name: this.ticket.eq_name,
-                contact_details: ((this.relationlist.length == 1 && this.relationlist[0] == '电话') || (this.relationlist.length == 2))? this.ticket.telephone : '',
-                contact_email: ((this.relationlist.length == 1 && this.relationlist[0] == '邮箱') || (this.relationlist.length == 2))? this.ticket.email : '',
+                contact_details: ((this.relationlist.length == 2 && this.relationlist[1] == '电话') || (this.relationlist.length == 3))? this.ticket.telephone : '',
+                contact_email: ((this.relationlist.length == 2 && this.relationlist[1] == '邮箱') || (this.relationlist.length == 3))? this.ticket.email : '',
             }
             console.log(submitinfo)
             axios.post("/api/ticket/", submitinfo)
