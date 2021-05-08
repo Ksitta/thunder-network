@@ -456,12 +456,20 @@ export default{
         },
         finished_sitedata(){
             const search_info = this.search_info
+            var SSID_status_0 = []
+            var SSID_status_1 = []
             var sort_data_3 = []
             for(let item of this.site_data){
                 if (item.status == 3){
-                    sort_data_3.push(item)
+                    if(item.SSID_status == 0){
+                        SSID_status_0.push(item);
+                    }else{
+                        SSID_status_1.push(item);
+                    }
                 }
             }
+            sort_data_3 = sort_data_3.concat(SSID_status_0)
+            sort_data_3 = sort_data_3.concat(SSID_status_1)
             if(search_info){
                 return sort_data_3.filter(data => {
                     let show = ["site_name","site_address", "billing_level", "demand"]
