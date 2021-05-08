@@ -65,11 +65,14 @@ def send_email(user_name, email_address, mory):
                 month + (time_now - i.create_time.timestamp()) / 2626560
         else:
             year += 1
+    basic_fee = month * 10
+    if mory == 2:
+        basic_fee += year * 50
     if mory == 1:
         flow_list.append({'site_name': 'Basic fee (not including annual fee orders)', 'site_money': month * 10})
     else:
-        flow_list.append({'site_name': 'Basic fee (including annual and monthly fees)', 'site_money': month * 10 + year * 50})
-    total_money_num += month * 10 + year * 50
+        flow_list.append({'site_name': 'Basic fee (including annual and monthly fees)', 'site_money': basic_fee})
+    total_money_num += basic_fee
     total_money = '%.2f' % total_money_num
     if email_address:
         to_list = [
