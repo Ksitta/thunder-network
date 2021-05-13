@@ -4,13 +4,14 @@
                 custom-class="equipmentdialog"
                 class="equipment_dialog"
                 style="text-align: center"
-                title="创建设备"
                 :close-on-click-modal="false"
                 :visible.sync="dialogVisible"
                 :show-close= false
                 width="40%"
                 >
             <div class="submit_form">
+                <h2 style="margin-top: -30px" v-if="num_quantify == false">创建设备</h2>
+                <h2 style="margin-top: -30px" v-if="num_quantify == true">修改设备</h2>
                 <el-form class="form" ref="form" label-width="80px" label-position="left">
                     <el-form-item label="设备数量:" class = "label-style">
                         <el-input type="number" v-if="num_quantify == false" placeholder="请输入设备数量，仅可输入数字" v-model="eqs.eq_num" clearable size="medium" style="width: 90%;margin-left:-40px;" @input="quantify"></el-input>
