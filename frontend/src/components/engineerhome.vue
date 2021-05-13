@@ -27,9 +27,8 @@
             <h1>工单信息</h1>
                     <div class="TicketData">
                         <el-table :data="ticket_data" style="width: 100%" maxheight="350px" height="350px" :header-cell-style="{'text-align':'center',fontSize: '13px',background:'#eef1f6',color:'#606266'}" :cell-style="{fontSize:'13px'}" :row-style="{height:0+'px'}" >
-                            <el-table-column prop= "question" label="问题描述" min-width="35%" align="center"></el-table-column>
-                            <el-table-column prop= "id" label="编号" min-width="8%" align="center"></el-table-column>
-                            <el-table-column prop= "site_name" label="站点" min-width="10%" align="center"></el-table-column>
+                            <el-table-column prop= "question" label="问题描述" min-width="33%" align="center"></el-table-column>
+                            <el-table-column prop= "site_name" label="站点" min-width="20%" align="center"></el-table-column>
                             <el-table-column prop= "question_type" label="类型" min-width="10%" align="center"></el-table-column>
                             <el-table-column prop= "status" label="状态" min-width="11%" align="center"></el-table-column>
                             <el-table-column prop= "create_time" label="创建时间" min-width="15%" align="center"></el-table-column>
