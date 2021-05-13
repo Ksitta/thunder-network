@@ -303,7 +303,7 @@ export default{
                         item_demand  = item_demand + ',' + item.demand_2
                     }
                     if(item.demand_num >= 3){
-                        item.demand = item_demand + ',' + item.demand_3
+                        item_demand = item_demand + ',' + item.demand_3
                     }
                     if(item.status == 0){
                         item_eqs = true
