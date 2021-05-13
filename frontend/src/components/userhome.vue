@@ -50,8 +50,8 @@
 
           <div class="colwrapper">
 
-            <h1>站点数据雷达图</h1>
-            <ve-radar :data="radarChartData" :settings="radarChartSettings"></ve-radar>
+            <!-- <h1>站点数据雷达图</h1> -->
+            <ve-radar :data="radarChartData" :settings="radarChartSettings" :legend="legend" :title="title" :height="chartHeight"></ve-radar>
 
           </div>
         </el-col>
@@ -88,8 +88,19 @@ export default {
             'views': '访问量',
             'up': '上行流量',
             'down': '下行流量'
-          }
+          },
         },
+        title: {
+          text: "\n\n站点流量数据雷达图",
+          left: "center",
+          textStyle: {
+            fontSize: 16,
+          },
+        },
+        legend : {
+          bottom: "10",
+        },
+        chartHeight: '500px',
         chartData: {
           columns: ['time', 'up', 'down', 'total'],
           rows: [],
