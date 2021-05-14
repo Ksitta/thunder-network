@@ -27,6 +27,7 @@ class FlowGenerateView(APIView):
         return Response("", 200)
 
     def inner_generate(self, now_time=time.time()):
+        connection.close()
         self.queryset_site = Site.objects.all()
         self.queryset_eq = Equipment.objects.all()
         self.queryset_flow = RawFlowData.objects.all()
