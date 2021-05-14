@@ -16,9 +16,9 @@
                     </div>
                     <div class="TicketData">
                         <el-table :data="ticket_data" style="width: 100%" maxheight="500px" height="530px" :header-cell-style="{'text-align':'center',fontSize: '15px',background:'#eef1f6',color:'#606266'}" :cell-style="{fontSize:'15px'}" >
-                            <el-table-column prop= "question" label="问题描述" min-width="41%" align="center"></el-table-column>
+                            <el-table-column prop= "question" label="问题描述" min-width="31%" align="center"></el-table-column>
                             <el-table-column prop= "id" label="工单编号" min-width="8%" align="center"></el-table-column>
-                            <el-table-column prop= "site_name" label="问题站点" min-width="10%" align="center"></el-table-column>
+                            <el-table-column prop= "site_name" label="问题站点" min-width="20%" align="center"></el-table-column>
                             <el-table-column prop= "question_type" label="问题类型" min-width="10%" align="center"></el-table-column>
                             <el-table-column prop= "status" label="状态" min-width="11%" align="center"></el-table-column>
                             <el-table-column prop= "create_time" label="创建时间" min-width="10%" align="center"></el-table-column>
@@ -61,9 +61,9 @@
                     </div>
                     <div class="TicketData">
                         <el-table :data="selected_data" style="width: 100%" maxheight="500px" height="530px" :header-cell-style="{'text-align':'center',fontSize: '15px',background:'#eef1f6',color:'#606266'}" :cell-style="{fontSize:'15px'}" >
-                            <el-table-column prop= "question" label="问题描述" min-width="41%" align="center"></el-table-column>
+                            <el-table-column prop= "question" label="问题描述" min-width="31%" align="center"></el-table-column>
                             <el-table-column prop= "id" label="工单编号" min-width="8%" align="center"></el-table-column>
-                            <el-table-column prop= "site_name" label="问题站点" min-width="10%" align="center"></el-table-column>
+                            <el-table-column prop= "site_name" label="问题站点" min-width="20%" align="center"></el-table-column>
                             <el-table-column prop= "question_type" label="问题类型" min-width="10%" align="center"></el-table-column>
                             <el-table-column prop= "status" label="状态" min-width="11%" align="center"></el-table-column>
                             <el-table-column prop= "create_time" label="创建时间" min-width="10%" align="center"></el-table-column>
