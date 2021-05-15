@@ -32,7 +32,7 @@
                         <el-switch v-model="wlan_info.userSeparation" style="margin-right: 320px;"></el-switch>
                     </el-form-item>
                     <el-form-item label="SSID认证:" class="label-style" prop="mode">
-                        <el-radio-group v-model="wlan_info.ssidAuth.mode" class="wlan_input" style="margin-left: -70px">
+                        <el-radio-group v-model="wlan_info.ssidAuth.mode" @change="ssidmodeChange" class="wlan_input" style="margin-left: -70px">
                             <el-radio label="open" class = "wlan-radio-style"></el-radio>
                             <el-radio label="psk" class = "wlan-radio-style"></el-radio>
                             <el-radio label="ppsk" class = "wlan-radio-style"></el-radio>
@@ -173,6 +173,9 @@ export default{
         }
     },
     methods:{
+        ssidmodeChange: function() {
+            this.wlan_info.ssidAuth.pskEncryptType = "";
+        },
         Submit:function(form){
             this.$refs[form].validate(valid => {
                 if(valid){
