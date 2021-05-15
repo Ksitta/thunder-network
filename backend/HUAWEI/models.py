@@ -5,7 +5,7 @@ from django.db import models
 
 class User(AbstractUser):
     contact_details = models.CharField('联系方式', max_length=12)
-    contact_email = models.CharField('邮箱', max_length=20)
+    contact_email = models.EmailField('邮箱')
     contact_address = models.CharField('客户地址', max_length=100)
     user_type = models.IntegerField(default=0)
 
