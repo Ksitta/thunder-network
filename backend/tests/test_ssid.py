@@ -46,7 +46,7 @@ class TestSSID(TestCase):
             "securityKeyType": "AES"
         }
     }
-    bad_ssid = {
+    bad_ssid1 = {
         "name": ssid['name'],
         "enable": True,
         "maxUserNumber": 20,
@@ -56,6 +56,32 @@ class TestSSID(TestCase):
             "mode": "psk",
             "pskEncryptType": "wpa2",
             "securityKey": "123",
+            "securityKeyType": "AES"
+        }
+    }
+    bad_ssid2 = {
+        "name": ssid['name'],
+        "enable": True,
+        "maxUserNumber": 20,
+        "relativeRadios": 7,
+        "userSeparation": False,
+        "ssidAuth": {
+            "mode": "ppsk",
+            "pskEncryptType": "wep",
+            "securityKey": "123",
+            "securityKeyType": "AES"
+        }
+    }
+    bad_ssid3 = {
+        "name": ssid['name'],
+        "enable": True,
+        "maxUserNumber": 20,
+        "relativeRadios": 7,
+        "userSeparation": False,
+        "ssidAuth": {
+            "mode": "psk",
+            "pskEncryptType": "wep",
+            "securityKey": "123456",
             "securityKeyType": "AES"
         }
     }
@@ -102,10 +128,18 @@ class TestSSID(TestCase):
         the_site = Site.objects.filter(id=Site.objects.last().id)[0]
         the_site.status = 0
         the_site.save()
-        assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_201_CREATED
-        assert client.post(reverse('ssid', args=[self.site_pk]), data=self.bad_ssid).status_code == status.HTTP_400_BAD_REQUEST
-        assert client.post(reverse('ssid', args=[self.site_pk]), data=self.long_ssid).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.post(reverse('ssid', args=[self.site_pk]),
+                           data=self.ssid).status_code == status.HTTP_201_CREATED
+        assert client.post(reverse('ssid', args=[self.site_pk]),
+                           data=self.bad_ssid1).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.post(reverse('ssid', args=[self.site_pk]),
+                           data=self.bad_ssid2).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.post(reverse('ssid', args=[self.site_pk]),
+                           data=self.bad_ssid3).status_code == status.HTTP_400_BAD_REQUEST
+        assert client.post(reverse('ssid', args=[self.site_pk]),
+                           data=self.long_ssid).status_code == status.HTTP_400_BAD_REQUEST
         client.logout()
         client.login(**self.user[1])
-        assert client.post(reverse('ssid', args=[self.site_pk]), data=self.ssid).status_code == status.HTTP_403_FORBIDDEN
+        assert client.post(reverse('ssid', args=[self.site_pk]),
+                           data=self.ssid).status_code == status.HTTP_403_FORBIDDEN
         client.logout()

@@ -45,6 +45,17 @@ class SSIDView(APIView):
 
         if thesite.status == 1 or thesite.status == 2:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        # 数据格式校验
+        if ssidAuth['pskEncryptType'] == "wep":
+            if ssidAuth['mode'] == "ppsk":
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            if len(ssidAuth['securityKey']) != 5:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if len(ssidAuth['securityKey']) < 8:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
         if len(SSID.objects.filter(site=thesite.pk)) > 0: # 若已有SSID则先删掉（即进行修改）
             before_ssid = SSID.objects.get(site=thesite.pk)
 

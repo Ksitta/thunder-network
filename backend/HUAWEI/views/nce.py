@@ -54,7 +54,26 @@ def create_site(name):
         return IndexError
     return site_id
 
-# 限定为删除单个站点
+# def get_site():
+#     # 配置URL和Headers
+#     get_sites_url = HTTPS + nbi_host + ":" + nbi_port + SITES_URL
+#
+#     headers = base_headers
+#     headers['X-AUTH-TOKEN'] = get_token()
+#     r = requests.get(get_sites_url, headers=headers, verify=False)
+#     # 解析站点信息
+#     print("4.【get Sites】")
+#     try:
+#         body = r.json()['data']
+#     except KeyError:
+#         print("EEEEEEEEEEEERROR!")
+#         print(r.json())
+#         return ["???????????????????"]
+#     # print("【success】：" + str(body))
+#     return body
+#     #未写返回值
+#
+# # 限定为删除单个站点
 # def delete_site(id):
 #     # 配置URL和Headers
 #     delete_sites_url = HTTPS + nbi_host + ":" + nbi_port + SITES_URL
@@ -76,7 +95,7 @@ def create_site(name):
 #         return False
 #     print("【success】：" + str(body))
 #     return True
-#     #未写返回值
+    #未写返回值
 
 """
 以下为SSID创建、查询和删除的请求函数
