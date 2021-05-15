@@ -50,7 +50,6 @@ class TotalFlowView(APIView):
             flow_data.append(single)
         for flow in serializers.data:
             k = int((flow['generate_time'] - from_time) / (div + 1))
-            print(k)
             flow_data[k]['down'] += flow['in_flow']
             flow_data[k]['up'] += flow['out_flow']
             total_up += flow['out_flow']

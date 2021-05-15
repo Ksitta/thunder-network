@@ -22,15 +22,16 @@ class FlowGenerateView(APIView):
     flow_nums = len(queryset_flow)
     create_list = []
 
-    def post(self, request):
-        self.inner_generate(self.request.data['time'])
+    def get(self, request):
+        self.inner_generate()
         return Response("", 200)
 
-    def inner_generate(self, now_time=time.time()):
+    def inner_generate(self):
         connection.close()
         self.queryset_site = Site.objects.all()
         self.queryset_eq = Equipment.objects.all()
         self.queryset_flow = RawFlowData.objects.all()
+        now_time = time.time()
         self.create_list.clear()
         for site in self.queryset_site:
             if not site.status == 0:
