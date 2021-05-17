@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenViewBase
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework.decorators import action
+import re
 
 
 class UserViewSet(viewsets.ModelViewSet):

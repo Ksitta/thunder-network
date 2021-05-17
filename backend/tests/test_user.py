@@ -27,16 +27,25 @@ class UserModelTests(TestCase):
     }
 
     none_user = {
-        "username": "test",
+        "username": "test4",
         "password": "none",
         "user_type": 0
     }
 
     new_user = {
-        "username": "test",
+        "username": "test2",
         "password": "123456",
         "user_type": 0,
         "contact_details": "13900000000",
+        "contact_email": "123@163.com",
+        "contact_address": "2132131241234"
+    }
+
+    error_user = {
+        "username": "tes",
+        "password": "123456",
+        "user_type": 0,
+        "contact_details": "139000000",
         "contact_email": "123@163.com",
         "contact_address": "2132131241234"
     }
@@ -52,6 +61,9 @@ class UserModelTests(TestCase):
 
         response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
         self.assertEqual(response.status_code, 201)
+
+        response = self.new_client.post('/api/user/register/', data=self.error_user, content_type="application/json")
+        self.assertEqual(response.status_code, 400)
 
         response = self.new_client.post('/api/user/register/', data=self.new_user, content_type="application/json")
         self.assertEqual(response.status_code, 400)

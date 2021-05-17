@@ -3,10 +3,26 @@ from . import models
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
+import re
 try:
     from config.local_settings import register_number
 except:
     pass
+
+
+def validate_username(data):
+    e = re.compile(r'^(?![^A-Za-z]+$)(?![^0-9]+$)[0-9A-Za-z_]{4,15}$')
+    if not e.fullmatch(data):
+        raise serializers.ValidationError('Enter a valid username.')
+    return data
+
+
+def validate_contact_details(data):
+    e = re.compile(r'^1[3|4|5|7|8][0-9]{9}$')
+    if not e.fullmatch(data):
+        raise serializers.ValidationError('Enter a valid phone number.')
+    return data
+
 
 class UserRegisterSerializers(serializers.ModelSerializer):
 
@@ -19,9 +35,9 @@ class UserRegisterSerializers(serializers.ModelSerializer):
 
     def create(self, data):
         user = models.User(
-            username=data['username'],
+            username=validate_username(data['username']),
             user_type=data['user_type'],
-            contact_details=data['contact_details'],
+            contact_details=validate_contact_details(data['contact_details']),
             contact_email=data['contact_email'],
             contact_address=data['contact_address'],
         )
@@ -40,7 +56,7 @@ class UserProfileSerializers(serializers.ModelSerializer):
     def update(self, instance: models.User, data):
         instance.contact_address = data['contact_address']
         instance.contact_email = data['contact_email']
-        instance.contact_details = data['contact_details']
+        instance.contact_details = validate_contact_details(data['contact_details'])
         instance.save()
         return instance
 
@@ -115,6 +131,7 @@ class EquipmentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return models.Equipment.objects.create(**validated_data)
 
+
 class SiteDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Site
@@ -141,10 +158,12 @@ class SiteFlowSerializer(serializers.ModelSerializer):
         model = models.Site
         fields = ['site_name', 'rate_unit']
 
+
 class EquipmentFlowSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Equipment
         fields = ['eq_name', 'rate_unit']
+
 
 class SSIDSerializer(serializers.ModelSerializer):
     class Meta:
@@ -153,12 +172,14 @@ class SSIDSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return models.SSID.objects.create(**validated_data)
 
+
 class SSIDAuthSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SSIDAuth
         fields = ['SSID', 'mode', 'pskEncryptType', 'securityKey', 'securityKeyType']
     def create(self, validated_data):
         return models.SSIDAuth.objects.create(**validated_data)
+
 
 class TicketSerializer(serializers.ModelSerializer):
     class Meta:
