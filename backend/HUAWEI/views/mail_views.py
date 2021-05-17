@@ -10,6 +10,7 @@ import pytz
 
 beijing = pytz.timezone("Asia/Shanghai")
 
+
 def trans_time(timestamp):
     utc_date = datetime.utcfromtimestamp(timestamp)
     fmt = '%Y-%m-%d'
@@ -17,17 +18,20 @@ def trans_time(timestamp):
     utc_loc_time = utc.localize(utc_date)
     return utc_loc_time.astimezone(beijing).strftime(fmt)
 
-def trans_cacul(a:int):
+
+def trans_cacul(a: int):
     if a == 1:
         return 0.8
     else:
         return 0.7
 
-def trans_mory(a:int):
+
+def trans_mory(a: int):
     if a == 1:
         return '(monthly)'
     else:
         return '(annual)'
+
 
 def send_email(user_name, email_address, mory):
     if mory == 1:
@@ -56,7 +60,7 @@ def send_email(user_name, email_address, mory):
         one_site_flow /= (1024 * 1024 * 1024)
         total_flow += one_site_flow
         site_money = one_site_flow * trans_cacul(i.billing_level)
-        flow_list.append({'site_name': i.site_name+trans_mory(i.billing_level), 'site_flow': '%.2f' % one_site_flow,
+        flow_list.append({'site_name': i.site_name + trans_mory(i.billing_level), 'site_flow': '%.2f' % one_site_flow,
                           'site_money': '%.2f' % site_money})
         total_money_num += site_money
         if i.billing_level == 1:
@@ -87,11 +91,12 @@ def send_email(user_name, email_address, mory):
     html_body = render_to_string('mail.html', mail_data)
 
     text_content = ''  # 对方不支持多媒体邮件的话显示这里的内容
-    subject = '您本'+time_p+'的账单，请您查收 Thunder-network'  # 邮件标题
+    subject = '您本' + time_p + '的账单，请您查收 Thunder-network'  # 邮件标题
     msg = EmailMultiAlternatives(subject, text_content, from_email, to_list)
     # 邮件显示html_body的内容，html编码
     msg.attach_alternative(html_body, "text/html")
     msg.send()
+
 
 class MailSendView(APIView):
     permission_classes = [AllowAny]

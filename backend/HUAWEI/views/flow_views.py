@@ -30,6 +30,9 @@ class TotalFlowView(APIView):
         total_up = 0
         total_down = 0
         flow_data = []
+        time_now = int(time.time())
+        to_time_last = time_now - (time_now % 14400)
+        from_time_last = to_time_last - 86400
         try:
             to_time = int(request.GET.get('to_time'))
             from_time = int(request.GET.get('from_time'))
@@ -37,6 +40,10 @@ class TotalFlowView(APIView):
             time_now = int(time.time())
             to_time = time_now - (time_now % 14400)
             from_time = to_time - 86400
+
+        from_time = min(from_time, from_time_last)
+        to_time = min(to_time_last, to_time)
+
         if user.user_type == 1 or user.user_type == 2:  # 运营&网络工程师
             all_data = FlowData.objects.filter(generate_time__gte=from_time, generate_time__lte=to_time)
             sites = Site.objects.all()

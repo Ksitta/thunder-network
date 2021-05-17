@@ -9,9 +9,11 @@ from HUAWEI.views.nce import create_site
 # from HUAWEI.views.nce import delete_site
 from copy import deepcopy
 
+
 class SiteView(APIView):
     queryset = Site.objects.all()
     permission_classes = [IsAuthenticated]
+
     def get(self, request):
         user = self.request.user
         if user.user_type == 1:  # 运营工程师
@@ -47,8 +49,9 @@ class SiteView(APIView):
         之后应注意修改为，网络工程师同意后才成功
         """
         # 与华为交互 创建Site
-          ### 获取site_id
-        create_site_response = create_site(str(self.request.user.username) + str(self.request.user.pk)+"-"+data['site_name']) #避免不同客户有相同的站点名
+        ### 获取site_id
+        create_site_response = create_site(
+            str(self.request.user.username) + str(self.request.user.pk) + "-" + data['site_name'])  # 避免不同客户有相同的站点名
         if create_site_response == IndexError:
             return Response("站点名称重复！", status=status.HTTP_400_BAD_REQUEST)
 
@@ -69,6 +72,7 @@ class SiteView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_201_CREATED)
 
+
 class SiteDetailView(APIView):
     """
     获取或删除一个 site。 还没写好
@@ -77,11 +81,11 @@ class SiteDetailView(APIView):
 
     def delete(self, request, pk):
         user = self.request.user
-        if user.user_type == 1 or user.user_type == 2: # 运营&网络工程师
+        if user.user_type == 1 or user.user_type == 2:  # 运营&网络工程师
             sites = Site.objects.all()
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
-        if(int(pk) >= len(sites)):
+        if (int(pk) >= len(sites)):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         thesite = sites[int(pk)]

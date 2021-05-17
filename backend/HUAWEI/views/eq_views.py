@@ -6,8 +6,10 @@ from HUAWEI.serializers import EquipmentSerializer
 from rest_framework.permissions import IsAuthenticated
 import datetime
 
+
 class EquipmentView(APIView):
     permission_classes = [IsAuthenticated]
+
     # def get(self, request, pk):
     #     pass
 
@@ -16,7 +18,7 @@ class EquipmentView(APIView):
         eq_num = self.request.data['eq_num']
         eq_list = self.request.data['eq_list']
 
-        if user.user_type == 2: # 网络工程师
+        if user.user_type == 2:  # 网络工程师
             sites = Site.objects.filter(network_name=user.username)
         else:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -29,10 +31,10 @@ class EquipmentView(APIView):
             thesite.save()
 
         # 在数据库中更新设备
-        new_site = Site.objects.get(site_id = thesite.site_id)
+        new_site = Site.objects.get(site_id=thesite.site_id)
 
-        if len(Equipment.objects.filter(site = thesite.pk)) > 0:
-            Equipment.objects.filter(site = thesite.pk).delete()
+        if len(Equipment.objects.filter(site=thesite.pk)) > 0:
+            Equipment.objects.filter(site=thesite.pk).delete()
 
         for i in range(0, eq_num):
             eq_data = {
@@ -48,4 +50,3 @@ class EquipmentView(APIView):
             # else:
             #     return Response(eq_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_201_CREATED)
-

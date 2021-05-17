@@ -5,6 +5,7 @@ from HUAWEI.models import Site, Equipment, RawFlowData, FlowData
 from django.db import connection
 import random, json, secrets
 import time
+
 try:
     from config.local_settings import interval_time
 except:
@@ -12,6 +13,7 @@ except:
 import pytz
 
 beijing = pytz.timezone("Asia/Shanghai")
+
 
 class FlowGenerateView(APIView):
     permission_classes = [AllowAny]

@@ -9,6 +9,7 @@ import time
 from datetime import datetime
 import pytz
 
+
 class TopSiteView(APIView):
     permission_classes = [IsAuthenticated]
 
