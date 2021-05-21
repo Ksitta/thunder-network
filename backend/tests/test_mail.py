@@ -17,9 +17,7 @@ class MailTests(TestCase):
         self.new_client = TestClient()
 
     def test_send(self):
-        data = {}
-        data['username'] = 'client1'
-        data['email'] = 'thunder_network@126.com'
-        data['mory'] = 1
+        self.new_client.post(reverse('token'), data=self.user, content_type="application/json")
+        data = {'mory': 1}
         responce = self.new_client.post(reverse('mail'), data=data, content_type="application/json")
         self.assertEqual(responce.status_code, 200)

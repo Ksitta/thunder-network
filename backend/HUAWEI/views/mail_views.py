@@ -1,5 +1,5 @@
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from HUAWEI.models import User, Site, FlowData
 from django.core.mail import EmailMultiAlternatives
@@ -99,15 +99,11 @@ def send_email(user_name, email_address, mory):
 
 
 class MailSendView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         data = request.data
-        try:
-            email_address = data['email']
-            username = data["username"]
-        except:
-            email_address = None
-            username = self.request.user
+        email_address = None
+        username = self.request.user
         send_email(username, email_address, data['mory'])
         return Response("Success", 200)
