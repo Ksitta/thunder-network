@@ -18,9 +18,11 @@ class TopSiteView(APIView):
         try:
             to_time = int(request.GET.get('to_time'))
             from_time = int(request.GET.get('from_time'))
+            nums = int(request.GET.get('nums'))
         except:
             to_time = time.time()
             from_time = to_time - 86400
+            nums = 5
         if user.user_type == 1 or user.user_type == 2:  # 运营&网络工程师
             sites = Site.objects.all()
         else:
@@ -44,5 +46,5 @@ class TopSiteView(APIView):
 
             sites_flow.append(thesite_flow)
         li = sorted(sites_flow, key=lambda x: x['total'], reverse=True)
-        li = li[:5:]
+        li = li[:nums:]
         return Response(li, status=status.HTTP_200_OK)

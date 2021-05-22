@@ -76,8 +76,7 @@ class FeeView(APIView):
                     site_total += flow['out_flow'] + flow['in_flow']
                     site_view_counts += 1
             site_total = site_total * factor / 1024 / 1024 / 1024
-            thesite_fee['total_fee'] = site_total
-            thesite_fee['rate_unit'] = "GB/元"
+            thesite_fee['fee'] = site_total
             total_fee += site_total
             if thesite.billing_level == 1:
                 total_fee += (to_time - from_time) / 2626560 * 10
